@@ -16,15 +16,15 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Blinkit Soft Mint Green Ambient Background */
+        /* Fresh Blinkit Light Mint Ambient */
         body {
-            background: linear-gradient(180deg, #f0f9f3 0%, #e1f3e7 100%);
+            background: linear-gradient(180deg, #f0f8f3 0%, #e3f4e9 100%);
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 14px;
+            padding: 12px;
         }
 
         .auth-card {
@@ -33,8 +33,8 @@
             background: #ffffff;
             border-radius: 28px;
             padding: 24px 20px 20px;
-            box-shadow: 0 12px 36px rgba(12, 131, 31, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 35px rgba(12, 131, 31, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -42,10 +42,7 @@
         }
 
         @media (max-width: 440px) {
-            body {
-                padding: 0;
-                align-items: flex-end;
-            }
+            body { padding: 0; align-items: flex-end; }
             .auth-card {
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
@@ -265,9 +262,7 @@
             box-shadow: 0 6px 18px rgba(12, 131, 31, 0.2);
             transition: all 0.2s;
         }
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
+        .btn-primary:active { transform: scale(0.98); }
         .btn-primary:disabled {
             background: #afd9b8 !important;
             box-shadow: none !important;
@@ -292,10 +287,7 @@
             font-size: 11px;
             font-weight: 600;
         }
-        .security-badge i {
-            font-size: 15px;
-            color: #0c831f;
-        }
+        .security-badge i { font-size: 15px; color: #0c831f; }
     </style>
 </head>
 <body>
@@ -479,7 +471,7 @@
 
             const hasValidName = name.length >= 2;
             const hasValidMobile = mobile.length === 10;
-            const hasValidEmail = email.includes('@') && email.endsWith('.com');
+            const hasValidEmail = email.includes('@') && email.includes('.');
 
             if (hasValidName && hasValidMobile && hasValidEmail) {
                 btn.removeAttribute('disabled');
