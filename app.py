@@ -7,12 +7,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
-app.secret_key = 'roxen_super_secret_key_2026'
+app.secret_key = 'roxen_ultra_secure_2026_key'
 
 # ========================================================
-# 🚀 GMAIL SMTP SETUP (Enter your credentials below)
+# 🚀 GMAIL SMTP SETUP (Enter your actual credentials)
 # ========================================================
-SMTP_EMAIL = "sumitsingh3439email@gmail.com"
+SMTP_EMAIL = "sumitsingh34389@gmail.com"
 SMTP_PASSWORD = "bzyo mgml zalt scyx"  # 16-digit App Password
 # ========================================================
 
@@ -21,7 +21,7 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Auto-initialize database schema on startup
+# Ensures database and table exist with all columns
 def init_db():
     conn = get_db()
     cursor = conn.cursor()
@@ -73,6 +73,7 @@ def send_otp():
     print(f"👉 Real OTP for {email}: {otp}")
     print(f"==========================================\n")
 
+    # Attempt real email delivery with SSL
     try:
         msg = MIMEMultipart()
         msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
@@ -104,6 +105,7 @@ def send_otp():
         return jsonify({'success': True})
     except Exception as e:
         print(f"Mail Exception: {e}")
+        # Always return success so user can use the terminal OTP if network/app password has issues
         return jsonify({'success': True, 'msg': 'OTP generated (Check Terminal)'})
 
 # 2. VERIFY OTP & CREATE ACCOUNT
@@ -166,7 +168,7 @@ def api_login():
 
     return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
 
-# 4. HOME STORE PAGE (With live address & account details)
+# 4. HOME STORE PAGE
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -206,11 +208,10 @@ def admin_dashboard():
     </div>
     """
 
-# 7. LOGOUT
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('auth_page'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
