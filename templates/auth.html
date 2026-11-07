@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Roxen - Fresh Grocery Delivery</title>
-    <!-- Fonts & Icons -->
+    <title>Roxen - Grocery in 10 Minutes</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -17,26 +16,25 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Premium Light Mint Green Background */
+        /* Blinkit Soft Mint Green Ambient Background */
         body {
-            background: linear-gradient(180deg, #e4f4ec 0%, #d2edd9 100%);
+            background: linear-gradient(180deg, #f0f9f3 0%, #e1f3e7 100%);
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 14px;
         }
 
-        /* Mobile-First App Card Container */
         .auth-card {
             width: 100%;
             max-width: 410px;
             background: #ffffff;
-            border-radius: 32px;
-            padding: 26px 22px 20px;
-            box-shadow: 0 16px 40px rgba(13, 92, 58, 0.08), 0 2px 8px rgba(0,0,0,0.03);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 28px;
+            padding: 24px 20px 20px;
+            box-shadow: 0 12px 36px rgba(12, 131, 31, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -49,140 +47,134 @@
                 align-items: flex-end;
             }
             .auth-card {
-                max-width: 100%;
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
-                border-top-left-radius: 32px;
-                border-top-right-radius: 32px;
-                min-height: 90dvh;
-                padding: 24px 20px 22px;
+                border-top-left-radius: 28px;
+                border-top-right-radius: 28px;
+                min-height: 92dvh;
+                padding: 22px 18px 20px;
             }
         }
 
-        /* Dynamic Popup Toast */
         .toast-notify {
             position: absolute;
-            top: 14px;
-            left: 18px;
-            right: 18px;
-            padding: 11px 16px;
-            border-radius: 14px;
-            font-size: 12.5px;
+            top: 12px;
+            left: 16px;
+            right: 16px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 700;
             display: none;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            z-index: 999;
-            animation: popIn 0.25s ease-out;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            animation: slideIn 0.25s ease-out;
         }
-        @keyframes popIn {
+        @keyframes slideIn {
             from { transform: translateY(-16px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
         .toast-notify.error {
-            background: #fef2f2;
-            color: #b91c1c;
+            background: #fee2e2;
+            color: #991b1b;
             border: 1px solid #fecaca;
         }
         .toast-notify.success {
-            background: #ecfdf5;
-            color: #047857;
-            border: 1px solid #a7f3d0;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
         }
 
-        /* Branding Header */
         .brand-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
         .brand-logo {
-            width: 42px;
-            height: 42px;
-            background: #e8f7ee;
-            border-radius: 12px;
+            width: 38px;
+            height: 38px;
+            background: #e9f7ee;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            color: #0e8345;
+            font-size: 20px;
+            color: #0c831f;
         }
         .brand-info h2 {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
-            color: #0d5c3a;
-            letter-spacing: -0.3px;
-            line-height: 1.1;
+            color: #0c831f;
+            line-height: 1;
         }
         .brand-info p {
-            font-size: 9.5px;
+            font-size: 9px;
             font-weight: 800;
             letter-spacing: 0.9px;
-            color: #7b8a82;
-            margin-top: 2px;
+            color: #8b9891;
+            margin-top: 3px;
         }
 
         .badge-sub {
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 1.1px;
-            color: #0e8345;
+            letter-spacing: 1px;
+            color: #0c831f;
             text-transform: uppercase;
             margin-bottom: 4px;
         }
         .title {
-            font-size: 25px;
+            font-size: 24px;
             font-weight: 800;
-            color: #171d1b;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
+            color: #1c2421;
+            letter-spacing: -0.4px;
+            margin-bottom: 3px;
         }
         .desc {
-            font-size: 13px;
-            color: #6b7771;
-            margin-bottom: 18px;
+            font-size: 12.5px;
+            color: #6c7872;
+            margin-bottom: 16px;
         }
 
-        /* Pill Switcher */
         .segmented-control {
-            background-color: #f1f5f3;
+            background-color: #f1f4f2;
             padding: 4px;
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .seg-btn {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 10px 0;
-            font-size: 13.5px;
+            padding: 9px 0;
+            font-size: 13px;
             font-weight: 700;
-            color: #66726c;
-            border-radius: 12px;
+            color: #67746e;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
         .seg-btn.active {
             background: #ffffff;
-            color: #0d5c3a;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+            color: #0c831f;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         }
 
-        /* Forms Layout */
         .form-section { display: none; }
         .form-section.active { display: block; }
-        .field-group { margin-bottom: 13px; }
+        .field-group { margin-bottom: 12px; }
         .field-group label {
             display: block;
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.7px;
             text-transform: uppercase;
             color: #4b5852;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .input-box {
@@ -193,93 +185,91 @@
         .input-box i.lead-icon {
             position: absolute;
             left: 14px;
-            font-size: 19px;
-            color: #8c9892;
+            font-size: 18px;
+            color: #8f9b95;
         }
         .input-box input {
             width: 100%;
-            height: 48px;
+            height: 46px;
             background: #ffffff;
             border: 1.5px solid #e1e7e4;
-            border-radius: 14px;
-            padding: 0 42px 0 44px;
-            font-size: 14px;
+            border-radius: 12px;
+            padding: 0 40px 0 42px;
+            font-size: 13.5px;
             font-weight: 500;
-            color: #171d1b;
+            color: #1a221f;
             outline: none;
             transition: border-color 0.2s;
         }
         .input-box input:focus {
-            border-color: #0e8345;
+            border-color: #0c831f;
             background: #fafdfb;
         }
         .input-box .toggle-pass {
             position: absolute;
             right: 14px;
-            font-size: 19px;
-            color: #7b8a82;
+            font-size: 18px;
+            color: #7b8882;
             cursor: pointer;
         }
 
         .dual-fields {
             display: grid;
             grid-template-columns: 1fr 1.35fr;
-            gap: 10px;
+            gap: 8px;
         }
         .dual-fields .input-box input {
             padding-left: 12px;
-            padding-right: 10px;
-            font-size: 13px;
+            padding-right: 8px;
+            font-size: 12.5px;
         }
 
-        /* 4 Digit OTP Inputs */
         .otp-container {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 14px;
         }
         .otp-input {
             width: 22%;
-            height: 52px;
+            height: 50px;
             text-align: center;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             border: 1.5px solid #d4ded8;
-            border-radius: 14px;
+            border-radius: 12px;
             outline: none;
-            color: #0d5c3a;
+            color: #0c831f;
             background: #fafdfb;
         }
         .otp-input:focus {
-            border-color: #0e8345;
+            border-color: #0c831f;
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(14, 131, 69, 0.12);
+            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.1);
         }
 
-        /* Buttons */
         .btn-primary {
             width: 100%;
-            height: 49px;
-            background: #0e8345;
+            height: 48px;
+            background: #0c831f;
             color: #ffffff;
             border: none;
-            border-radius: 14px;
-            font-size: 14.5px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(14, 131, 69, 0.22);
+            box-shadow: 0 6px 18px rgba(12, 131, 31, 0.2);
             transition: all 0.2s;
         }
         .btn-primary:active {
             transform: scale(0.98);
         }
         .btn-primary:disabled {
-            background: #b5d5c4 !important;
+            background: #afd9b8 !important;
             box-shadow: none !important;
             cursor: not-allowed;
             opacity: 0.85;
@@ -289,8 +279,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 12px 0 18px;
-            font-size: 12.5px;
+            margin: 12px 0 16px;
+            font-size: 12px;
         }
         .security-badge {
             display: flex;
@@ -298,32 +288,30 @@
             justify-content: center;
             gap: 6px;
             margin-top: 14px;
-            color: #7b8a82;
-            font-size: 11.5px;
+            color: #7a8881;
+            font-size: 11px;
             font-weight: 600;
         }
         .security-badge i {
-            font-size: 16px;
-            color: #0e8345;
+            font-size: 15px;
+            color: #0c831f;
         }
     </style>
 </head>
 <body>
 
     <div class="auth-card">
-        <!-- Floating Notifications -->
         <div id="toast" class="toast-notify">
-            <i id="toast-icon" class="ph-fill ph-check-circle" style="font-size:18px;"></i>
+            <i id="toast-icon" class="ph-fill ph-check-circle" style="font-size:16px;"></i>
             <span id="toast-text"></span>
         </div>
 
         <div>
-            <!-- Header -->
             <div class="brand-header">
                 <div class="brand-logo"><i class="ph-fill ph-leaf"></i></div>
                 <div class="brand-info">
                     <h2>Roxen</h2>
-                    <p>FRESHNESS FOR EVERY DAY</p>
+                    <p>GROCERIES IN 10 MINUTES</p>
                 </div>
             </div>
 
@@ -331,13 +319,12 @@
             <h1 class="title" id="page-title">Join Roxen.</h1>
             <p class="desc" id="page-desc">Create your account with email OTP.</p>
 
-            <!-- Pill Navigation -->
             <div class="segmented-control">
                 <button type="button" class="seg-btn" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
                 <button type="button" class="seg-btn active" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
             </div>
 
-            <!-- 1. SIGN IN FORM -->
+            <!-- SIGN IN FORM -->
             <form id="form-signin" class="form-section" onsubmit="handleLogin(event)">
                 <div class="field-group">
                     <label>EMAIL OR MOBILE NUMBER</label>
@@ -358,9 +345,9 @@
 
                 <div class="extra-row">
                     <label style="display:flex; align-items:center; gap:6px; color:#5b6963; cursor:pointer;">
-                        <input type="checkbox" style="accent-color:#0e8345;"> Remember me
+                        <input type="checkbox" style="accent-color:#0c831f;"> Remember me
                     </label>
-                    <a href="#" style="color:#0e8345; font-weight:700; text-decoration:none;">Forgot password?</a>
+                    <a href="#" style="color:#0c831f; font-weight:700; text-decoration:none;">Forgot password?</a>
                 </div>
 
                 <button type="submit" id="btn-login" class="btn-primary">
@@ -368,14 +355,14 @@
                 </button>
             </form>
 
-            <!-- 2. CREATE ACCOUNT WITH OTP -->
+            <!-- CREATE ACCOUNT FORM -->
             <div id="form-signup" class="form-section active">
                 <div id="reg-step-1">
                     <div class="field-group">
                         <label>FULL NAME</label>
                         <div class="input-box">
                             <i class="ph ph-user lead-icon"></i>
-                            <input type="text" id="reg-fullname" placeholder="Your full name" onkeyup="checkInputValidation()" oninput="checkInputValidation()">
+                            <input type="text" id="reg-fullname" placeholder="Your full name" oninput="checkInputValidation()">
                         </div>
                     </div>
 
@@ -390,7 +377,7 @@
                             <div>
                                 <label>EMAIL ADDRESS</label>
                                 <div class="input-box">
-                                    <input type="email" id="reg-email" placeholder="you@email.com" onkeyup="checkInputValidation()" oninput="checkInputValidation()">
+                                    <input type="email" id="reg-email" placeholder="you@email.com" oninput="checkInputValidation()">
                                 </div>
                             </div>
                         </div>
@@ -401,7 +388,6 @@
                     </button>
                 </div>
 
-                <!-- OTP & Password Verification Section -->
                 <div id="reg-step-2" style="display: none;">
                     <div class="field-group">
                         <label>ENTER 4-DIGIT EMAIL OTP</label>
@@ -434,7 +420,7 @@
             </div>
         </div>
 
-        <p style="text-align:center; font-size:10.5px; color:#95a39c; margin-top:14px;">© 2026 Roxen. All rights reserved.</p>
+        <p style="text-align:center; font-size:10px; color:#9cb0a6; margin-top:14px;">© 2026 Roxen Commerce. All rights reserved.</p>
     </div>
 
     <script>
@@ -485,7 +471,6 @@
             }
         }
 
-        // Live validation without bugs
         function checkInputValidation() {
             const name = document.getElementById('reg-fullname').value.trim();
             const mobile = document.getElementById('reg-mobile').value.trim();
@@ -494,7 +479,7 @@
 
             const hasValidName = name.length >= 2;
             const hasValidMobile = mobile.length === 10;
-            const hasValidEmail = email.includes('@') && email.includes('.');
+            const hasValidEmail = email.includes('@') && email.endsWith('.com');
 
             if (hasValidName && hasValidMobile && hasValidEmail) {
                 btn.removeAttribute('disabled');
@@ -550,7 +535,7 @@
                 }
             })
             .catch(() => {
-                showToast("Connection issue! Please check if server is active.", "error");
+                showToast("Connection issue! Please check if server is running.", "error");
                 btn.removeAttribute('disabled');
                 btn.innerHTML = `<span>Send 4-Digit OTP</span> <i class="ph-bold ph-paper-plane-tilt"></i>`;
             });
