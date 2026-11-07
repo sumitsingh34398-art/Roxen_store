@@ -8,21 +8,17 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
-app.secret_key = 'roxen_ultra_secure_2026_key'
+app.secret_key = 'roxen_blinkit_style_secure_2026'
 
-# ========================================================
-# 🚀 GMAIL SMTP SETUP (Enter your actual credentials)
-# ========================================================
+# Pre-configured credentials
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
-SMTP_PASSWORD = "bzyo mgml zalt scyx"  # 16-digit App Password
-# ========================================================
+SMTP_PASSWORD = "bzyo mgml zalt scyx"
 
 def get_db():
     conn = sqlite3.connect('roxen.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# Database and table initialization
 def init_db():
     conn = get_db()
     cursor = conn.cursor()
@@ -43,45 +39,46 @@ def init_db():
 
 init_db()
 
-# Async Email Sender (Runs in background so frontend never freezes)
 def send_email_async(email, otp):
     try:
         msg = MIMEMultipart()
-        msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
+        msg['From'] = f"Roxen Quick Store <{SMTP_EMAIL}>"
         msg['To'] = email
         msg['Subject'] = f"{otp} is your Roxen verification code"
 
         html_content = f"""
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px;">
-            <h2 style="color: #0b4629; margin: 0 0 10px 0;">Roxen</h2>
-            <h3 style="color: #1a202c; margin-top: 0;">Welcome to Roxen!</h3>
-            <p style="color: #4a5568; font-size: 14px; line-height: 1.5;">Your 4-digit verification code is:</p>
-            <div style="text-align: center; margin: 26px 0;">
-                <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0e8345; background: #eaf8f0; padding: 12px 28px; border-radius: 12px; display: inline-block;">
+        <div style="font-family: Arial, sans-serif; max-width: 460px; margin: auto; padding: 24px; border: 1px solid #e1e7e4; border-radius: 16px; background-color: #ffffff;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                <h2 style="color: #0c831f; margin: 0; font-size: 24px;">Roxen</h2>
+            </div>
+            <h3 style="color: #1f2937; margin-top: 0;">Verify your account</h3>
+            <p style="color: #4b5563; font-size: 14px; line-height: 1.5;">Use the verification code below to complete your registration on Roxen:</p>
+            <div style="text-align: center; margin: 24px 0;">
+                <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0c831f; background: #f4fbf7; padding: 12px 28px; border-radius: 12px; display: inline-block; border: 1px solid #bbf7d0;">
                     {otp}
                 </span>
             </div>
-            <p style="color: #718096; font-size: 12px; margin-bottom: 0;">This code is valid for 10 minutes.</p>
-            <hr style="border: none; border-top: 1px solid #edf2f7; margin: 20px 0;">
-            <p style="color: #a0aec0; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Quick Commerce. All rights reserved.</p>
+            <p style="color: #6b7280; font-size: 12px; margin-bottom: 0;">Valid for 10 minutes. Please do not share this code with anyone.</p>
+            <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 20px 0;">
+            <p style="color: #9ca3af; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Commerce. All rights reserved.</p>
         </div>
         """
         msg.attach(MIMEText(html_content, 'html'))
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
+        # Connecting via TLS Port 587 with timeout
+        with smtplib.SMTP('smtp.gmail.com', 587, timeout=12) as server:
+            server.starttls()
             clean_pass = SMTP_PASSWORD.replace(" ", "")
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ Email successfully delivered to {email}")
+        print(f"✔ OTP successfully sent to {email}")
     except Exception as e:
-        print(f"❌ Real Email Delivery Failed (Check App Password or Network): {e}")
+        print(f"❌ Real Delivery Error: {e}")
 
 @app.route('/')
 def root():
     if 'user_id' not in session:
         return redirect(url_for('auth_page'))
-    if session.get('user_role') == 'admin':
-        return redirect(url_for('admin_dashboard'))
     return redirect(url_for('home'))
 
 @app.route('/auth')
@@ -90,7 +87,6 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
-# 1. SEND 4-DIGIT OTP API (Instant response via Threading)
 @app.route('/api/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json() or {}
@@ -103,16 +99,12 @@ def send_otp():
     session['temp_email'] = email
 
     print(f"\n==========================================")
-    print(f"⚡ [ROXEN QUICK COMMERCE] ⚡")
-    print(f"👉 Generated OTP for {email}: {otp}")
+    print(f"⚡ [ROXEN COMMERCE] OTP for {email}: {otp}")
     print(f"==========================================\n")
 
-    # Background thread trigger
     threading.Thread(target=send_email_async, args=(email, otp)).start()
-
     return jsonify({'success': True})
 
-# 2. VERIFY OTP & CREATE ACCOUNT (Switches user to Sign In tab)
 @app.route('/api/verify-register', methods=['POST'])
 def verify_register():
     try:
@@ -124,12 +116,10 @@ def verify_register():
         email = data.get('email', '').strip()
 
         saved_otp = session.get('temp_otp')
-
         if not saved_otp or entered_otp != saved_otp:
-            return jsonify({'success': False, 'error': 'Invalid verification code. Please check your inbox.'})
+            return jsonify({'success': False, 'error': 'Invalid verification code. Please check your email.'})
 
         hashed_password = generate_password_hash(password)
-
         conn = get_db()
         cursor = conn.cursor()
         cursor.execute('''
@@ -141,14 +131,11 @@ def verify_register():
 
         session.pop('temp_otp', None)
         return jsonify({'success': True})
-
     except sqlite3.IntegrityError:
         return jsonify({'success': False, 'error': 'Mobile number or email already registered.'})
     except Exception as e:
-        print(f"❌ Verification Server Error: {e}")
         return jsonify({'success': False, 'error': f'Database error: {str(e)}'})
 
-# 3. SIGN IN API
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json() or {}
@@ -166,13 +153,10 @@ def api_login():
         session['user_id'] = user['id']
         session['user_name'] = user['name']
         session['user_role'] = user['role']
-        
-        target = '/admin' if user['role'] == 'admin' else '/home'
-        return jsonify({'success': True, 'redirect': target})
+        return jsonify({'success': True, 'redirect': '/home'})
 
     return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
 
-# 4. HOME STORE PAGE
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -181,15 +165,12 @@ def home():
     conn = get_db()
     user = conn.execute('SELECT * FROM users WHERE id = ?', (session['user_id'],)).fetchone()
     conn.close()
-
     return render_template('home.html', user=user)
 
-# 5. UPDATE ADDRESS / LOCATION MODAL API
 @app.route('/api/update-location', methods=['POST'])
 def update_location():
     if 'user_id' not in session:
         return jsonify({'success': False}), 401
-
     data = request.get_json() or {}
     address = data.get('address')
     conn = get_db()
@@ -198,21 +179,6 @@ def update_location():
     conn.close()
     return jsonify({'success': True})
 
-# 6. ADMIN DASHBOARD
-@app.route('/admin')
-def admin_dashboard():
-    if 'user_id' not in session or session.get('user_role') != 'admin':
-        return redirect(url_for('auth_page'))
-    return f"""
-    <div style='font-family:sans-serif; text-align:center; padding-top:60px;'>
-        <h1 style='color:#0d5c3a;'>Dark Store Operations Panel 📦</h1>
-        <p>Logged in as Store Manager: {session.get('user_name')}</p>
-        <br>
-        <a href='/logout' style='color:#dc2626; font-weight:bold; text-decoration:none;'>Logout</a>
-    </div>
-    """
-
-# 7. LOGOUT
 @app.route('/logout')
 def logout():
     session.clear()
