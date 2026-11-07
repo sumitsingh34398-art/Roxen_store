@@ -1,1 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Roxen - Fast Grocery Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f3f5f4;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-frame {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 90px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.06);
+        }
+
+        /* Top Sticky Header */
+        .top-bar {
+            padding: 16px 20px 12px;
+            background: #ffffff;
+            border-bottom: 1px solid #f0f2f1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .delivery-eta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .eta-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #171d1b;
+        }
+
+        .eta-badge i {
+            color: #0e8345;
+            font-size: 18px;
+        }
+
+        .location-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            color: #555e5a;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        .location-bar strong {
+            color: #171d1b;
+            font-weight: 700;
+        }
+
+        .search-wrap {
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 13px;
+            font-size: 19px;
+            color: #7b8580;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            height: 44px;
+            background: #f3f5f4;
+            border: 1px solid #e7ebe9;
+            border-radius: 14px;
+            padding-left: 42px;
+            padding-right: 14px;
+            font-size: 13.5px;
+            outline: none;
+        }
+
+        /* Banner */
+        .hero-banner {
+            margin: 16px 20px;
+            background: linear-gradient(135deg, #eaf8f0 0%, #d5f2e3 100%);
+            border-radius: 20px;
+            padding: 20px 18px;
+            border: 1px solid #c9ecda;
+        }
+
+        .hero-banner .tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: #0e8345;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero-banner h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0d5c3a;
+            line-height: 1.15;
+            margin: 6px 0 8px;
+        }
+
+        .hero-banner p {
+            font-size: 12px;
+            color: #49544f;
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+
+        .hero-banner button {
+            background: #0e8345;
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* Categories */
+        .section-header {
+            padding: 14px 20px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #171d1b;
+        }
+
+        .section-header span {
+            font-size: 12px;
+            color: #0e8345;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cat-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 0 20px 10px;
+            scrollbar-width: none;
+        }
+        .cat-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-card { min-width: 70px; text-align: center; }
+        .cat-icon {
+            width: 60px;
+            height: 60px;
+            background: #f4fbf7;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 6px;
+            border: 1px solid #e1f2e8;
+        }
+        .cat-card span { font-size: 11px; font-weight: 700; color: #37413d; }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 10px 20px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border: 1px solid #eef1f0;
+            border-radius: 18px;
+            padding: 12px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .badge-discount {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #0e8345;
+            color: #fff;
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 6px;
+        }
+
+        .prod-img { width: 100%; height: 100px; object-fit: contain; margin: 8px 0; }
+        .prod-brand { font-size: 9.5px; font-weight: 800; color: #0e8345; text-transform: uppercase; }
+        .prod-title { font-size: 13px; font-weight: 700; color: #1a201e; margin: 2px 0 4px; line-height: 1.25; }
+        .prod-unit { font-size: 11px; color: #7b8580; margin-bottom: 8px; }
+
+        .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+        .price-box { display: flex; flex-direction: column; }
+        .final-price { font-size: 14.5px; font-weight: 800; color: #171d1b; }
+        .mrp { font-size: 10.5px; text-decoration: line-through; color: #9aa39e; }
+
+        .btn-add {
+            background: #f1f8f4;
+            border: 1.5px solid #0e8345;
+            color: #0e8345;
+            font-weight: 800;
+            font-size: 12.5px;
+            padding: 5px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .qty-controller {
+            display: none;
+            align-items: center;
+            background: #0e8345;
+            border-radius: 10px;
+            padding: 4px 8px;
+            gap: 10px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .qty-controller span.btn-qty { cursor: pointer; font-size: 15px; user-select: none; }
+
+        /* Floating Cart Strip */
+        .cart-float-bar {
+            position: fixed;
+            bottom: 80px;
+            width: calc(100% - 32px);
+            max-width: 408px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0e8345;
+            color: #fff;
+            border-radius: 16px;
+            padding: 12px 18px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(14,131,69,0.35);
+            z-index: 99;
+            cursor: pointer;
+        }
+        .cart-float-bar .items-count { font-size: 10.5px; font-weight: 600; opacity: 0.9; }
+        .cart-float-bar .items-price { font-size: 15px; font-weight: 800; }
+        .cart-float-bar .right { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; gap: 4px; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-top: 1px solid #eef1f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 12px;
+            z-index: 100;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #7b8580;
+            font-size: 10px;
+            font-weight: 800;
+            gap: 3px;
+            cursor: pointer;
+        }
+        .nav-link i { font-size: 21px; }
+        .nav-link.active { color: #0e8345; }
+
+        /* Location Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            padding: 24px;
+            animation: slideIn 0.25s ease;
+        }
+        .modal-card h3 { font-size: 18px; font-weight: 800; color: #171d1b; margin-bottom: 12px; }
+        .modal-card input { width: 100%; height: 48px; border: 1.5px solid #e5e8e6; border-radius: 12px; padding: 0 14px; font-size: 14px; margin-bottom: 14px; outline: none; }
+        .modal-card button { width: 100%; height: 48px; background: #0e8345; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
+
+        /* Settings View */
+        #settings-view { display: none; padding: 20px; }
+        .user-card { background: #eaf8f0; border-radius: 20px; padding: 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .avatar { width: 50px; height: 50px; background: #0e8345; color: #fff; font-size: 18px; font-weight: 800; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+        .menu-list { background: #fff; border-radius: 18px; border: 1px solid #eef1f0; overflow: hidden; margin-bottom: 16px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 18px; border-bottom: 1px solid #f6f8f7; color: #222a27; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .menu-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+    <div class="app-frame">
+        
+        <!-- VIEW 1: HOME & PRODUCTS -->
+        <div id="home-view">
+            <div class="top-bar">
+                <div class="delivery-eta">
+                    <div class="eta-badge">
+                        <i class="ph-bold ph-lightning"></i>
+                        Delivery in 10-12 Mins
+                    </div>
+                    <i class="ph-bold ph-bell" style="font-size:20px; color:#555e5a;"></i>
+                </div>
+                
+                <div class="location-bar" onclick="openLocationModal()">
+                    <i class="ph-bold ph-map-pin" style="color:#0e8345; font-size:16px;"></i>
+                    <span>Delivering to: <strong id="user-location-label">{{ user.address }}</strong></span>
+                    <i class="ph-bold ph-caret-down" style="font-size:12px;"></i>
+                </div>
+
+                <div class="search-wrap">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Search groceries, atta, snacks, drinks...">
+                </div>
+            </div>
+
+            <div class="hero-banner">
+                <p class="tag">YOUR EVERYDAY STORE</p>
+                <h1>Daily Needs.<br>Delivered Fast.</h1>
+                <p>From kitchen staples to fresh dairy & snacks — directly to your doorstep.</p>
+                <button>Shop Now <i class="ph-bold ph-arrow-down"></i></button>
+            </div>
+
+            <div class="section-header">
+                <h3>Categories</h3>
+                <span>View All</span>
+            </div>
+            <div class="cat-scroll">
+                <div class="cat-card"><div class="cat-icon">🥛</div><span>Dairy</span></div>
+                <div class="cat-card"><div class="cat-icon">🍪</div><span>Snacks</span></div>
+                <div class="cat-card"><div class="cat-icon">🥤</div><span>Drinks</span></div>
+                <div class="cat-card"><div class="cat-icon">🌾</div><span>Atta & Dal</span></div>
+                <div class="cat-card"><div class="cat-icon">🧼</div><span>Care</span></div>
+            </div>
+
+            <div class="section-header">
+                <h3>Popular Everyday Picks</h3>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <span class="badge-discount">9% OFF</span>
+                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300" class="prod-img">
+                    <span class="prod-brand">PARLE</span>
+                    <h4 class="prod-title">Parle-G Gold Biscuits</h4>
+                    <p class="prod-unit">1 kg</p>
+                    <div class="prod-footer">
+                        <div class="price-box">
+                            <span class="final-price">₹100</span>
+                            <span class="mrp">₹110</span>
+                        </div>
+                        <button class="btn-add" id="btn-add-1" onclick="addItem(1, 'Parle-G Gold', 100)">ADD</button>
+                        <div class="qty-controller" id="qty-box-1">
+                            <span class="btn-qty" onclick="changeQty(1, -1)">-</span>
+                            <span id="qty-val-1">1</span>
+                            <span class="btn-qty" onclick="changeQty(1, 1)">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <span class="badge-discount">8% OFF</span>
+                    <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="prod-img">
+                    <span class="prod-brand">REAL</span>
+                    <h4 class="prod-title">Real Fruit Juice Active</h4>
+                    <p class="prod-unit">1 L</p>
+                    <div class="prod-footer">
+                        <div class="price-box">
+                            <span class="final-price">₹115</span>
+                            <span class="mrp">₹125</span>
+                        </div>
+                        <button class="btn-add" id="btn-add-2" onclick="addItem(2, 'Real Fruit Juice', 115)">ADD</button>
+                        <div class="qty-controller" id="qty-box-2">
+                            <span class="btn-qty" onclick="changeQty(2, -1)">-</span>
+                            <span id="qty-val-2">1</span>
+                            <span class="btn-qty" onclick="changeQty(2, 1)">+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: PROFILE & SETTINGS -->
+        <div id="settings-view">
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:18px; color:#171d1b;">Account & Settings</h2>
+
+            <div class="user-card">
+                <div class="avatar">{{ user.name[:2].upper() }}</div>
+                <div>
+                    <h3 style="font-size:17px; font-weight:800; color:#171d1b;">{{ user.name }}</h3>
+                    <p style="font-size:12.5px; color:#555e5a; font-weight:600;">{{ user.phone }}</p>
+                    <p style="font-size:11.5px; color:#7d8c85;">{{ user.email }}</p>
+                    <span style="font-size:10px; font-weight:800; background:#0e8345; color:#fff; padding:2px 8px; border-radius:6px; display:inline-block; margin-top:5px;">Verified User</span>
+                </div>
+            </div>
+
+            <p style="font-size:11px; font-weight:800; color:#7b8580; text-transform:uppercase; margin-bottom:8px;">Orders</p>
+            <div class="menu-list">
+                <div class="menu-item">
+                    <span><i class="ph ph-package" style="margin-right:8px; color:#0e8345;"></i> My Orders</span>
+                    <i class="ph ph-caret-right"></i>
+                </div>
+            </div>
+
+            <p style="font-size:11px; font-weight:800; color:#7b8580; text-transform:uppercase; margin-bottom:8px;">Legal & Support</p>
+            <div class="menu-list">
+                <div class="menu-item">
+                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:#0e8345;"></i> Terms & Privacy</span>
+                    <i class="ph ph-caret-right"></i>
+                </div>
+                <div class="menu-item">
+                    <span><i class="ph ph-headphones" style="margin-right:8px; color:#0e8345;"></i> Customer Support</span>
+                    <i class="ph ph-caret-right"></i>
+                </div>
+            </div>
+
+            <a href="/logout" style="display:block; text-align:center; padding:14px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:14px; text-decoration:none; margin-top:20px;">
+                Logout Session
+            </a>
+        </div>
+
+        <!-- Floating Cart Bar -->
+        <div id="float-cart" class="cart-float-bar">
+            <div>
+                <div class="items-count" id="cart-item-count">0 ITEMS</div>
+                <div class="items-price" id="cart-item-price">₹0</div>
+            </div>
+            <div class="right">
+                View Cart <i class="ph-bold ph-arrow-right"></i>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="bottom-nav">
+            <div class="nav-link active" id="nav-home" onclick="showTab('home')">
+                <i class="ph-fill ph-house"></i>
+                <span>HOME</span>
+            </div>
+            <div class="nav-link" id="nav-cat" onclick="showTab('home')">
+                <i class="ph ph-squares-four"></i>
+                <span>CATEGORY</span>
+            </div>
+            <div class="nav-link" id="nav-cart" onclick="alert('Proceeding to Checkout...')">
+                <i class="ph ph-shopping-bag"></i>
+                <span>CART</span>
+            </div>
+            <div class="nav-link" id="nav-settings" onclick="showTab('settings')">
+                <i class="ph ph-user"></i>
+                <span>SETTINGS</span>
+            </div>
+        </div>
+
+        <!-- Location Modal -->
+        <div class="modal-overlay" id="location-modal">
+            <div class="modal-card">
+                <h3>Select Delivery Location</h3>
+                <input type="text" id="new-location-input" placeholder="Enter sector, area or city...">
+                <button onclick="saveLocation()">Update Location</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {};
+
+        function showTab(tab) {
+            document.getElementById('nav-home').classList.remove('active');
+            document.getElementById('nav-settings').classList.remove('active');
+
+            if(tab === 'home') {
+                document.getElementById('home-view').style.display = 'block';
+                document.getElementById('settings-view').style.display = 'none';
+                document.getElementById('nav-home').classList.add('active');
+            } else {
+                document.getElementById('home-view').style.display = 'none';
+                document.getElementById('settings-view').style.display = 'block';
+                document.getElementById('nav-settings').classList.add('active');
+            }
+        }
+
+        function addItem(id, title, price) {
+            cart[id] = { title: title, price: price, qty: 1 };
+            document.getElementById(`btn-add-${id}`).style.display = 'none';
+            document.getElementById(`qty-box-${id}`).style.display = 'inline-flex';
+            document.getElementById(`qty-val-${id}`).innerText = 1;
+            updateCartBar();
+        }
+
+        function changeQty(id, delta) {
+            if (!cart[id]) return;
+            cart[id].qty += delta;
+
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+                document.getElementById(`btn-add-${id}`).style.display = 'inline-block';
+                document.getElementById(`qty-box-${id}`).style.display = 'none';
+            } else {
+                document.getElementById(`qty-val-${id}`).innerText = cart[id].qty;
+            }
+            updateCartBar();
+        }
+
+        function updateCartBar() {
+            let totalCount = 0;
+            let totalPrice = 0;
+            for (let id in cart) {
+                totalCount += cart[id].qty;
+                totalPrice += (cart[id].qty * cart[id].price);
+            }
+
+            const bar = document.getElementById('float-cart');
+            if (totalCount > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
+                document.getElementById('cart-item-price').innerText = `₹${totalPrice}`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function openLocationModal() {
+            document.getElementById('location-modal').style.display = 'flex';
+        }
+
+        function saveLocation() {
+            const loc = document.getElementById('new-location-input').value.trim();
+            if (loc) {
+                document.getElementById('user-location-label').innerText = loc;
+                fetch('/api/update-location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: loc })
+                });
+            }
+            document.getElementById('location-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
