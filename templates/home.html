@@ -17,7 +17,7 @@
         }
 
         body {
-            background-color: #f1f4f2;
+            background-color: #f0f8f3;
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -33,7 +33,6 @@
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
         }
 
-        /* Top Bar */
         .top-bar {
             padding: 14px 18px 12px;
             background: #ffffff;
@@ -55,10 +54,7 @@
             font-weight: 800;
             color: #171d1b;
         }
-        .eta-badge i {
-            color: #0c831f;
-            font-size: 18px;
-        }
+        .eta-badge i { color: #0c831f; font-size: 18px; }
         .location-bar {
             display: flex;
             align-items: center;
@@ -68,10 +64,7 @@
             margin-top: 3px;
             cursor: pointer;
         }
-        .location-bar strong {
-            color: #171d1b;
-            font-weight: 700;
-        }
+        .location-bar strong { color: #171d1b; font-weight: 700; }
 
         .search-wrap {
             margin-top: 10px;
@@ -96,7 +89,6 @@
             outline: none;
         }
 
-        /* Promo Banner */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e9f8ee 0%, #d4eedb 100%);
@@ -138,24 +130,14 @@
             cursor: pointer;
         }
 
-        /* Categories */
         .section-header {
             padding: 12px 18px 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .section-header h3 {
-            font-size: 15px;
-            font-weight: 800;
-            color: #171d1b;
-        }
-        .section-header span {
-            font-size: 12px;
-            color: #0c831f;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .section-header h3 { font-size: 15px; font-weight: 800; color: #171d1b; }
+        .section-header span { font-size: 12px; color: #0c831f; font-weight: 700; cursor: pointer; }
 
         .cat-scroll {
             display: flex;
@@ -180,7 +162,6 @@
         }
         .cat-card span { font-size: 10.5px; font-weight: 700; color: #37413d; }
 
-        /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -242,7 +223,6 @@
         }
         .qty-controller span.btn-qty { cursor: pointer; font-size: 15px; user-select: none; }
 
-        /* Floating Cart */
         .cart-float-bar {
             position: fixed;
             bottom: 76px;
@@ -265,7 +245,6 @@
         .cart-float-bar .items-price { font-size: 14.5px; font-weight: 800; }
         .cart-float-bar .right { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 4px; }
 
-        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -292,7 +271,6 @@
         .nav-link i { font-size: 20px; }
         .nav-link.active { color: #0c831f; }
 
-        /* Location Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -315,7 +293,6 @@
         .modal-card input { width: 100%; height: 46px; border: 1.5px solid #e5ebe7; border-radius: 12px; padding: 0 14px; font-size: 13.5px; margin-bottom: 12px; outline: none; }
         .modal-card button { width: 100%; height: 46px; background: #0c831f; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 13.5px; cursor: pointer; }
 
-        /* Settings View */
         #settings-view { display: none; padding: 18px; }
         .user-card { background: #eaf7ee; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
         .avatar { width: 48px; height: 48px; background: #0c831f; color: #fff; font-size: 17px; font-weight: 800; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
@@ -328,7 +305,6 @@
 
     <div class="app-frame">
         
-        <!-- HOME VIEW -->
         <div id="home-view">
             <div class="top-bar">
                 <div class="delivery-eta">
@@ -375,7 +351,6 @@
             </div>
 
             <div class="products-grid">
-                <!-- Product 1 -->
                 <div class="product-card">
                     <span class="badge-discount">9% OFF</span>
                     <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300" class="prod-img">
@@ -396,7 +371,6 @@
                     </div>
                 </div>
 
-                <!-- Product 2 -->
                 <div class="product-card">
                     <span class="badge-discount">8% OFF</span>
                     <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="prod-img">
@@ -419,7 +393,6 @@
             </div>
         </div>
 
-        <!-- SETTINGS VIEW -->
         <div id="settings-view">
             <h2 style="font-size:20px; font-weight:800; margin-bottom:16px; color:#171d1b;">My Account</h2>
 
@@ -458,7 +431,6 @@
             </a>
         </div>
 
-        <!-- Floating Cart Bar -->
         <div id="float-cart" class="cart-float-bar">
             <div>
                 <div class="items-count" id="cart-item-count">0 ITEMS</div>
@@ -469,7 +441,6 @@
             </div>
         </div>
 
-        <!-- Bottom Navigation Bar -->
         <div class="bottom-nav">
             <div class="nav-link active" id="nav-home" onclick="showTab('home')">
                 <i class="ph-fill ph-house"></i>
@@ -489,7 +460,6 @@
             </div>
         </div>
 
-        <!-- Location Modal -->
         <div class="modal-overlay" id="location-modal">
             <div class="modal-card">
                 <h3>Change Delivery Address</h3>
