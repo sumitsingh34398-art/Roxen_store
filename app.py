@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import random
 import smtplib
+import threading
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -12,7 +13,7 @@ app.secret_key = 'roxen_ultra_secure_2026_key'
 # ========================================================
 # 🚀 GMAIL SMTP SETUP (Enter your actual credentials)
 # ========================================================
-SMTP_EMAIL = "sumitsingh34389@gmail.com"
+SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "bzyo mgml zalt scyx"  # 16-digit App Password
 # ========================================================
 
@@ -21,7 +22,7 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Ensures database and table exist with all columns
+# Database and table initialization
 def init_db():
     conn = get_db()
     cursor = conn.cursor()
@@ -42,6 +43,39 @@ def init_db():
 
 init_db()
 
+# Async Email Sender (Runs in background so frontend never freezes)
+def send_email_async(email, otp):
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
+        msg['To'] = email
+        msg['Subject'] = f"{otp} is your Roxen verification code"
+
+        html_content = f"""
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px;">
+            <h2 style="color: #0b4629; margin: 0 0 10px 0;">Roxen</h2>
+            <h3 style="color: #1a202c; margin-top: 0;">Welcome to Roxen!</h3>
+            <p style="color: #4a5568; font-size: 14px; line-height: 1.5;">Your 4-digit verification code is:</p>
+            <div style="text-align: center; margin: 26px 0;">
+                <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0e8345; background: #eaf8f0; padding: 12px 28px; border-radius: 12px; display: inline-block;">
+                    {otp}
+                </span>
+            </div>
+            <p style="color: #718096; font-size: 12px; margin-bottom: 0;">This code is valid for 10 minutes.</p>
+            <hr style="border: none; border-top: 1px solid #edf2f7; margin: 20px 0;">
+            <p style="color: #a0aec0; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Quick Commerce. All rights reserved.</p>
+        </div>
+        """
+        msg.attach(MIMEText(html_content, 'html'))
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
+            clean_pass = SMTP_PASSWORD.replace(" ", "")
+            server.login(SMTP_EMAIL, clean_pass)
+            server.sendmail(SMTP_EMAIL, email, msg.as_string())
+        print(f"✔ Email successfully delivered to {email}")
+    except Exception as e:
+        print(f"❌ Real Email Delivery Failed (Check App Password or Network): {e}")
+
 @app.route('/')
 def root():
     if 'user_id' not in session:
@@ -56,7 +90,7 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
-# 1. SEND REAL 4-DIGIT OTP API
+# 1. SEND 4-DIGIT OTP API (Instant response via Threading)
 @app.route('/api/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json() or {}
@@ -70,45 +104,15 @@ def send_otp():
 
     print(f"\n==========================================")
     print(f"⚡ [ROXEN QUICK COMMERCE] ⚡")
-    print(f"👉 Real OTP for {email}: {otp}")
+    print(f"👉 Generated OTP for {email}: {otp}")
     print(f"==========================================\n")
 
-    # Attempt real email delivery with SSL
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
-        msg['To'] = email
-        msg['Subject'] = f"{otp} is your Roxen verification code"
+    # Background thread trigger
+    threading.Thread(target=send_email_async, args=(email, otp)).start()
 
-        html_content = f"""
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px;">
-            <h2 style="color: #0b4629; margin: 0 0 10px 0;">Roxen</h2>
-            <h3 style="color: #1a202c; margin-top: 0;">Welcome to Roxen!</h3>
-            <p style="color: #4a5568; font-size: 14px; line-height: 1.5;">Please use the 4-digit code below to verify your email address and complete registration:</p>
-            <div style="text-align: center; margin: 26px 0;">
-                <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0e8345; background: #eaf8f0; padding: 12px 28px; border-radius: 12px; display: inline-block;">
-                    {otp}
-                </span>
-            </div>
-            <p style="color: #718096; font-size: 12px; margin-bottom: 0;">This code is valid for 10 minutes. Please do not share it with anyone.</p>
-            <hr style="border: none; border-top: 1px solid #edf2f7; margin: 20px 0;">
-            <p style="color: #a0aec0; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Quick Commerce. All rights reserved.</p>
-        </div>
-        """
-        msg.attach(MIMEText(html_content, 'html'))
+    return jsonify({'success': True})
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-            clean_pass = SMTP_PASSWORD.replace(" ", "")
-            server.login(SMTP_EMAIL, clean_pass)
-            server.sendmail(SMTP_EMAIL, email, msg.as_string())
-
-        return jsonify({'success': True})
-    except Exception as e:
-        print(f"Mail Exception: {e}")
-        # Always return success so user can use the terminal OTP if network/app password has issues
-        return jsonify({'success': True, 'msg': 'OTP generated (Check Terminal)'})
-
-# 2. VERIFY OTP & CREATE ACCOUNT
+# 2. VERIFY OTP & CREATE ACCOUNT (Switches user to Sign In tab)
 @app.route('/api/verify-register', methods=['POST'])
 def verify_register():
     try:
@@ -208,6 +212,7 @@ def admin_dashboard():
     </div>
     """
 
+# 7. LOGOUT
 @app.route('/logout')
 def logout():
     session.clear()
