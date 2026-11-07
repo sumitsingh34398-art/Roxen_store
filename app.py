@@ -12,8 +12,8 @@ app.secret_key = 'roxen_super_secret_key_2026'
 # ========================================================
 # 🚀 GMAIL SMTP SETUP (Enter your credentials below)
 # ========================================================
-SMTP_EMAIL = "your-actual-email@gmail.com"
-SMTP_PASSWORD = "xxxx xxxx xxxx xxxx"  # 16-digit App Password
+SMTP_EMAIL = "sumitsingh3439email@gmail.com"
+SMTP_PASSWORD = "bzyo mgml zalt scyx"  # 16-digit App Password
 # ========================================================
 
 def get_db():
