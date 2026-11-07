@@ -12,7 +12,7 @@ app.secret_key = 'roxen_blinkit_style_secure_2026'
 
 # Pre-configured credentials
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
-SMTP_PASSWORD = "bzyo mgml zalt scyx"
+SMTP_PASSWORD = "gcyb jcis yxfe xqto"
 
 def get_db():
     conn = sqlite3.connect('roxen.db')
