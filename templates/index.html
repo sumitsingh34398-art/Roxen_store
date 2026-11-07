@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Roxen - Sign In & Create Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0b4629;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 0;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-top-left-radius: 36px;
+            border-top-right-radius: 36px;
+            padding: 28px 24px 24px;
+            min-height: 88vh;
+            box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        @media (min-width: 480px) {
+            body { align-items: center; padding: 20px 0; }
+            .auth-container { border-radius: 36px; min-height: auto; }
+        }
+
+        .toast-notify {
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-notify.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+        .toast-notify.success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+        .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .brand-logo { width: 40px; height: 40px; background: #eaf8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #0e8345; }
+        .brand-info h2 { font-size: 20px; font-weight: 800; color: #0d5c3a; line-height: 1.1; }
+        .brand-info p { font-size: 10px; font-weight: 700; letter-spacing: 0.9px; color: #7d8c85; margin-top: 3px; }
+
+        .badge-sub { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: #0d5c3a; text-transform: uppercase; margin-bottom: 6px; }
+        .title { font-size: 26px; font-weight: 800; color: #171d1b; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .desc { font-size: 13.5px; color: #707974; margin-bottom: 18px; }
+
+        .segmented-control { background-color: #f0f2f1; padding: 5px; border-radius: 18px; display: flex; margin-bottom: 20px; }
+        .seg-btn { flex: 1; border: none; background: transparent; padding: 10px 0; font-size: 14px; font-weight: 700; color: #555e5a; border-radius: 14px; cursor: pointer; transition: all 0.25s ease; }
+        .seg-btn.active { background: #ffffff; color: #0d5c3a; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .field-group { margin-bottom: 14px; }
+        .field-group label { display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: #49544f; margin-bottom: 6px; }
+
+        .input-box { position: relative; display: flex; align-items: center; }
+        .input-box i.lead-icon { position: absolute; left: 16px; font-size: 20px; color: #9aa39e; }
+        .input-box input { width: 100%; height: 50px; background: #ffffff; border: 1.5px solid #e5e8e6; border-radius: 14px; padding: 0 44px 0 46px; font-size: 14px; font-weight: 500; color: #1a201e; outline: none; transition: border-color 0.2s ease; }
+        .input-box input:focus { border-color: #0e8345; }
+        .input-box .toggle-pass { position: absolute; right: 16px; font-size: 20px; color: #7b8580; cursor: pointer; }
+
+        .dual-fields { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; }
+        .dual-fields .input-box input { padding-left: 14px; padding-right: 10px; font-size: 13.5px; }
+
+        .otp-container { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+        .otp-input { width: 22%; height: 52px; text-align: center; font-size: 22px; font-weight: 700; border: 1.5px solid #e5e8e6; border-radius: 14px; outline: none; color: #0d5c3a; background: #fbfdfc; }
+        .otp-input:focus { border-color: #0e8345; background: #ffffff; }
+
+        .btn-primary { width: 100%; height: 50px; background: #0e8345; color: #ffffff; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 8px 20px rgba(14, 131, 69, 0.25); transition: all 0.2s ease; }
+        .btn-primary:disabled { background: #c3d9cd; box-shadow: none; cursor: not-allowed; opacity: 0.8; }
+        .btn-primary:not(:disabled):active { transform: scale(0.98); }
+
+        .extra-row { display: flex; justify-content: space-between; align-items: center; margin: 14px 0 20px; font-size: 13px; }
+        .security-badge { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; color: #7b8580; font-size: 12px; }
+        .security-badge i { font-size: 18px; color: #0e8345; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Toast Notification Area -->
+        <div id="toast" class="toast-notify">
+            <i id="toast-icon" class="ph-fill ph-check-circle" style="font-size:18px;"></i>
+            <span id="toast-text"></span>
+        </div>
+
+        <div>
+            <div class="brand-header">
+                <div class="brand-logo"><i class="ph-fill ph-leaf"></i></div>
+                <div class="brand-info">
+                    <h2>Roxen</h2>
+                    <p>FRESHNESS FOR EVERY DAY</p>
+                </div>
+            </div>
+
+            <p class="badge-sub">YOUR FRESH START</p>
+            <h1 class="title" id="page-title">Welcome back.</h1>
+            <p class="desc" id="page-desc">Sign in to continue your shopping journey.</p>
+
+            <div class="segmented-control">
+                <button type="button" class="seg-btn active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+                <button type="button" class="seg-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+            </div>
+
+            <!-- SIGN IN FORM -->
+            <form id="form-signin" class="form-section active" onsubmit="handleLogin(event)">
+                <div class="field-group">
+                    <label>EMAIL OR MOBILE NUMBER</label>
+                    <div class="input-box">
+                        <i class="ph ph-user lead-icon"></i>
+                        <input type="text" id="login-identifier" placeholder="Enter email or mobile" required>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>PASSWORD</label>
+                    <div class="input-box">
+                        <i class="ph ph-lock-key lead-icon"></i>
+                        <input type="password" id="login-pass" placeholder="Enter your password" required>
+                        <i class="ph ph-eye toggle-pass" onclick="togglePass('login-pass', this)"></i>
+                    </div>
+                </div>
+
+                <div class="extra-row">
+                    <label style="display:flex; align-items:center; gap:6px; color:#555e5a; cursor:pointer;">
+                        <input type="checkbox" style="accent-color:#0e8345;"> Remember me
+                    </label>
+                    <a href="#" style="color:#0e8345; font-weight:700; text-decoration:none;">Forgot password?</a>
+                </div>
+
+                <button type="submit" id="btn-login" class="btn-primary">
+                    <span>Sign In Securely</span> <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- CREATE ACCOUNT FORM -->
+            <div id="form-signup" class="form-section">
+                <div id="reg-step-1">
+                    <div class="field-group">
+                        <label>FULL NAME</label>
+                        <div class="input-box">
+                            <i class="ph ph-user lead-icon"></i>
+                            <input type="text" id="reg-fullname" placeholder="Your full name" oninput="validateSignupFields()">
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="dual-fields">
+                            <div>
+                                <label>MOBILE</label>
+                                <div class="input-box">
+                                    <input type="tel" id="reg-mobile" placeholder="10 digits" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateSignupFields()">
+                                </div>
+                            </div>
+                            <div>
+                                <label>EMAIL ADDRESS</label>
+                                <div class="input-box">
+                                    <input type="email" id="reg-email" placeholder="you@email.com" oninput="validateSignupFields()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-send-otp" class="btn-primary" onclick="sendOtp()" disabled style="margin-top:10px;">
+                        <span>Send 4-Digit OTP</span> <i class="ph-bold ph-paper-plane-tilt"></i>
+                    </button>
+                </div>
+
+                <div id="reg-step-2" style="display: none;">
+                    <div class="field-group">
+                        <label>ENTER 4-DIGIT EMAIL OTP</label>
+                        <div class="otp-container">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 0)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)">
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label>CREATE PASSWORD</label>
+                        <div class="input-box">
+                            <i class="ph ph-lock-key lead-icon"></i>
+                            <input type="password" id="reg-pass" placeholder="Create your password" oninput="validateOtpStep()">
+                            <i class="ph ph-eye toggle-pass" onclick="togglePass('reg-pass', this)"></i>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-verify-otp" class="btn-primary" onclick="verifyOtpAndRegister()" disabled>
+                        <span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="security-badge">
+                <i class="ph-fill ph-shield-check"></i>
+                <span>Keep your password and OTP private</span>
+            </div>
+        </div>
+
+        <p style="text-align:center; font-size:11px; color:#adb5b0; margin-top:14px;">© 2026 Roxen. All rights reserved.</p>
+    </div>
+
+    <script>
+        function showToast(text, type='success') {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            toast.className = `toast-notify ${type}`;
+            toastText.innerText = text;
+            toastIcon.className = (type === 'success') ? "ph-fill ph-check-circle" : "ph-fill ph-warning-circle";
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+        }
+
+        function switchTab(tab) {
+            const signinBtn = document.getElementById('tab-signin');
+            const signupBtn = document.getElementById('tab-signup');
+            const formSignin = document.getElementById('form-signin');
+            const formSignup = document.getElementById('form-signup');
+            const title = document.getElementById('page-title');
+            const desc = document.getElementById('page-desc');
+
+            if (tab === 'signin') {
+                signinBtn.classList.add('active');
+                signupBtn.classList.remove('active');
+                formSignin.classList.add('active');
+                formSignup.classList.remove('active');
+                title.innerText = 'Welcome back.';
+                desc.innerText = 'Sign in to continue your shopping journey.';
+            } else {
+                signupBtn.classList.add('active');
+                signinBtn.classList.remove('active');
+                formSignup.classList.add('active');
+                formSignin.classList.remove('active');
+                title.innerText = 'Join Roxen.';
+                desc.innerText = 'Create your account with email OTP.';
+            }
+        }
+
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('ph-eye', 'ph-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('ph-eye-slash', 'ph-eye');
+            }
+        }
+
+        function validateSignupFields() {
+            const name = document.getElementById('reg-fullname').value.trim();
+            const mobile = document.getElementById('reg-mobile').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const btn = document.getElementById('btn-send-otp');
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            const mobileValid = mobile.length === 10;
+            const nameValid = name.length >= 2;
+            btn.disabled = !(nameValid && mobileValid && emailValid);
+        }
+
+        function moveToNext(current, index) {
+            current.value = current.value.replace(/[^0-9]/g, '');
+            if (current.value.length === 1 && index < 3) {
+                document.querySelectorAll('.otp-input')[index + 1].focus();
+            }
+            validateOtpStep();
+        }
+
+        function validateOtpStep() {
+            let enteredOtp = '';
+            document.querySelectorAll('.otp-input').forEach(i => enteredOtp += i.value);
+            const pass = document.getElementById('reg-pass').value.trim();
+            const btn = document.getElementById('btn-verify-otp');
+            btn.disabled = !(enteredOtp.length === 4 && pass.length >= 6);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('login-identifier').value.trim();
+            const password = document.getElementById('login-pass').value.trim();
+            const btn = document.getElementById('btn-login');
+
+            btn.disabled = true;
+            btn.innerHTML = `Signing In... <i class="ph-bold ph-spinner ph-spin"></i>`;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier: identifier, password: password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("Login successful! Redirecting...", "success");
+                    setTimeout(() => { window.location.href = data.redirect; }, 800);
+                } else {
+                    showToast(data.error || "Invalid mobile/email or password.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>Sign In Securely</span> <i class="ph-bold ph-arrow-right"></i>`;
+                }
+            })
+            .catch(() => {
+                showToast("Connection error. Please try again.", "error");
+                btn.disabled = false;
+                btn.innerHTML = `<span>Sign In Securely</span> <i class="ph-bold ph-arrow-right"></i>`;
+            });
+        }
+
+        function sendOtp() {
+            const email = document.getElementById('reg-email').value.trim();
+            const btn = document.getElementById('btn-send-otp');
+            btn.disabled = true;
+            btn.innerHTML = `Sending OTP... <i class="ph-bold ph-spinner ph-spin"></i>`;
+
+            fetch('/api/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("A 4-digit code has been sent to your email.", "success");
+                    document.getElementById('reg-step-1').style.display = 'none';
+                    document.getElementById('reg-step-2').style.display = 'block';
+                    document.querySelectorAll('.otp-input')[0].focus();
+                } else {
+                    showToast(data.error || "Failed to send code.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>Send 4-Digit OTP</span> <i class="ph-bold ph-paper-plane-tilt"></i>`;
+                }
+            })
+            .catch(() => {
+                showToast("Network error.", "error");
+                btn.disabled = false;
+                btn.innerHTML = `<span>Send 4-Digit OTP</span> <i class="ph-bold ph-paper-plane-tilt"></i>`;
+            });
+        }
+
+        function verifyOtpAndRegister() {
+            let enteredOtp = '';
+            document.querySelectorAll('.otp-input').forEach(i => enteredOtp += i.value);
+
+            const password = document.getElementById('reg-pass').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const mobile = document.getElementById('reg-mobile').value.trim();
+            const fullname = document.getElementById('reg-fullname').value.trim();
+            const btn = document.getElementById('btn-verify-otp');
+
+            btn.disabled = true;
+            btn.innerHTML = `Creating Account... <i class="ph-bold ph-spinner ph-spin"></i>`;
+
+            fetch('/api/verify-register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullname: fullname,
+                    mobile: mobile,
+                    email: email,
+                    otp: enteredOtp,
+                    password: password
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("Account created successfully! Please sign in now.", "success");
+                    setTimeout(() => {
+                        switchTab('signin');
+                        document.getElementById('login-identifier').value = email || mobile;
+                        document.getElementById('login-pass').focus();
+                        btn.disabled = false;
+                        btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
+                    }, 1200);
+                } else {
+                    showToast(data.error || "Invalid OTP code. Please try again.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
+                }
+            })
+            .catch(() => {
+                showToast("Server error during verification.", "error");
+                btn.disabled = false;
+                btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
+            });
+        }
+    </script>
+</body>
+</html>
