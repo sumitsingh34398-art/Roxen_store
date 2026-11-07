@@ -8,11 +8,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
-app.secret_key = 'roxen_blinkit_style_secure_2026'
+app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
-# Pre-configured credentials
+# ========================================================
+# 🚀 PRE-CONFIGURED GMAIL SMTP
+# ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
+# ========================================================
 
 def get_db():
     conn = sqlite3.connect('roxen.db')
@@ -39,41 +42,50 @@ def init_db():
 
 init_db()
 
+# Bulletproof Dual-Port Email Dispatcher
 def send_email_async(email, otp):
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = f"Roxen Quick Store <{SMTP_EMAIL}>"
-        msg['To'] = email
-        msg['Subject'] = f"{otp} is your Roxen verification code"
+    clean_pass = SMTP_PASSWORD.replace(" ", "")
+    msg = MIMEMultipart()
+    msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
+    msg['To'] = email
+    msg['Subject'] = f"{otp} is your Roxen verification code"
 
-        html_content = f"""
-        <div style="font-family: Arial, sans-serif; max-width: 460px; margin: auto; padding: 24px; border: 1px solid #e1e7e4; border-radius: 16px; background-color: #ffffff;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-                <h2 style="color: #0c831f; margin: 0; font-size: 24px;">Roxen</h2>
-            </div>
-            <h3 style="color: #1f2937; margin-top: 0;">Verify your account</h3>
-            <p style="color: #4b5563; font-size: 14px; line-height: 1.5;">Use the verification code below to complete your registration on Roxen:</p>
-            <div style="text-align: center; margin: 24px 0;">
-                <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0c831f; background: #f4fbf7; padding: 12px 28px; border-radius: 12px; display: inline-block; border: 1px solid #bbf7d0;">
-                    {otp}
-                </span>
-            </div>
-            <p style="color: #6b7280; font-size: 12px; margin-bottom: 0;">Valid for 10 minutes. Please do not share this code with anyone.</p>
-            <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 20px 0;">
-            <p style="color: #9ca3af; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Commerce. All rights reserved.</p>
+    html_content = f"""
+    <div style="font-family: Arial, sans-serif; max-width: 480px; margin: auto; padding: 24px; border: 1px solid #e1e8e4; border-radius: 16px; background-color: #ffffff;">
+        <h2 style="color: #0c831f; margin: 0 0 8px 0; font-size: 24px;">Roxen</h2>
+        <h3 style="color: #172b20; margin-top: 0;">Verify your account</h3>
+        <p style="color: #4b5a52; font-size: 14px; line-height: 1.5;">Use the 4-digit code below to complete your registration:</p>
+        <div style="text-align: center; margin: 24px 0;">
+            <span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #0c831f; background: #f0fdf4; padding: 12px 28px; border-radius: 12px; display: inline-block; border: 1.5px solid #bbf7d0;">
+                {otp}
+            </span>
         </div>
-        """
-        msg.attach(MIMEText(html_content, 'html'))
+        <p style="color: #728279; font-size: 12px;">Valid for 10 minutes. Do not share this OTP with anyone.</p>
+        <hr style="border: none; border-top: 1px solid #f1f5f3; margin: 20px 0;">
+        <p style="color: #9ab0a4; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Commerce. All rights reserved.</p>
+    </div>
+    """
+    msg.attach(MIMEText(html_content, 'html'))
 
-        # Connecting via TLS Port 587 with timeout
-        with smtplib.SMTP('smtp.gmail.com', 587, timeout=12) as server:
-            server.starttls()
-            clean_pass = SMTP_PASSWORD.replace(" ", "")
+    # Try 1: Port 465 (Direct SSL)
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=8) as server:
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ OTP successfully sent to {email}")
-    except Exception as e:
-        print(f"❌ Real Delivery Error: {e}")
+        print(f"✔ [PORT 465] OTP delivered to {email}")
+        return
+    except Exception as e1:
+        print(f"⚠️ Port 465 attempt failed ({e1}), switching to Port 587...")
+
+    # Try 2: Port 587 (TLS Fallback)
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587, timeout=8) as server:
+            server.starttls()
+            server.login(SMTP_EMAIL, clean_pass)
+            server.sendmail(SMTP_EMAIL, email, msg.as_string())
+        print(f"✔ [PORT 587] OTP delivered to {email}")
+    except Exception as e2:
+        print(f"❌ Real Delivery Failed: {e2}")
 
 @app.route('/')
 def root():
@@ -87,24 +99,27 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
+# 1. SEND REAL OTP API
 @app.route('/api/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json() or {}
     email = data.get('email', '').strip()
     if not email:
-        return jsonify({'success': False, 'error': 'A valid email address is required.'})
+        return jsonify({'success': False, 'error': 'Valid email is required.'})
 
     otp = str(random.randint(1000, 9999))
     session['temp_otp'] = otp
     session['temp_email'] = email
 
     print(f"\n==========================================")
-    print(f"⚡ [ROXEN COMMERCE] OTP for {email}: {otp}")
+    print(f"⚡ [ROXEN QUICK COMMERCE] ⚡")
+    print(f"👉 Generated OTP for {email}: {otp}")
     print(f"==========================================\n")
 
     threading.Thread(target=send_email_async, args=(email, otp)).start()
     return jsonify({'success': True})
 
+# 2. VERIFY OTP & REGISTER USER
 @app.route('/api/verify-register', methods=['POST'])
 def verify_register():
     try:
@@ -117,7 +132,7 @@ def verify_register():
 
         saved_otp = session.get('temp_otp')
         if not saved_otp or entered_otp != saved_otp:
-            return jsonify({'success': False, 'error': 'Invalid verification code. Please check your email.'})
+            return jsonify({'success': False, 'error': 'Invalid OTP code. Please check your email.'})
 
         hashed_password = generate_password_hash(password)
         conn = get_db()
@@ -136,6 +151,7 @@ def verify_register():
     except Exception as e:
         return jsonify({'success': False, 'error': f'Database error: {str(e)}'})
 
+# 3. SIGN IN API
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json() or {}
@@ -157,6 +173,7 @@ def api_login():
 
     return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
 
+# 4. HOME STORE
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -167,6 +184,7 @@ def home():
     conn.close()
     return render_template('home.html', user=user)
 
+# 5. LOCATION UPDATE
 @app.route('/api/update-location', methods=['POST'])
 def update_location():
     if 'user_id' not in session:
