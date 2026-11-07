@@ -2,46 +2,107 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Roxen - Sign In & Create Account</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b4629; min-height: 100vh; display: flex; justify-content: center; align-items: flex-end; padding: 0; }
-        .auth-container { width: 100%; max-width: 440px; background: #ffffff; border-top-left-radius: 36px; border-top-right-radius: 36px; padding: 28px 24px 24px; min-height: 88vh; box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .toast-notify { position: absolute; top: 14px; left: 20px; right: 20px; padding: 12px 16px; border-radius: 14px; font-size: 13px; font-weight: 600; display: none; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); z-index: 1000; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0b4629;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 0;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-top-left-radius: 36px;
+            border-top-right-radius: 36px;
+            padding: 28px 24px 24px;
+            min-height: 88vh;
+            box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        @media (min-width: 480px) {
+            body { align-items: center; padding: 20px 0; }
+            .auth-container { border-radius: 36px; min-height: auto; }
+        }
+
+        .toast-notify {
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
         .toast-notify.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
         .toast-notify.success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
         .brand-logo { width: 40px; height: 40px; background: #eaf8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #0e8345; }
         .brand-info h2 { font-size: 20px; font-weight: 800; color: #0d5c3a; line-height: 1.1; }
         .brand-info p { font-size: 10px; font-weight: 700; letter-spacing: 0.9px; color: #7d8c85; margin-top: 3px; }
+
         .badge-sub { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: #0d5c3a; text-transform: uppercase; margin-bottom: 6px; }
         .title { font-size: 26px; font-weight: 800; color: #171d1b; letter-spacing: -0.5px; margin-bottom: 6px; }
         .desc { font-size: 13.5px; color: #707974; margin-bottom: 18px; }
+
         .segmented-control { background-color: #f0f2f1; padding: 5px; border-radius: 18px; display: flex; margin-bottom: 20px; }
         .seg-btn { flex: 1; border: none; background: transparent; padding: 10px 0; font-size: 14px; font-weight: 700; color: #555e5a; border-radius: 14px; cursor: pointer; transition: all 0.25s ease; }
         .seg-btn.active { background: #ffffff; color: #0d5c3a; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+
         .form-section { display: none; }
         .form-section.active { display: block; }
         .field-group { margin-bottom: 14px; }
         .field-group label { display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: #49544f; margin-bottom: 6px; }
+
         .input-box { position: relative; display: flex; align-items: center; }
         .input-box i.lead-icon { position: absolute; left: 16px; font-size: 20px; color: #9aa39e; }
         .input-box input { width: 100%; height: 50px; background: #ffffff; border: 1.5px solid #e5e8e6; border-radius: 14px; padding: 0 44px 0 46px; font-size: 14px; font-weight: 500; color: #1a201e; outline: none; transition: border-color 0.2s ease; }
         .input-box input:focus { border-color: #0e8345; }
         .input-box .toggle-pass { position: absolute; right: 16px; font-size: 20px; color: #7b8580; cursor: pointer; }
+
         .dual-fields { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; }
         .dual-fields .input-box input { padding-left: 14px; padding-right: 10px; font-size: 13.5px; }
+
         .otp-container { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
-        .otp-input { width: 58px; height: 52px; text-align: center; font-size: 22px; font-weight: 700; border: 1.5px solid #e5e8e6; border-radius: 14px; outline: none; color: #0d5c3a; background: #fbfdfc; }
+        .otp-input { width: 22%; height: 52px; text-align: center; font-size: 22px; font-weight: 700; border: 1.5px solid #e5e8e6; border-radius: 14px; outline: none; color: #0d5c3a; background: #fbfdfc; }
         .otp-input:focus { border-color: #0e8345; background: #ffffff; }
+
         .btn-primary { width: 100%; height: 50px; background: #0e8345; color: #ffffff; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 8px 20px rgba(14, 131, 69, 0.25); transition: all 0.2s ease; }
         .btn-primary:disabled { background: #c3d9cd; box-shadow: none; cursor: not-allowed; opacity: 0.8; }
         .btn-primary:not(:disabled):active { transform: scale(0.98); }
+
         .extra-row { display: flex; justify-content: space-between; align-items: center; margin: 14px 0 20px; font-size: 13px; }
         .security-badge { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; color: #7b8580; font-size: 12px; }
         .security-badge i { font-size: 18px; color: #0e8345; }
@@ -50,6 +111,7 @@
 <body>
 
     <div class="auth-container">
+        <!-- Toast Notification Area -->
         <div id="toast" class="toast-notify">
             <i id="toast-icon" class="ph-fill ph-check-circle" style="font-size:18px;"></i>
             <span id="toast-text"></span>
@@ -310,7 +372,6 @@
             });
         }
 
-        // REDIRECT TO SIGN IN AFTER VERIFY
         function verifyOtpAndRegister() {
             let enteredOtp = '';
             document.querySelectorAll('.otp-input').forEach(i => enteredOtp += i.value);
@@ -338,7 +399,6 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    // Show success & switch to signin form automatically!
                     showToast("Account created successfully! Please sign in now.", "success");
                     setTimeout(() => {
                         switchTab('signin');
