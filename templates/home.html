@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Roxen - Fast Grocery Delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Roxen - Delivery in 10 Mins</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -17,7 +17,7 @@
         }
 
         body {
-            background-color: #f3f5f4;
+            background-color: #f1f4f2;
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -30,25 +30,23 @@
             min-height: 100vh;
             padding-bottom: 90px;
             position: relative;
-            box-shadow: 0 0 25px rgba(0,0,0,0.06);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
         }
 
-        /* Top Sticky Header */
+        /* Top Bar */
         .top-bar {
-            padding: 16px 20px 12px;
+            padding: 14px 18px 12px;
             background: #ffffff;
-            border-bottom: 1px solid #f0f2f1;
+            border-bottom: 1px solid #edf1ee;
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
         .delivery-eta {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-
         .eta-badge {
             display: flex;
             align-items: center;
@@ -57,92 +55,83 @@
             font-weight: 800;
             color: #171d1b;
         }
-
         .eta-badge i {
-            color: #0e8345;
+            color: #0c831f;
             font-size: 18px;
         }
-
         .location-bar {
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 12.5px;
             color: #555e5a;
-            margin-top: 4px;
+            margin-top: 3px;
             cursor: pointer;
         }
-
         .location-bar strong {
             color: #171d1b;
             font-weight: 700;
         }
 
         .search-wrap {
-            margin-top: 12px;
+            margin-top: 10px;
             position: relative;
         }
-
         .search-wrap i {
             position: absolute;
             left: 14px;
-            top: 13px;
-            font-size: 19px;
-            color: #7b8580;
+            top: 12px;
+            font-size: 18px;
+            color: #7b8882;
         }
-
         .search-wrap input {
             width: 100%;
-            height: 44px;
-            background: #f3f5f4;
-            border: 1px solid #e7ebe9;
-            border-radius: 14px;
-            padding-left: 42px;
+            height: 42px;
+            background: #f4f6f5;
+            border: 1px solid #e5ebe7;
+            border-radius: 12px;
+            padding-left: 40px;
             padding-right: 14px;
-            font-size: 13.5px;
+            font-size: 13px;
             outline: none;
         }
 
-        /* Banner */
+        /* Promo Banner */
         .hero-banner {
-            margin: 16px 20px;
-            background: linear-gradient(135deg, #eaf8f0 0%, #d5f2e3 100%);
-            border-radius: 20px;
-            padding: 20px 18px;
-            border: 1px solid #c9ecda;
+            margin: 14px 18px;
+            background: linear-gradient(135deg, #e9f8ee 0%, #d4eedb 100%);
+            border-radius: 18px;
+            padding: 18px 16px;
+            border: 1px solid #c2e8cb;
         }
-
         .hero-banner .tag {
             font-size: 10px;
             font-weight: 800;
-            color: #0e8345;
+            color: #0c831f;
             letter-spacing: 0.8px;
             text-transform: uppercase;
         }
-
         .hero-banner h1 {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 800;
-            color: #0d5c3a;
+            color: #0b691b;
             line-height: 1.15;
-            margin: 6px 0 8px;
+            margin: 4px 0 6px;
         }
-
         .hero-banner p {
             font-size: 12px;
-            color: #49544f;
+            color: #43544c;
             line-height: 1.4;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
-
         .hero-banner button {
-            background: #0e8345;
+            background: #0c831f;
             color: #fff;
             border: none;
-            padding: 9px 18px;
-            border-radius: 12px;
+            padding: 8px 16px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12.5px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -151,196 +140,187 @@
 
         /* Categories */
         .section-header {
-            padding: 14px 20px 8px;
+            padding: 12px 18px 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .section-header h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: #171d1b;
         }
-
         .section-header span {
             font-size: 12px;
-            color: #0e8345;
+            color: #0c831f;
             font-weight: 700;
             cursor: pointer;
         }
 
         .cat-scroll {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             overflow-x: auto;
-            padding: 0 20px 10px;
+            padding: 0 18px 10px;
             scrollbar-width: none;
         }
         .cat-scroll::-webkit-scrollbar { display: none; }
-
-        .cat-card { min-width: 70px; text-align: center; }
+        .cat-card { min-width: 68px; text-align: center; }
         .cat-icon {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             background: #f4fbf7;
-            border-radius: 18px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            margin: 0 auto 6px;
-            border: 1px solid #e1f2e8;
+            margin: 0 auto 5px;
+            border: 1px solid #d8ede1;
         }
-        .cat-card span { font-size: 11px; font-weight: 700; color: #37413d; }
+        .cat-card span { font-size: 10.5px; font-weight: 700; color: #37413d; }
 
         /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            padding: 10px 20px;
+            padding: 8px 18px;
         }
-
         .product-card {
             background: #ffffff;
-            border: 1px solid #eef1f0;
-            border-radius: 18px;
-            padding: 12px;
+            border: 1px solid #eef2ef;
+            border-radius: 16px;
+            padding: 10px;
             position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-
         .badge-discount {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #0e8345;
+            top: 8px;
+            left: 8px;
+            background: #0c831f;
             color: #fff;
             font-size: 9.5px;
             font-weight: 800;
-            padding: 3px 6px;
+            padding: 2px 6px;
             border-radius: 6px;
         }
-
-        .prod-img { width: 100%; height: 100px; object-fit: contain; margin: 8px 0; }
-        .prod-brand { font-size: 9.5px; font-weight: 800; color: #0e8345; text-transform: uppercase; }
-        .prod-title { font-size: 13px; font-weight: 700; color: #1a201e; margin: 2px 0 4px; line-height: 1.25; }
-        .prod-unit { font-size: 11px; color: #7b8580; margin-bottom: 8px; }
+        .prod-img { width: 100%; height: 95px; object-fit: contain; margin: 6px 0; }
+        .prod-brand { font-size: 9px; font-weight: 800; color: #0c831f; text-transform: uppercase; }
+        .prod-title { font-size: 12.5px; font-weight: 700; color: #171d1b; margin: 2px 0 4px; line-height: 1.25; }
+        .prod-unit { font-size: 11px; color: #7b8882; margin-bottom: 8px; }
 
         .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
         .price-box { display: flex; flex-direction: column; }
-        .final-price { font-size: 14.5px; font-weight: 800; color: #171d1b; }
-        .mrp { font-size: 10.5px; text-decoration: line-through; color: #9aa39e; }
+        .final-price { font-size: 14px; font-weight: 800; color: #171d1b; }
+        .mrp { font-size: 10px; text-decoration: line-through; color: #9aa39e; }
 
         .btn-add {
             background: #f1f8f4;
-            border: 1.5px solid #0e8345;
-            color: #0e8345;
+            border: 1.5px solid #0c831f;
+            color: #0c831f;
             font-weight: 800;
-            font-size: 12.5px;
+            font-size: 12px;
             padding: 5px 14px;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
         }
-
         .qty-controller {
             display: none;
             align-items: center;
-            background: #0e8345;
-            border-radius: 10px;
+            background: #0c831f;
+            border-radius: 8px;
             padding: 4px 8px;
             gap: 10px;
             color: #fff;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
         }
         .qty-controller span.btn-qty { cursor: pointer; font-size: 15px; user-select: none; }
 
-        /* Floating Cart Strip */
+        /* Floating Cart */
         .cart-float-bar {
             position: fixed;
-            bottom: 80px;
+            bottom: 76px;
             width: calc(100% - 32px);
             max-width: 408px;
             left: 50%;
             transform: translateX(-50%);
-            background: #0e8345;
+            background: #0c831f;
             color: #fff;
-            border-radius: 16px;
-            padding: 12px 18px;
+            border-radius: 14px;
+            padding: 12px 16px;
             display: none;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 25px rgba(14,131,69,0.35);
+            box-shadow: 0 8px 24px rgba(12, 131, 31, 0.3);
             z-index: 99;
             cursor: pointer;
         }
-        .cart-float-bar .items-count { font-size: 10.5px; font-weight: 600; opacity: 0.9; }
-        .cart-float-bar .items-price { font-size: 15px; font-weight: 800; }
-        .cart-float-bar .right { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; gap: 4px; }
+        .cart-float-bar .items-count { font-size: 10px; font-weight: 600; opacity: 0.9; }
+        .cart-float-bar .items-price { font-size: 14.5px; font-weight: 800; }
+        .cart-float-bar .right { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 4px; }
 
-        /* Bottom Nav */
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             width: 100%;
             max-width: 440px;
             background: #ffffff;
-            border-top: 1px solid #eef1f0;
+            border-top: 1px solid #eef1ef;
             display: flex;
             justify-content: space-around;
-            padding: 10px 0 12px;
+            padding: 9px 0 11px;
             z-index: 100;
         }
-
         .nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: #7b8580;
-            font-size: 10px;
+            color: #7b8882;
+            font-size: 9.5px;
             font-weight: 800;
             gap: 3px;
             cursor: pointer;
         }
-        .nav-link i { font-size: 21px; }
-        .nav-link.active { color: #0e8345; }
+        .nav-link i { font-size: 20px; }
+        .nav-link.active { color: #0c831f; }
 
         /* Location Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.45);
             display: none;
             justify-content: center;
             align-items: flex-end;
             z-index: 1000;
         }
-
         .modal-card {
             width: 100%;
             max-width: 440px;
             background: #ffffff;
-            border-top-left-radius: 28px;
-            border-top-right-radius: 28px;
-            padding: 24px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 22px;
             animation: slideIn 0.25s ease;
         }
-        .modal-card h3 { font-size: 18px; font-weight: 800; color: #171d1b; margin-bottom: 12px; }
-        .modal-card input { width: 100%; height: 48px; border: 1.5px solid #e5e8e6; border-radius: 12px; padding: 0 14px; font-size: 14px; margin-bottom: 14px; outline: none; }
-        .modal-card button { width: 100%; height: 48px; background: #0e8345; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
+        .modal-card h3 { font-size: 17px; font-weight: 800; color: #171d1b; margin-bottom: 12px; }
+        .modal-card input { width: 100%; height: 46px; border: 1.5px solid #e5ebe7; border-radius: 12px; padding: 0 14px; font-size: 13.5px; margin-bottom: 12px; outline: none; }
+        .modal-card button { width: 100%; height: 46px; background: #0c831f; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 13.5px; cursor: pointer; }
 
         /* Settings View */
-        #settings-view { display: none; padding: 20px; }
-        .user-card { background: #eaf8f0; border-radius: 20px; padding: 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-        .avatar { width: 50px; height: 50px; background: #0e8345; color: #fff; font-size: 18px; font-weight: 800; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
-        .menu-list { background: #fff; border-radius: 18px; border: 1px solid #eef1f0; overflow: hidden; margin-bottom: 16px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 18px; border-bottom: 1px solid #f6f8f7; color: #222a27; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; }
+        #settings-view { display: none; padding: 18px; }
+        .user-card { background: #eaf7ee; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .avatar { width: 48px; height: 48px; background: #0c831f; color: #fff; font-size: 17px; font-weight: 800; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+        .menu-list { background: #fff; border-radius: 16px; border: 1px solid #edf1ee; overflow: hidden; margin-bottom: 14px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #f6f8f7; color: #222a27; font-size: 13.5px; font-weight: 600; cursor: pointer; }
         .menu-item:last-child { border-bottom: none; }
     </style>
 </head>
@@ -348,7 +328,7 @@
 
     <div class="app-frame">
         
-        <!-- VIEW 1: HOME & PRODUCTS -->
+        <!-- HOME VIEW -->
         <div id="home-view">
             <div class="top-bar">
                 <div class="delivery-eta">
@@ -356,26 +336,26 @@
                         <i class="ph-bold ph-lightning"></i>
                         Delivery in 10-12 Mins
                     </div>
-                    <i class="ph-bold ph-bell" style="font-size:20px; color:#555e5a;"></i>
+                    <i class="ph-bold ph-bell" style="font-size:19px; color:#555e5a;"></i>
                 </div>
                 
                 <div class="location-bar" onclick="openLocationModal()">
-                    <i class="ph-bold ph-map-pin" style="color:#0e8345; font-size:16px;"></i>
+                    <i class="ph-bold ph-map-pin" style="color:#0c831f; font-size:15px;"></i>
                     <span>Delivering to: <strong id="user-location-label">{{ user.address }}</strong></span>
-                    <i class="ph-bold ph-caret-down" style="font-size:12px;"></i>
+                    <i class="ph-bold ph-caret-down" style="font-size:11px;"></i>
                 </div>
 
                 <div class="search-wrap">
                     <i class="ph ph-magnifying-glass"></i>
-                    <input type="text" placeholder="Search groceries, atta, snacks, drinks...">
+                    <input type="text" placeholder="Search groceries, milk, atta, snacks...">
                 </div>
             </div>
 
             <div class="hero-banner">
-                <p class="tag">YOUR EVERYDAY STORE</p>
-                <h1>Daily Needs.<br>Delivered Fast.</h1>
-                <p>From kitchen staples to fresh dairy & snacks — directly to your doorstep.</p>
-                <button>Shop Now <i class="ph-bold ph-arrow-down"></i></button>
+                <p class="tag">INSTANT GROCERY</p>
+                <h1>Daily Needs.<br>Delivered in 10 Mins.</h1>
+                <p>Fresh vegetables, daily dairy & snacks delivered straight to your door.</p>
+                <button>Order Now <i class="ph-bold ph-arrow-down"></i></button>
             </div>
 
             <div class="section-header">
@@ -391,7 +371,7 @@
             </div>
 
             <div class="section-header">
-                <h3>Popular Everyday Picks</h3>
+                <h3>Everyday Best Picks</h3>
             </div>
 
             <div class="products-grid">
@@ -439,42 +419,42 @@
             </div>
         </div>
 
-        <!-- VIEW 2: PROFILE & SETTINGS -->
+        <!-- SETTINGS VIEW -->
         <div id="settings-view">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:18px; color:#171d1b;">Account & Settings</h2>
+            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px; color:#171d1b;">My Account</h2>
 
             <div class="user-card">
                 <div class="avatar">{{ user.name[:2].upper() }}</div>
                 <div>
-                    <h3 style="font-size:17px; font-weight:800; color:#171d1b;">{{ user.name }}</h3>
-                    <p style="font-size:12.5px; color:#555e5a; font-weight:600;">{{ user.phone }}</p>
-                    <p style="font-size:11.5px; color:#7d8c85;">{{ user.email }}</p>
-                    <span style="font-size:10px; font-weight:800; background:#0e8345; color:#fff; padding:2px 8px; border-radius:6px; display:inline-block; margin-top:5px;">Verified User</span>
+                    <h3 style="font-size:16px; font-weight:800; color:#171d1b;">{{ user.name }}</h3>
+                    <p style="font-size:12px; color:#555e5a; font-weight:600;">{{ user.phone }}</p>
+                    <p style="font-size:11px; color:#7d8c85;">{{ user.email }}</p>
+                    <span style="font-size:9.5px; font-weight:800; background:#0c831f; color:#fff; padding:2px 6px; border-radius:5px; display:inline-block; margin-top:4px;">Verified Customer</span>
                 </div>
             </div>
 
-            <p style="font-size:11px; font-weight:800; color:#7b8580; text-transform:uppercase; margin-bottom:8px;">Orders</p>
+            <p style="font-size:10.5px; font-weight:800; color:#7b8882; text-transform:uppercase; margin-bottom:6px;">Orders</p>
             <div class="menu-list">
                 <div class="menu-item">
-                    <span><i class="ph ph-package" style="margin-right:8px; color:#0e8345;"></i> My Orders</span>
+                    <span><i class="ph ph-package" style="margin-right:8px; color:#0c831f;"></i> Order History</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
             </div>
 
-            <p style="font-size:11px; font-weight:800; color:#7b8580; text-transform:uppercase; margin-bottom:8px;">Legal & Support</p>
+            <p style="font-size:10.5px; font-weight:800; color:#7b8882; text-transform:uppercase; margin-bottom:6px;">Support</p>
             <div class="menu-list">
                 <div class="menu-item">
-                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:#0e8345;"></i> Terms & Privacy</span>
+                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:#0c831f;"></i> Privacy Policy</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
                 <div class="menu-item">
-                    <span><i class="ph ph-headphones" style="margin-right:8px; color:#0e8345;"></i> Customer Support</span>
+                    <span><i class="ph ph-headphones" style="margin-right:8px; color:#0c831f;"></i> Customer Support</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
             </div>
 
-            <a href="/logout" style="display:block; text-align:center; padding:14px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:14px; text-decoration:none; margin-top:20px;">
-                Logout Session
+            <a href="/logout" style="display:block; text-align:center; padding:12px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:12px; text-decoration:none; margin-top:16px; font-size:13px;">
+                Logout
             </a>
         </div>
 
@@ -499,22 +479,22 @@
                 <i class="ph ph-squares-four"></i>
                 <span>CATEGORY</span>
             </div>
-            <div class="nav-link" id="nav-cart" onclick="alert('Proceeding to Checkout...')">
+            <div class="nav-link" id="nav-cart" onclick="alert('Opening Checkout Cart...')">
                 <i class="ph ph-shopping-bag"></i>
                 <span>CART</span>
             </div>
             <div class="nav-link" id="nav-settings" onclick="showTab('settings')">
                 <i class="ph ph-user"></i>
-                <span>SETTINGS</span>
+                <span>PROFILE</span>
             </div>
         </div>
 
         <!-- Location Modal -->
         <div class="modal-overlay" id="location-modal">
             <div class="modal-card">
-                <h3>Select Delivery Location</h3>
-                <input type="text" id="new-location-input" placeholder="Enter sector, area or city...">
-                <button onclick="saveLocation()">Update Location</button>
+                <h3>Change Delivery Address</h3>
+                <input type="text" id="new-location-input" placeholder="Enter sector, street or area...">
+                <button onclick="saveLocation()">Save Address</button>
             </div>
         </div>
     </div>
