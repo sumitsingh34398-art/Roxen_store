@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Roxen - Grocery in 10 Mins</title>
-    <!-- Modern Font & Icons -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -23,10 +23,20 @@
             --brand-red: #e11d48;
             --brand-light: #e8f7ee;
             --bg-page: #f8faf9;
+            --card-bg: #ffffff;
             --text-main: #18231e;
             --text-sub: #64736c;
             --border-clr: #e9efe9;
-            --glow-color: rgba(12, 131, 31, 0.2);
+            --glow-color: rgba(12, 131, 31, 0.22);
+        }
+
+        body.dark-theme {
+            --bg-page: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-clr: #334155;
+            --brand-light: #1e3a2b;
         }
 
         body {
@@ -35,12 +45,13 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            transition: background-color 0.2s, color 0.2s;
         }
 
         .app-wrapper {
             width: 100%;
             max-width: 1200px;
-            background: #ffffff;
+            background: var(--card-bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -63,7 +74,7 @@
         .top-navbar {
             position: sticky;
             top: 0;
-            background: #ffffff;
+            background: var(--card-bg);
             z-index: 100;
             padding: 12px 18px;
             border-bottom: 1px solid var(--border-clr);
@@ -82,7 +93,6 @@
             gap: 12px;
         }
 
-        /* Rox (Red) + en (Green) */
         .brand-logo-text {
             font-size: 25px;
             font-weight: 800;
@@ -139,7 +149,7 @@
             border-radius: 12px;
             background: var(--brand-light);
             color: var(--brand-green);
-            border: 1px solid #d4ebd9;
+            border: 1px solid var(--border-clr);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -148,7 +158,7 @@
             transition: all 0.2s;
         }
         .profile-icon-btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
             box-shadow: 0 0 0 3px var(--glow-color);
         }
 
@@ -167,33 +177,35 @@
             width: 100%;
             height: 42px;
             background: #f4f7f5;
-            border: 1.5px solid #e1e7e4;
+            border: 1.5px solid var(--border-clr);
             border-radius: 12px;
             padding: 0 38px 0 42px;
             font-size: 13.5px;
             outline: none;
+            color: var(--text-main);
             transition: all 0.2s;
         }
+        body.dark-theme .search-input { background: #0f172a; }
         .search-input:focus {
-            background: #ffffff;
+            background: var(--card-bg);
             border-color: var(--brand-green);
-            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.1);
+            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.12);
         }
 
-        /* Filter Controls: Only All Items & Under Budget */
+        /* Filter Controls */
         .filter-scroller {
             display: flex;
             gap: 10px;
             align-items: center;
             padding: 10px 18px;
-            background: #ffffff;
+            background: var(--card-bg);
             border-bottom: 1px solid var(--border-clr);
             position: relative;
         }
 
         .filter-chip {
             border: 1.5px solid #d4ded8;
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
@@ -211,13 +223,11 @@
             box-shadow: 0 0 0 3px var(--glow-color);
         }
 
-        /* Fixed Floating Budget Dropdown (Never pushes page down) */
-        .budget-dropdown-wrap {
-            position: relative;
-        }
+        /* Fixed Floating Budget Dropdown */
+        .budget-dropdown-wrap { position: relative; }
         .budget-select-btn {
             border: 1.5px solid #d4ded8;
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
@@ -240,7 +250,7 @@
             position: absolute;
             top: calc(100% + 6px);
             left: 0;
-            background: #ffffff;
+            background: var(--card-bg);
             border: 1px solid var(--border-clr);
             border-radius: 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.12);
@@ -262,14 +272,20 @@
             color: var(--brand-green);
         }
 
-        /* Banner */
+        /* Banner with Rider Tracker Trigger */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
             border-radius: 18px;
             padding: 18px;
             border: 1px solid #c2e8cb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+        .hero-banner:hover { transform: scale(1.01); }
         .hero-content h1 {
             font-size: 20px;
             font-weight: 800;
@@ -299,8 +315,8 @@
         @media (min-width: 950px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
 
         .product-card {
-            background: #ffffff;
-            border: 1px solid #edf1ee;
+            background: var(--card-bg);
+            border: 1px solid var(--border-clr);
             border-radius: 16px;
             padding: 10px;
             position: relative;
@@ -341,6 +357,7 @@
             border-radius: 10px;
             overflow: hidden;
         }
+        body.dark-theme .prod-img-box { background: #0f172a; }
         .prod-img { max-width: 100%; max-height: 105px; object-fit: contain; }
 
         .prod-brand { font-size: 9px; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
@@ -362,7 +379,7 @@
             cursor: pointer;
             transition: all 0.15s;
         }
-        .btn-add:hover { box-shadow: 0 0 0 3px var(--glow-color); }
+        .btn-add:hover { box-shadow: 0 0 0 3px var(--glow-color); transform: scale(1.05); }
         .qty-controller {
             display: none;
             align-items: center;
@@ -397,7 +414,7 @@
         }
         .cart-float-bar:hover { transform: translateX(-50%) scale(1.02); }
 
-        /* Exact Photo 20 Category Grid */
+        /* Categories View */
         #categories-view {
             display: none;
             padding: 18px;
@@ -411,7 +428,7 @@
         @media (min-width: 650px) { .category-exact-grid { grid-template-columns: repeat(3, 1fr); } }
         
         .cat-card-exact {
-            background: #ffffff;
+            background: var(--card-bg);
             border: 1.5px solid var(--border-clr);
             border-radius: 18px;
             padding: 18px 14px;
@@ -426,7 +443,7 @@
         }
         .cat-card-exact.selected {
             border-color: var(--brand-green);
-            background: #f7fdf9;
+            background: var(--brand-light);
         }
         .cat-card-exact .icon-circle {
             width: 60px;
@@ -439,14 +456,15 @@
             font-size: 28px;
             margin: 0 auto 10px;
         }
+        body.dark-theme .cat-card-exact .icon-circle { background: #0f172a; }
         .cat-card-exact h4 { font-size: 13.5px; font-weight: 800; color: var(--text-main); }
         .cat-card-exact p { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
 
-        /* Exact Photos 21, 22, 23, 24, 25 Settings View */
+        /* Settings View */
         #settings-view {
             display: none;
             padding: 18px;
-            background: #f8faf9;
+            background: var(--bg-page);
         }
         .settings-header-title {
             display: flex;
@@ -469,9 +487,9 @@
         }
 
         .settings-card-group {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 18px;
-            border: 1px solid #edf1ee;
+            border: 1px solid var(--border-clr);
             overflow: hidden;
             margin-bottom: 12px;
         }
@@ -481,13 +499,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #f4f7f5;
+            border-bottom: 1px solid var(--border-clr);
             cursor: pointer;
             transition: background 0.15s, transform 0.15s;
         }
         .settings-row-item:last-child { border-bottom: none; }
         .settings-row-item:hover {
-            background: #fafdfb;
+            background: var(--brand-light);
             transform: scale(1.005);
         }
 
@@ -523,7 +541,6 @@
             border-radius: 6px;
         }
         .badge-green { background: #dcfce7; color: #15803d; }
-        .badge-red { background: #fee2e2; color: #b91c1c; }
 
         /* Bottom Tab Navigation */
         .bottom-nav {
@@ -531,7 +548,7 @@
             bottom: 0;
             width: 100%;
             max-width: 1200px;
-            background: #ffffff;
+            background: var(--card-bg);
             border-top: 1px solid var(--border-clr);
             display: flex;
             justify-content: space-around;
@@ -558,7 +575,7 @@
             box-shadow: 0 0 0 2px var(--glow-color);
         }
 
-        /* Exact Photos 18 & 19 Product Detail Sheet */
+        /* Product Detail Modal */
         .prod-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -573,7 +590,7 @@
         .prod-modal-card {
             width: 100%;
             max-width: 480px;
-            background: #ffffff;
+            background: var(--card-bg);
             border-top-left-radius: 26px;
             border-top-right-radius: 26px;
             padding: 22px;
@@ -584,10 +601,33 @@
         }
         @media (min-width: 600px) { .prod-modal-card { border-radius: 24px; } }
 
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .benefit-tag-row {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0 14px;
+        }
+        .benefit-tag {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 10.5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         .pack-size-row {
             display: flex;
             gap: 10px;
-            margin: 10px 0 16px;
+            margin: 8px 0 14px;
         }
         .pack-chip {
             border: 1.5px solid #dbe3de;
@@ -611,8 +651,9 @@
             padding: 6px 14px;
             border-radius: 14px;
             width: fit-content;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
+        body.dark-theme .qty-stepper-box { background: #0f172a; }
         .qty-stepper-box span.btn-step {
             font-size: 18px;
             font-weight: 800;
@@ -638,7 +679,9 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            transition: transform 0.15s;
         }
+        .btn-act-cart:hover { transform: scale(1.02); }
         .btn-act-buy {
             height: 48px;
             background: #111827;
@@ -647,10 +690,71 @@
             border-radius: 12px;
             font-weight: 800;
             cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .btn-act-buy:hover { transform: scale(1.02); }
+
+        /* Checkout Drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+        }
+        .drawer-box {
+            width: 100%;
+            max-width: 450px;
+            background: #f4f6f5;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            animation: slideLeft 0.25s ease-out;
+            overflow-y: auto;
+        }
+        body.dark-theme .drawer-box { background: #0f172a; }
+
+        @keyframes slideLeft {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
-        /* Return & Refund Guidelines Modal */
-        .refund-modal-overlay {
+        .checkout-head {
+            background: var(--card-bg);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-clr);
+        }
+        .checkout-card {
+            background: var(--card-bg);
+            margin: 10px 16px;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid var(--border-clr);
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--text-sub);
+        }
+        .bill-row.strong {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+            border-top: 1px dashed var(--border-clr);
+            padding-top: 10px;
+            margin-top: 8px;
+        }
+
+        /* Generic Center Modals */
+        .center-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6);
@@ -660,12 +764,35 @@
             justify-content: center;
             padding: 16px;
         }
-        .refund-box {
+        .center-modal-box {
             width: 100%;
             max-width: 440px;
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 22px;
             padding: 22px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Cookie Bar */
+        .cookie-persistent-bar {
+            position: fixed;
+            bottom: 82px;
+            left: 16px;
+            right: 16px;
+            max-width: 480px;
+            margin: auto;
+            background: #111827;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 12px 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 999;
         }
     </style>
 </head>
@@ -677,7 +804,6 @@
         <header class="top-navbar" id="main-top-navbar">
             <div class="nav-head">
                 <div class="brand-meta">
-                    <!-- Red Rox + Green en Logo -->
                     <div class="brand-logo-text" onclick="showTab('home')">
                         <i class="ph-fill ph-leaf" style="color:var(--brand-green); margin-right:4px;"></i>
                         <span class="logo-part-red">Rox</span><span class="logo-part-green">en</span>
@@ -695,7 +821,7 @@
                 </div>
 
                 <div class="user-quick-actions">
-                    <div class="profile-icon-btn" onclick="showTab('settings')">
+                    <div class="profile-icon-btn" onclick="openEditProfileModal()">
                         <i class="ph-bold ph-user"></i>
                     </div>
                 </div>
@@ -707,7 +833,7 @@
             </div>
         </header>
 
-        <!-- TOP BAR: ONLY ALL ITEMS & UNDER BUDGET -->
+        <!-- TOP BAR: ALL ITEMS & UNDER BUDGET -->
         <div class="filter-scroller" id="top-filter-bar">
             <div class="filter-chip active" id="chip-all" onclick="setBudgetFilter('all', this)">All Items</div>
 
@@ -731,12 +857,14 @@
 
         <!-- VIEW 1: HOME STORE VIEW -->
         <main id="home-view">
-            <div class="hero-banner">
+            <!-- Hero banner with live delivery partner tracker popup -->
+            <div class="hero-banner" onclick="openRiderTrackerModal()">
                 <div class="hero-content">
                     <p style="font-size:10px; font-weight:800; color:var(--brand-green); letter-spacing:0.8px;">SUPERFAST GROCERY DELIVERY</p>
                     <h1>Daily Fresh Essentials.<br>At Your Door in 10 Mins.</h1>
-                    <p>Dairy, staples, fruits & instant snacks with live doorstep tracking.</p>
+                    <p>Live partner tracking active. Click to view rider status 🛵</p>
                 </div>
+                <div style="font-size:36px; color:var(--brand-green);"><i class="ph-fill ph-moped"></i></div>
             </div>
 
             <div class="section-headline">
@@ -747,7 +875,7 @@
             <div class="products-grid" id="products-container"></div>
         </main>
 
-        <!-- VIEW 2: EXACT PHOTO 20 CATEGORY VIEW -->
+        <!-- VIEW 2: CATEGORY VIEW -->
         <section id="categories-view">
             <div style="margin-bottom: 12px;">
                 <h3 style="font-size:19px; font-weight:800;">Shop by Category</h3>
@@ -788,22 +916,22 @@
             </div>
         </section>
 
-        <!-- VIEW 3: EXACT PHOTOS 21-25 ACCOUNT & SETTINGS VIEW -->
+        <!-- VIEW 3: SETTINGS & ACCOUNT VIEW -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
                     <i class="ph-bold ph-sliders"></i>
                 </div>
-                <h3>Account & Settings</h3>
+                <h3 id="txt-settings-head">Account & Settings</h3>
             </div>
 
-            <!-- QUICK TILES (PHOTO 23) -->
+            <!-- QUICK TILES -->
             <div class="settings-card-group">
-                <div class="settings-row-item" onclick="alert('Viewing Orders...')">
+                <div class="settings-row-item" onclick="openOrdersModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-blue"><i class="ph-bold ph-package"></i></div>
                         <div class="settings-text">
-                            <h5>My Orders</h5>
+                            <h5 id="txt-my-orders">My Orders</h5>
                             <p>View, track and reorder past purchases</p>
                         </div>
                     </div>
@@ -814,7 +942,7 @@
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-amber"><i class="ph-bold ph-arrow-u-up-left"></i></div>
                         <div class="settings-text">
-                            <h5>Return Order</h5>
+                            <h5 id="txt-return-order">Return Order</h5>
                             <p>Report issue & return order</p>
                         </div>
                     </div>
@@ -828,18 +956,18 @@
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-green"><i class="ph-bold ph-shopping-bag"></i></div>
                         <div class="settings-text">
-                            <h5>My Cart</h5>
+                            <h5 id="txt-my-cart">My Cart</h5>
                             <p>Items added to your shopping basket</p>
                         </div>
                     </div>
                     <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                 </div>
 
-                <div class="settings-row-item" onclick="alert('Wishlist is empty!')">
+                <div class="settings-row-item" onclick="openWishlistModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-rose"><i class="ph-bold ph-heart"></i></div>
                         <div class="settings-text">
-                            <h5>Wishlist</h5>
+                            <h5 id="txt-wishlist">Wishlist</h5>
                             <p>Your saved favorite products</p>
                         </div>
                     </div>
@@ -847,10 +975,10 @@
                 </div>
             </div>
 
-            <!-- ACCOUNT SETTINGS (PHOTO 21 & 23) -->
+            <!-- ACCOUNT SETTINGS -->
             <p class="settings-section-title">ACCOUNT SETTINGS</p>
             <div class="settings-card-group">
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="openEditProfileModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-purple"><i class="ph-bold ph-user"></i></div>
                         <div class="settings-text">
@@ -872,16 +1000,16 @@
                     <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                 </div>
 
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="openPaymentMethodsModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-teal"><i class="ph-bold ph-credit-card"></i></div>
                         <div class="settings-text">
                             <h5>Payment Methods</h5>
-                            <p>Manage your default payment option</p>
+                            <p>Manage default payment option</p>
                         </div>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <span class="settings-badge badge-green">COD</span>
+                        <span class="settings-badge badge-green" id="active-pay-badge">PhonePe</span>
                         <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                     </div>
                 </div>
@@ -891,7 +1019,7 @@
                         <div class="settings-icon-box icon-green"><i class="ph-bold ph-arrows-clockwise"></i></div>
                         <div class="settings-text">
                             <h5>Switch Account</h5>
-                            <p>Sign in with another account or register new</p>
+                            <p>Sign in with another account</p>
                         </div>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
@@ -901,10 +1029,10 @@
                 </div>
             </div>
 
-            <!-- PREFERENCES (PHOTO 21 & 22) -->
+            <!-- PREFERENCES -->
             <p class="settings-section-title">PREFERENCES</p>
             <div class="settings-card-group">
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="toggleLanguage()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-blue"><i class="ph-bold ph-translate"></i></div>
                         <div class="settings-text">
@@ -912,10 +1040,10 @@
                             <p>Choose your preferred store language</p>
                         </div>
                     </div>
-                    <span class="settings-badge badge-green">English</span>
+                    <span class="settings-badge badge-green" id="current-lang-badge">English</span>
                 </div>
 
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="openNotificationsModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-blue"><i class="ph-bold ph-bell"></i></div>
                         <div class="settings-text">
@@ -926,67 +1054,56 @@
                     <span class="settings-badge badge-green">3 New</span>
                 </div>
 
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="toggleTheme()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-purple"><i class="ph-bold ph-moon"></i></div>
                         <div class="settings-text">
                             <h5>Appearance</h5>
-                            <p>Choose theme (Light / Dark / System)</p>
+                            <p>Switch Theme (Light / Dark)</p>
                         </div>
                     </div>
-                    <span class="settings-badge badge-green">Light</span>
+                    <span class="settings-badge badge-green" id="theme-badge">Light</span>
                 </div>
             </div>
 
-            <!-- SUPPORT & LEGAL (PHOTO 24 & 25) -->
+            <!-- SUPPORT & LEGAL -->
             <p class="settings-section-title">SUPPORT & LEGAL</p>
             <div class="settings-card-group">
-                <div class="settings-row-item" onclick="openRefundModal()">
+                <div class="settings-row-item" onclick="openHelpSupportModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-teal"><i class="ph-bold ph-headphones"></i></div>
                         <div class="settings-text">
                             <h5>Help & Support</h5>
-                            <p>Get assistance with orders, delivery and refunds</p>
+                            <p>24/7 assistance with orders and delivery</p>
                         </div>
                     </div>
                     <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                 </div>
 
-                <div class="settings-row-item">
+                <div class="settings-row-item" onclick="openCookieManagerModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-amber"><i class="ph-bold ph-cookie"></i></div>
                         <div class="settings-text">
                             <h5>Cookie Settings</h5>
-                            <p>Manage essential, preference & analytics</p>
+                            <p>Manage essential and analytics cookies</p>
                         </div>
                     </div>
-                    <span class="settings-badge badge-green">All Allowed</span>
+                    <span class="settings-badge badge-green" id="cookie-status-badge">All Allowed</span>
                 </div>
 
-                <div class="settings-row-item">
-                    <div class="settings-left-meta">
-                        <div class="settings-icon-box icon-rose"><i class="ph-bold ph-shield-check"></i></div>
-                        <div class="settings-text">
-                            <h5>Account Security</h5>
-                            <p>Password, login activity and security guidelines</p>
-                        </div>
-                    </div>
-                    <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
-                </div>
-
-                <div class="settings-row-item" onclick="openRefundModal()">
+                <div class="settings-row-item" onclick="openLegalTermsModal()">
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-blue"><i class="ph-bold ph-file-text"></i></div>
                         <div class="settings-text">
                             <h5>Legal & Terms</h5>
-                            <p>Terms, Privacy, Refund, Delivery & Cancellation</p>
+                            <p>Terms, Privacy & Cancellation Policy</p>
                         </div>
                     </div>
                     <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                 </div>
             </div>
 
-            <!-- DANGER ZONE (PHOTO 24 & 25) -->
+            <!-- DANGER ZONE -->
             <p class="settings-section-title" style="color:#dc2626;">DANGER ZONE</p>
             <div class="settings-card-group" style="border-color:#fecaca;">
                 <div class="settings-row-item" onclick="location.href='/logout'" style="background:#fff8f8;">
@@ -994,7 +1111,7 @@
                         <div class="settings-icon-box icon-red"><i class="ph-bold ph-sign-out"></i></div>
                         <div class="settings-text">
                             <h5 style="color:#dc2626;">Logout</h5>
-                            <p style="color:#ef4444;">Sign out from your current session</p>
+                            <p style="color:#ef4444;">Sign out from current session</p>
                         </div>
                     </div>
                     <i class="ph-bold ph-caret-right" style="color:#dc2626;"></i>
@@ -1033,28 +1150,38 @@
             </div>
         </nav>
 
-        <!-- EXACT PHOTO 18 & 19 PRODUCT DETAIL MODAL -->
+        <!-- PRODUCT DETAIL MODAL (PHOTOS 18 & 19 MATCH) -->
         <div class="prod-modal-overlay" id="product-detail-modal">
             <div class="prod-modal-card">
-                <i class="ph-bold ph-x" style="position:absolute; right:18px; top:18px; font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <i class="ph-bold ph-arrow-left" style="font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
+                    <i class="ph-bold ph-heart" id="modal-wish-icon" style="font-size:22px; cursor:pointer; color:#94a3b8;" onclick="toggleProductWishlist()"></i>
+                </div>
                 
-                <div style="text-align:center; padding: 10px 0;">
-                    <img id="modal-main-img" src="" alt="Product" style="max-height:180px; max-width:85%; object-fit:contain;">
+                <div style="text-align:center; padding: 6px 0;">
+                    <img id="modal-main-img" src="" alt="Product" style="max-height:170px; max-width:80%; object-fit:contain;">
                 </div>
 
-                <div style="display:flex; justify-content:space-between; align-items:center; margin:12px 0 6px;">
+                <!-- Genuine / Drop / Pay Badges -->
+                <div class="benefit-tag-row">
+                    <span class="benefit-tag"><i class="ph-bold ph-shield-check"></i> 100% Genuine</span>
+                    <span class="benefit-tag"><i class="ph-bold ph-lightning"></i> Fast Drop</span>
+                    <span class="benefit-tag"><i class="ph-bold ph-wallet"></i> Easy Pay</span>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin:8px 0 4px;">
                     <div>
-                        <span id="modal-brand" style="font-size:11px; font-weight:800; color:var(--brand-green); text-transform:uppercase;"></span>
-                        <h3 id="modal-title" style="font-size:17px; font-weight:800;"></h3>
+                        <span id="modal-brand" style="font-size:10.5px; font-weight:800; color:var(--brand-green); text-transform:uppercase;"></span>
+                        <h3 id="modal-title" style="font-size:16.5px; font-weight:800;"></h3>
                     </div>
                     <div style="background:#fef3c7; color:#b45309; padding:4px 8px; border-radius:8px; font-size:11.5px; font-weight:800;">
                         ★ 4.8 (156)
                     </div>
                 </div>
 
-                <p id="modal-desc" style="font-size:12px; color:var(--text-sub); line-height:1.5; margin-bottom:12px;"></p>
+                <p id="modal-desc" style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:10px;"></p>
 
-                <!-- Select Pack Size (Photos 18 & 19) -->
+                <!-- Select Pack Size -->
                 <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">SELECT PACK SIZE</p>
                 <div class="pack-size-row">
                     <div class="pack-chip active" id="chip-pack-1" onclick="switchPack(1)">
@@ -1074,10 +1201,10 @@
                     <span class="btn-step" onclick="adjustModalQty(1)">+</span>
                 </div>
 
-                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #edf1ee; padding-top:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-clr); padding-top:10px;">
                     <div>
-                        <span style="font-size:11px; color:var(--text-sub); text-transform:uppercase; font-weight:700;">TOTAL PAYABLE</span>
-                        <h4 style="font-size:22px; font-weight:800;" id="modal-total-payable">₹20</h4>
+                        <span style="font-size:10.5px; color:var(--text-sub); text-transform:uppercase; font-weight:700;">TOTAL PAYABLE</span>
+                        <h4 style="font-size:20px; font-weight:800; color:var(--brand-green);" id="modal-total-payable">₹20</h4>
                     </div>
                 </div>
 
@@ -1092,33 +1219,185 @@
             </div>
         </div>
 
-        <!-- RETURN & REFUND GUIDELINES MODAL (WITH PHOTO PROOF FLOW) -->
-        <div class="refund-modal-overlay" id="refund-modal">
-            <div class="refund-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h3 style="font-size:17px; font-weight:800;">Instant Refund & Return</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRefundModal()"></i>
-                </div>
-                <p style="font-size:12.5px; color:var(--text-sub); line-height:1.5; margin-bottom:14px;">
-                    Damaged packet or missing items? Upload package photo below for instant 100% wallet / UPI refund.
-                </p>
-
-                <div style="border:2px dashed #d1ded6; border-radius:14px; padding:20px; text-align:center; background:#f9fbfa; margin-bottom:14px; cursor:pointer;">
-                    <i class="ph-bold ph-camera" style="font-size:28px; color:var(--brand-green); margin-bottom:4px;"></i>
-                    <p style="font-size:12px; font-weight:700;">Click to upload proof photo</p>
-                    <span style="font-size:10px; color:var(--text-sub);">JPG, PNG up to 10MB</span>
+        <!-- BLINKIT CHECKOUT DRAWER -->
+        <div class="drawer-overlay" id="cart-drawer">
+            <div class="drawer-box">
+                <div class="checkout-head">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="ph-bold ph-arrow-left" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
+                        <h3 style="font-weight:800; font-size:17px;">Checkout</h3>
+                    </div>
+                    <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
 
-                <input type="text" placeholder="Enter reason (e.g. Broken seal, wrong item)..." style="width:100%; height:42px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px; outline:none;">
-                <button onclick="submitRefundClaim()" style="width:100%; height:46px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
-                    Submit Claim for Instant Refund
+                <div id="cart-items-wrapper"></div>
+
+                <!-- Bill Details Card -->
+                <div class="checkout-card">
+                    <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:8px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
+                        <i class="ph-fill ph-moped" style="font-size:18px;"></i>
+                        <span id="free-delivery-text">Add products worth ₹115 more to get FREE delivery</span>
+                    </div>
+
+                    <h4 style="font-size:14.5px; font-weight:800; margin-bottom:10px;">Bill details</h4>
+                    <div class="bill-row">
+                        <span>Items total</span>
+                        <div>
+                            <span id="bill-savings-tag" style="background:#e0f2fe; color:#0369a1; font-size:10px; font-weight:800; padding:2px 6px; border-radius:5px; margin-right:4px;">Saved ₹0</span>
+                            <strong id="bill-items-total">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="bill-row">
+                        <span>Handling charge</span>
+                        <strong>₹6</strong>
+                    </div>
+                    <div class="bill-row">
+                        <span>Delivery charge</span>
+                        <strong id="bill-delivery-charge">₹35</strong>
+                    </div>
+                    <div class="bill-row strong">
+                        <span>Grand total</span>
+                        <span id="bill-grand-total" style="color:var(--brand-green);">₹0</span>
+                    </div>
+                </div>
+
+                <!-- Selected Address Card -->
+                <div class="checkout-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Delivery Address</span>
+                        <span style="color:var(--brand-green); font-size:12px; font-weight:800; cursor:pointer;" onclick="openLocationModal()">Change</span>
+                    </div>
+                    <p style="font-size:12.5px; font-weight:700;" id="checkout-address-line">Hisar Sector 14, Haryana</p>
+                </div>
+
+                <div style="margin-top:auto; padding:16px; background:var(--card-bg); border-top:1px solid var(--border-clr);">
+                    <button style="width:100%; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="triggerOrderSuccess()">
+                        <span id="btn-total-label">₹0 TOTAL</span>
+                        <span>Place Order <i class="ph-bold ph-caret-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVE DELIVERY PARTNER TRACKER MODAL -->
+        <div class="center-modal-overlay" id="rider-tracker-modal">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Live Delivery Partner Tracking</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRiderTrackerModal()"></i>
+                </div>
+
+                <div style="background:var(--brand-light); border-radius:16px; padding:14px; display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div style="width:48px; height:48px; background:var(--brand-green); color:#fff; font-size:22px; border-radius:14px; display:flex; align-items:center; justify-content:center;">
+                        <i class="ph-fill ph-moped"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <h4 style="font-size:14px; font-weight:800;">Rajesh Kumar (Roxen Pilot)</h4>
+                        <p style="font-size:11.5px; color:var(--text-sub);">Hero Splendor • HR20-AB-1234</p>
+                        <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:1px 6px; border-radius:4px;">★ 4.9 Verified Pilot</span>
+                    </div>
+                    <a href="tel:9602697303" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
+                </div>
+
+                <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
+                    <p style="font-size:12.5px; font-weight:800; color:var(--brand-green);">Order Dispatched from Dark Store (Hisar Hub)</p>
+                    <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">ETA: 8-10 Minutes to your doorstep</p>
+                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">Rampura Beri Area</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOCATION MODAL (REAL GPS + 2 SAVED SLOTS) -->
+        <div class="center-modal-overlay" id="location-modal">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Choose Delivery Location</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeLocationModal()"></i>
+                </div>
+
+                <button id="gps-action-btn" onclick="fetchExactLiveGPS()" style="width:100%; height:44px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:12px; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:14px;">
+                    <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
+                </button>
+
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
+                
+                <div class="settings-row-item" id="slot-1" onclick="selectAddressSlot(1)" style="border:1.5px solid var(--brand-green); border-radius:12px; margin-bottom:8px;">
+                    <div>
+                        <strong style="font-size:12.5px; display:block;">Home Address (Slot 1)</strong>
+                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
+                </div>
+
+                <div class="settings-row-item" id="slot-2" onclick="selectAddressSlot(2)" style="border:1.5px solid var(--border-clr); border-radius:12px; margin-bottom:12px;">
+                    <div>
+                        <strong style="font-size:12.5px; display:block;">Office / Campus (Slot 2)</strong>
+                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
+                </div>
+
+                <input type="text" id="custom-addr-input" placeholder="Type new flat, road or landmark..." style="width:100%; height:42px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; outline:none; margin-bottom:10px;">
+                <button onclick="saveCustomAddress()" style="width:100%; height:42px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Save & Set Location
                 </button>
             </div>
         </div>
 
+        <!-- EDIT PROFILE MODAL -->
+        <div class="center-modal-overlay" id="edit-profile-modal">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Edit Profile</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeEditProfileModal()"></i>
+                </div>
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">FULL NAME</label>
+                <input type="text" id="prof-name-input" value="Sumit Singh" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">MOBILE NUMBER</label>
+                <input type="text" id="prof-phone-input" value="9602697303" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">EMAIL ADDRESS</label>
+                <input type="email" id="prof-email-input" value="sumitsingh34398@gmail.com" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                <button onclick="saveProfileData()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Save Profile Changes
+                </button>
+            </div>
+        </div>
+
+        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
+        <div class="center-modal-overlay" id="refund-modal">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="font-size:17px; font-weight:800;">Instant 100% Refund Claim</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRefundModal()"></i>
+                </div>
+                <p style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:12px;">
+                    Upload photo of broken seal or wrong item. Amount will be credited to UPI/Wallet in 5 mins.
+                </p>
+
+                <div onclick="document.getElementById('proof-photo-file').click()" style="border:2px dashed #bbf7d0; border-radius:14px; padding:20px; text-align:center; background:#f0fdf4; margin-bottom:12px; cursor:pointer;">
+                    <i class="ph-bold ph-camera" style="font-size:30px; color:var(--brand-green);"></i>
+                    <p style="font-size:12px; font-weight:700; margin-top:4px;" id="proof-photo-label">Click to capture / upload item photo</p>
+                </div>
+                <input type="file" id="proof-photo-file" accept="image/*" style="display:none;" onchange="handleProofUploaded(this)">
+
+                <input type="text" placeholder="Reason (e.g. Leaking milk packet)..." style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px;">
+                <button onclick="submitRefundClaim()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Submit Claim for Review
+                </button>
+            </div>
+        </div>
+
+        <!-- COOKIE PERSISTENT BAR (PHOTO 24/25 REQUIREMENT) -->
+        <div class="cookie-persistent-bar" id="cookie-bar">
+            <span style="font-size:11.5px;">We use essential functional cookies for 10-minute location delivery.</span>
+            <button onclick="allowAllCookies()" style="background:var(--brand-green); border:none; color:#fff; font-weight:800; font-size:11px; padding:6px 12px; border-radius:8px; cursor:pointer; white-space:nowrap;">
+                Allow All
+            </button>
+        </div>
+
     </div>
 
-    <!-- SCRIPT DATA & APP LOGIC -->
+    <!-- SCRIPT INVENTORY & LOGIC -->
     <script>
         // Full 70+ Items Inventory Database
         const catalogDB = [
@@ -1204,13 +1483,20 @@
         ];
 
         let cart = {};
+        let wishlist = {};
+        let pastOrders = [
+            { id: "#RX-9081", date: "Today, 4:15 PM", items: "Amul Taaza Milk (2x), Parle-G Gold", total: 154, status: "Delivered" },
+            { id: "#RX-8842", date: "Yesterday", items: "Aashirvaad Atta 5kg, Fortune Oil", total: 330, status: "Delivered" }
+        ];
+
         let activeBudget = 'all';
         let activeCategory = 'all';
         let currentModalProduct = null;
         let selectedPackRatio = 1;
         let modalQuantity = 1;
+        let currentLang = 'en';
 
-        // Render Dynamic Catalog Grid
+        // Render Catalog
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -1263,7 +1549,7 @@
             });
         }
 
-        // Live Search & Multi-Filters
+        // Live Search
         function filterProducts() {
             const query = document.getElementById('search-box').value.toLowerCase().trim();
             const filtered = catalogDB.filter(p => {
@@ -1275,7 +1561,7 @@
             renderProducts(filtered);
         }
 
-        // Budget Pill Menu Logic
+        // Budget Dropdown
         function toggleBudgetMenu() {
             const menu = document.getElementById('budget-menu');
             menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
@@ -1315,7 +1601,7 @@
             filterProducts();
         }
 
-        // Cart Actions
+        // Cart Engine
         function addItem(id) {
             const prod = catalogDB.find(p => p.id === id);
             cart[id] = { ...prod, qty: 1 };
@@ -1348,27 +1634,66 @@
         function syncCheckoutData() {
             let totalCount = 0;
             let itemsTotal = 0;
+            let totalSavings = 0;
+            const itemsWrapper = document.getElementById('cart-items-wrapper');
+            if(itemsWrapper) itemsWrapper.innerHTML = '';
+
             for (let id in cart) {
-                totalCount += cart[id].qty;
-                itemsTotal += (cart[id].qty * cart[id].price);
+                const item = cart[id];
+                totalCount += item.qty;
+                itemsTotal += (item.qty * item.price);
+                totalSavings += (item.qty * (item.mrp - item.price));
+
+                if (itemsWrapper) {
+                    const card = document.createElement('div');
+                    card.className = 'checkout-card';
+                    card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <img src="${item.img}" style="width:44px; height:44px; object-fit:contain; border-radius:8px;">
+                                <div>
+                                    <h5 style="font-size:13px; font-weight:700;">${item.name}</h5>
+                                    <p style="font-size:11px; color:var(--text-sub);">${item.unit}</p>
+                                    <span style="font-size:13px; font-weight:800;">₹${item.price}</span>
+                                </div>
+                            </div>
+                            <div class="qty-controller" style="display:inline-flex;">
+                                <span onclick="changeQty(${item.id}, -1)">-</span>
+                                <span>${item.qty}</span>
+                                <span onclick="changeQty(${item.id}, 1)">+</span>
+                            </div>
+                        </div>
+                    `;
+                    itemsWrapper.appendChild(card);
+                }
+            }
+
+            const handling = itemsTotal > 0 ? 6 : 0;
+            const deliveryCharge = itemsTotal >= 200 || itemsTotal === 0 ? 0 : 35;
+            const grandTotal = itemsTotal + handling + deliveryCharge;
+
+            if(document.getElementById('bill-items-total')) {
+                document.getElementById('bill-items-total').innerText = `₹${itemsTotal}`;
+                document.getElementById('bill-savings-tag').innerText = `Saved ₹${totalSavings}`;
+                document.getElementById('bill-delivery-charge').innerText = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
+                document.getElementById('bill-grand-total').innerText = `₹${grandTotal}`;
+                document.getElementById('btn-total-label').innerText = `₹${grandTotal} TOTAL`;
             }
 
             const floatBar = document.getElementById('float-cart');
             if (totalCount > 0) {
                 floatBar.style.display = 'flex';
                 document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
-                document.getElementById('cart-item-price').innerText = `₹${itemsTotal}`;
+                document.getElementById('cart-item-price').innerText = `₹${grandTotal}`;
             } else {
                 floatBar.style.display = 'none';
             }
         }
 
-        function openCartDrawer() {
-            showTab('home');
-            alert('Your cart contains ' + Object.keys(cart).length + ' distinct items. Proceeding to checkout...');
-        }
+        function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
+        function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Photos 18 & 19 Product Detail Modal Logic
+        // Product Details Modal
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -1381,7 +1706,6 @@
             document.getElementById('modal-title').innerText = p.name;
             document.getElementById('modal-desc').innerText = p.desc;
 
-            // Pack Sizes
             document.getElementById('pack-label-1').innerText = p.unit;
             document.getElementById('pack-price-1').innerText = `₹${p.price}`;
             document.getElementById('pack-label-2').innerText = 'Mega Pack';
@@ -1391,8 +1715,33 @@
             document.getElementById('chip-pack-2').classList.remove('active');
             document.getElementById('modal-qty-val').innerText = '1';
 
+            // Wishlist icon sync
+            const wishIcon = document.getElementById('modal-wish-icon');
+            if (wishlist[p.id]) {
+                wishIcon.className = "ph-fill ph-heart";
+                wishIcon.style.color = "#e11d48";
+            } else {
+                wishIcon.className = "ph-bold ph-heart";
+                wishIcon.style.color = "#94a3b8";
+            }
+
             updateModalCalculations();
             document.getElementById('product-detail-modal').style.display = 'flex';
+        }
+
+        function toggleProductWishlist() {
+            if(!currentModalProduct) return;
+            const id = currentModalProduct.id;
+            const wishIcon = document.getElementById('modal-wish-icon');
+            if(wishlist[id]) {
+                delete wishlist[id];
+                wishIcon.className = "ph-bold ph-heart";
+                wishIcon.style.color = "#94a3b8";
+            } else {
+                wishlist[id] = currentModalProduct;
+                wishIcon.className = "ph-fill ph-heart";
+                wishIcon.style.color = "#e11d48";
+            }
         }
 
         function switchPack(packNum) {
@@ -1430,16 +1779,157 @@
             openCartDrawer();
         }
 
-        function closeProductModal() {
-            document.getElementById('product-detail-modal').style.display = 'none';
+        function closeProductModal() { document.getElementById('product-detail-modal').style.display = 'none'; }
+
+        // Live Geolocation API & Address Slots
+        function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
+        function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
+
+        function selectAddressSlot(slot) {
+            document.getElementById('slot-1').style.borderColor = (slot === 1) ? 'var(--brand-green)' : 'var(--border-clr)';
+            document.getElementById('slot-2').style.borderColor = (slot === 2) ? 'var(--brand-green)' : 'var(--border-clr)';
+            const addr = document.getElementById(`val-addr-${slot}`).innerText;
+            updateActiveLocation(addr);
+            closeLocationModal();
         }
 
-        // Return & Refund Modal
+        function saveCustomAddress() {
+            const input = document.getElementById('custom-addr-input').value.trim();
+            if (input) {
+                document.getElementById('val-addr-1').innerText = input;
+                updateActiveLocation(input);
+            }
+            closeLocationModal();
+        }
+
+        function fetchExactLiveGPS() {
+            const btn = document.getElementById('gps-action-btn');
+            btn.innerHTML = `<i class="ph-bold ph-spinner ph-spin"></i> Getting GPS fix...`;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        const lat = pos.coords.latitude.toFixed(4);
+                        const lon = pos.coords.longitude.toFixed(4);
+                        const exactGps = `GPS: (${lat}, ${lon}) - Rampura Beri Area`;
+                        updateActiveLocation(exactGps);
+                        btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
+                        closeLocationModal();
+                    },
+                    (err) => {
+                        alert("Please enable location permission in your phone/browser settings.");
+                        btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            } else {
+                alert("Geolocation not supported.");
+            }
+        }
+
+        function updateActiveLocation(addr) {
+            document.getElementById('active-location-display').innerText = addr;
+            document.getElementById('checkout-address-line').innerText = addr;
+            if(document.getElementById('rider-dest-address')) {
+                document.getElementById('rider-dest-address').innerText = addr;
+            }
+            fetch('/api/update-location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ address: addr })
+            });
+        }
+
+        // Rider Tracker Modal
+        function openRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'flex'; }
+        function closeRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'none'; }
+
+        // Edit Profile Modal
+        function openEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'flex'; }
+        function closeEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
+        function saveProfileData() {
+            const name = document.getElementById('prof-name-input').value.trim();
+            alert(`Profile Updated for ${name}!`);
+            closeEditProfileModal();
+        }
+
+        // Refund Flow
         function openRefundModal() { document.getElementById('refund-modal').style.display = 'flex'; }
         function closeRefundModal() { document.getElementById('refund-modal').style.display = 'none'; }
+        function handleProofUploaded(input) {
+            if(input.files && input.files[0]) {
+                document.getElementById('proof-photo-label').innerText = `✔ ${input.files[0].name} attached`;
+            }
+        }
         function submitRefundClaim() {
-            alert('Refund ticket generated! 100% amount will be credited to UPI/Wallet in 5 minutes.');
+            alert('Refund claim registered! Our QA team has processed 100% refund to your source payment.');
             closeRefundModal();
+        }
+
+        // Cookie Bar
+        function allowAllCookies() {
+            document.getElementById('cookie-bar').style.display = 'none';
+            document.getElementById('cookie-status-badge').innerText = 'All Allowed';
+            localStorage.setItem('roxen_cookies', 'true');
+        }
+
+        // Order Success
+        function triggerOrderSuccess() {
+            let totalCount = 0;
+            for(let id in cart) totalCount += cart[id].qty;
+            if(totalCount === 0) {
+                alert("Cart is empty!");
+                return;
+            }
+            closeCartDrawer();
+            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
+            alert("Order #RX-2026 Placed Successfully! Delivery partner dispatched.");
+            cart = {};
+            syncCheckoutData();
+            renderProducts(catalogDB);
+        }
+
+        // Settings View Handlers
+        function openOrdersModal() {
+            alert(`You have ${pastOrders.length} past orders delivered.`);
+        }
+        function openWishlistModal() {
+            const count = Object.keys(wishlist).length;
+            alert(count > 0 ? `You have ${count} saved items in wishlist!` : "Wishlist is empty. Tap the heart icon on any product to save it.");
+        }
+        function openPaymentMethodsModal() {
+            alert("Active Payment Mode: PhonePe UPI (Default). You can also choose COD or GPay at checkout.");
+        }
+        function openNotificationsModal() {
+            alert("Notifications:\n1. 10-Minute Superfast delivery live in Hisar.\n2. 50% discount on Amul Paneer.\n3. Wallet cashback credited.");
+        }
+        function openHelpSupportModal() {
+            alert("Roxen 24/7 Support: Need assistance? Email sumitsingh34398@gmail.com or call our delivery helpline.");
+        }
+        function openCookieManagerModal() {
+            allowAllCookies();
+            alert("Cookies set to: All Allowed (Functional & Analytical).");
+        }
+        function openLegalTermsModal() {
+            alert("Legal & Terms: Roxen guarantees 10-minute delivery. Return claims with photographic proof are refunded within 5 minutes.");
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            document.getElementById('theme-badge').innerText = isDark ? 'Dark' : 'Light';
+        }
+
+        // Language Switcher
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'hi' : 'en';
+            document.getElementById('current-lang-badge').innerText = (currentLang === 'en') ? 'English' : 'हिन्दी';
+            document.getElementById('txt-settings-head').innerText = (currentLang === 'en') ? 'Account & Settings' : 'खाता और सेटिंग्स';
+            document.getElementById('txt-my-orders').innerText = (currentLang === 'en') ? 'My Orders' : 'मेरे ऑर्डर्स';
+            document.getElementById('txt-return-order').innerText = (currentLang === 'en') ? 'Return Order' : 'आर्डर वापस करें';
+            document.getElementById('txt-my-cart').innerText = (currentLang === 'en') ? 'My Cart' : 'मेरी टोकरी';
+            document.getElementById('txt-wishlist').innerText = (currentLang === 'en') ? 'Wishlist' : 'पसंदीदा सामान';
         }
 
         // Tab Router
@@ -1449,7 +1939,6 @@
             document.getElementById('categories-view').style.display = 'none';
             document.getElementById('settings-view').style.display = 'none';
 
-            // Top Header elements control
             const topBar = document.getElementById('top-filter-bar');
             const searchWrap = document.getElementById('search-bar-wrap');
 
@@ -1472,7 +1961,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Close dropdown when clicked outside
         window.onclick = function(e) {
             if (!e.target.closest('.budget-dropdown-wrap')) {
                 const menu = document.getElementById('budget-menu');
@@ -1483,6 +1971,9 @@
         window.onload = function() {
             renderProducts(catalogDB);
             syncCheckoutData();
+            if(localStorage.getItem('roxen_cookies') === 'true') {
+                document.getElementById('cookie-bar').style.display = 'none';
+            }
         };
     </script>
 </body>
