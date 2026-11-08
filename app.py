@@ -11,14 +11,14 @@ app = Flask(__name__)
 app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
 # ========================================================
-# 🚀 PRE-CONFIGURED GMAIL SMTP
+# 🚀 PRE-CONFIGURED GMAIL SMTP WITH NEW APP PASSWORD
 # ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
 # ========================================================
 
 def get_db():
-    conn = sqlite3.connect('roxen.db')
+    conn = sqlite3.connect('roxen.db', timeout=10)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -42,11 +42,10 @@ def init_db():
 
 init_db()
 
-# Bulletproof Dual-Port Email Dispatcher
 def send_email_async(email, otp):
     clean_pass = SMTP_PASSWORD.replace(" ", "")
     msg = MIMEMultipart()
-    msg['From'] = f"Roxen Store <{SMTP_EMAIL}>"
+    msg['From'] = f"Roxen Quick Store <{SMTP_EMAIL}>"
     msg['To'] = email
     msg['Subject'] = f"{otp} is your Roxen verification code"
 
@@ -67,25 +66,22 @@ def send_email_async(email, otp):
     """
     msg.attach(MIMEText(html_content, 'html'))
 
-    # Try 1: Port 465 (Direct SSL)
+    # Connection on Port 587 (TLS - Render & Cloud standard)
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=8) as server:
-            server.login(SMTP_EMAIL, clean_pass)
-            server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ [PORT 465] OTP delivered to {email}")
-        return
-    except Exception as e1:
-        print(f"⚠️ Port 465 attempt failed ({e1}), switching to Port 587...")
-
-    # Try 2: Port 587 (TLS Fallback)
-    try:
-        with smtplib.SMTP('smtp.gmail.com', 587, timeout=8) as server:
+        with smtplib.SMTP('smtp.gmail.com', 587, timeout=10) as server:
             server.starttls()
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ [PORT 587] OTP delivered to {email}")
-    except Exception as e2:
-        print(f"❌ Real Delivery Failed: {e2}")
+        print(f"✔ [SUCCESS] OTP delivered to {email}")
+    except Exception as e:
+        print(f"⚠️ Port 587 failed ({e}), trying Port 465 SSL...")
+        try:
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
+                server.login(SMTP_EMAIL, clean_pass)
+                server.sendmail(SMTP_EMAIL, email, msg.as_string())
+            print(f"✔ [SUCCESS] OTP delivered via SSL to {email}")
+        except Exception as e2:
+            print(f"❌ Real Delivery Failed: {e2}")
 
 @app.route('/')
 def root():
@@ -99,7 +95,6 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
-# 1. SEND REAL OTP API
 @app.route('/api/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json() or {}
@@ -116,10 +111,12 @@ def send_otp():
     print(f"👉 Generated OTP for {email}: {otp}")
     print(f"==========================================\n")
 
-    threading.Thread(target=send_email_async, args=(email, otp)).start()
+    thread = threading.Thread(target=send_email_async, args=(email, otp))
+    thread.daemon = True
+    thread.start()
+
     return jsonify({'success': True})
 
-# 2. VERIFY OTP & REGISTER USER
 @app.route('/api/verify-register', methods=['POST'])
 def verify_register():
     try:
@@ -151,7 +148,6 @@ def verify_register():
     except Exception as e:
         return jsonify({'success': False, 'error': f'Database error: {str(e)}'})
 
-# 3. SIGN IN API
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json() or {}
@@ -173,7 +169,6 @@ def api_login():
 
     return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
 
-# 4. HOME STORE
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -184,7 +179,6 @@ def home():
     conn.close()
     return render_template('home.html', user=user)
 
-# 5. LOCATION UPDATE
 @app.route('/api/update-location', methods=['POST'])
 def update_location():
     if 'user_id' not in session:
