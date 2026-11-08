@@ -169,6 +169,7 @@ def api_login():
 
     return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
 
+# UPDATED: Single safe /home route with NoneType prevention
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -177,6 +178,12 @@ def home():
     conn = get_db()
     user = conn.execute('SELECT * FROM users WHERE id = ?', (session['user_id'],)).fetchone()
     conn.close()
+
+    # Agar deployment/restart ke baad user record missing ho, toh crash hone ki jagah auth par redirect karega
+    if not user:
+        session.clear()
+        return redirect(url_for('auth_page'))
+
     return render_template('home.html', user=user)
 
 @app.route('/api/update-location', methods=['POST'])
