@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Roxen - Delivery in 10 Mins</title>
+    <title>Roxen - Fresh Groceries in 10 Mins</title>
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -16,245 +17,466 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        :root {
+            --brand: #0c831f;
+            --brand-light: #e8f7ee;
+            --brand-dark: #085a15;
+            --bg-page: #f5f7f6;
+            --text-main: #18231e;
+            --text-sub: #64736c;
+            --border-clr: #e6ece8;
+        }
+
         body {
-            background-color: #f0f8f3;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
         }
 
-        .app-frame {
+        /* Responsive Layout Engine: Mobile = App Frame, Laptop = Fluid Desktop Dashboard */
+        .app-wrapper {
             width: 100%;
-            max-width: 440px;
+            max-width: 1200px;
             background: #ffffff;
             min-height: 100vh;
-            padding-bottom: 90px;
+            display: flex;
+            flex-direction: column;
             position: relative;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.04);
+            padding-bottom: 80px;
         }
 
-        .top-bar {
-            padding: 14px 18px 12px;
-            background: #ffffff;
-            border-bottom: 1px solid #edf1ee;
+        @media (min-width: 900px) {
+            .app-wrapper {
+                padding-bottom: 30px;
+                margin: 20px auto;
+                border-radius: 24px;
+                min-height: calc(100vh - 40px);
+                overflow: hidden;
+                border: 1px solid var(--border-clr);
+            }
+        }
+
+        /* Top Sticky Navbar */
+        .top-navbar {
             position: sticky;
             top: 0;
+            background: #ffffff;
             z-index: 100;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-clr);
         }
-        .delivery-eta {
+
+        .nav-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 16px;
         }
-        .eta-badge {
+
+        .brand-meta {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 16px;
+            gap: 16px;
+        }
+
+        .brand-logo-text {
+            font-size: 24px;
             font-weight: 800;
-            color: #171d1b;
-        }
-        .eta-badge i { color: #0c831f; font-size: 18px; }
-        .location-bar {
+            color: var(--brand);
+            letter-spacing: -0.6px;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12.5px;
-            color: #555e5a;
-            margin-top: 3px;
+        }
+
+        .location-pill {
+            display: flex;
+            flex-direction: column;
             cursor: pointer;
         }
-        .location-bar strong { color: #171d1b; font-weight: 700; }
 
-        .search-wrap {
-            margin-top: 10px;
+        .eta-title {
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-main);
+        }
+
+        .eta-title i {
+            color: #eab308;
+            font-size: 17px;
+        }
+
+        .location-sub {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            max-width: 240px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .location-sub strong {
+            color: var(--text-main);
+        }
+
+        .user-quick-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .desktop-cart-btn {
+            background: var(--brand);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13.5px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-cart-btn { display: inline-flex; }
+        }
+
+        /* Search & Filter Bar */
+        .search-container {
+            margin-top: 12px;
             position: relative;
         }
-        .search-wrap i {
+
+        .search-container i {
             position: absolute;
             left: 14px;
-            top: 12px;
+            top: 13px;
             font-size: 18px;
-            color: #7b8882;
-        }
-        .search-wrap input {
-            width: 100%;
-            height: 42px;
-            background: #f4f6f5;
-            border: 1px solid #e5ebe7;
-            border-radius: 12px;
-            padding-left: 40px;
-            padding-right: 14px;
-            font-size: 13px;
-            outline: none;
+            color: #8c9892;
         }
 
-        .hero-banner {
-            margin: 14px 18px;
-            background: linear-gradient(135deg, #e9f8ee 0%, #d4eedb 100%);
-            border-radius: 18px;
-            padding: 18px 16px;
-            border: 1px solid #c2e8cb;
+        .search-input {
+            width: 100%;
+            height: 44px;
+            background: #f4f7f5;
+            border: 1.5px solid #e1e7e4;
+            border-radius: 14px;
+            padding: 0 40px 0 42px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
         }
-        .hero-banner .tag {
-            font-size: 10px;
-            font-weight: 800;
-            color: #0c831f;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
+
+        .search-input:focus {
+            background: #ffffff;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.1);
         }
-        .hero-banner h1 {
-            font-size: 21px;
-            font-weight: 800;
-            color: #0b691b;
-            line-height: 1.15;
-            margin: 4px 0 6px;
+
+        /* Budget & Quick Filter Chips */
+        .filter-scroller {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 20px;
+            scrollbar-width: none;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-clr);
         }
-        .hero-banner p {
+        .filter-scroller::-webkit-scrollbar { display: none; }
+
+        .filter-chip {
+            border: 1px solid #d4ded8;
+            background: #ffffff;
+            padding: 7px 15px;
+            border-radius: 20px;
             font-size: 12px;
-            color: #43544c;
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-        .hero-banner button {
-            background: #0c831f;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
             font-weight: 700;
-            font-size: 12.5px;
+            color: var(--text-sub);
+            cursor: pointer;
+            white-space: nowrap;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .section-header {
-            padding: 12px 18px 6px;
+        .filter-chip.active {
+            background: var(--brand);
+            color: #ffffff;
+            border-color: var(--brand);
+            box-shadow: 0 3px 10px rgba(12, 131, 31, 0.2);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            margin: 16px 20px;
+            background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
+            border-radius: 20px;
+            padding: 22px 20px;
+            border: 1px solid #c2e8cb;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .section-header h3 { font-size: 15px; font-weight: 800; color: #171d1b; }
-        .section-header span { font-size: 12px; color: #0c831f; font-weight: 700; cursor: pointer; }
+
+        .hero-content .tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--brand);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--brand-dark);
+            line-height: 1.2;
+            margin: 4px 0 6px;
+        }
+
+        .hero-content p {
+            font-size: 13px;
+            color: #43544c;
+        }
+
+        /* Categories Section */
+        .section-headline {
+            padding: 14px 20px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-headline h3 {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .section-headline span {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--brand);
+            cursor: pointer;
+        }
 
         .cat-scroll {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
-            padding: 0 18px 10px;
+            padding: 4px 20px 14px;
             scrollbar-width: none;
         }
         .cat-scroll::-webkit-scrollbar { display: none; }
-        .cat-card { min-width: 68px; text-align: center; }
+
+        .cat-card {
+            min-width: 76px;
+            text-align: center;
+            cursor: pointer;
+        }
+
         .cat-icon {
-            width: 58px;
-            height: 58px;
+            width: 64px;
+            height: 64px;
             background: #f4fbf7;
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 5px;
-            border: 1px solid #d8ede1;
+            font-size: 26px;
+            margin: 0 auto 6px;
+            border: 1.5px solid #d8ede1;
+            transition: transform 0.2s;
         }
-        .cat-card span { font-size: 10.5px; font-weight: 700; color: #37413d; }
+        .cat-card:active .cat-icon { transform: scale(0.93); }
+        .cat-card span { font-size: 11.5px; font-weight: 700; color: #2e3a34; }
 
+        /* Products Dynamic Grid (Responsive) */
         .products-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding: 8px 18px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            padding: 6px 20px 24px;
         }
+
+        @media (min-width: 650px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 950px) {
+            .products-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
         .product-card {
             background: #ffffff;
-            border: 1px solid #eef2ef;
-            border-radius: 16px;
-            padding: 10px;
+            border: 1px solid #edf1ee;
+            border-radius: 18px;
+            padding: 12px;
             position: relative;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+
+        .product-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
         .badge-discount {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            background: #0c831f;
-            color: #fff;
+            top: 10px;
+            left: 10px;
+            background: var(--brand);
+            color: #ffffff;
             font-size: 9.5px;
             font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 6px;
+            padding: 3px 7px;
+            border-radius: 7px;
         }
-        .prod-img { width: 100%; height: 95px; object-fit: contain; margin: 6px 0; }
-        .prod-brand { font-size: 9px; font-weight: 800; color: #0c831f; text-transform: uppercase; }
-        .prod-title { font-size: 12.5px; font-weight: 700; color: #171d1b; margin: 2px 0 4px; line-height: 1.25; }
-        .prod-unit { font-size: 11px; color: #7b8882; margin-bottom: 8px; }
 
-        .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-        .price-box { display: flex; flex-direction: column; }
-        .final-price { font-size: 14px; font-weight: 800; color: #171d1b; }
-        .mrp { font-size: 10px; text-decoration: line-through; color: #9aa39e; }
+        .prod-img-box {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0 6px;
+            background: #fafcfb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .prod-img {
+            max-width: 100%;
+            max-height: 110px;
+            object-fit: contain;
+        }
+
+        .prod-brand {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .prod-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 2px 0 4px;
+            line-height: 1.3;
+        }
+
+        .prod-unit {
+            font-size: 11.5px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+        }
+
+        .prod-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .price-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .final-price {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .mrp {
+            font-size: 11px;
+            text-decoration: line-through;
+            color: #98a69f;
+        }
 
         .btn-add {
             background: #f1f8f4;
-            border: 1.5px solid #0c831f;
-            color: #0c831f;
+            border: 1.5px solid var(--brand);
+            color: var(--brand);
             font-weight: 800;
-            font-size: 12px;
-            padding: 5px 14px;
-            border-radius: 8px;
+            font-size: 12.5px;
+            padding: 6px 16px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: all 0.15s;
         }
+        .btn-add:active { transform: scale(0.92); }
+
         .qty-controller {
             display: none;
             align-items: center;
-            background: #0c831f;
-            border-radius: 8px;
-            padding: 4px 8px;
-            gap: 10px;
-            color: #fff;
+            background: var(--brand);
+            border-radius: 10px;
+            padding: 5px 9px;
+            gap: 12px;
+            color: #ffffff;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 13px;
         }
-        .qty-controller span.btn-qty { cursor: pointer; font-size: 15px; user-select: none; }
+        .qty-controller span.btn-qty {
+            cursor: pointer;
+            font-size: 16px;
+            user-select: none;
+        }
 
+        /* Floating Bottom Cart Bar (Mobile Only) */
         .cart-float-bar {
             position: fixed;
-            bottom: 76px;
+            bottom: 74px;
             width: calc(100% - 32px);
-            max-width: 408px;
+            max-width: 440px;
             left: 50%;
             transform: translateX(-50%);
-            background: #0c831f;
-            color: #fff;
-            border-radius: 14px;
-            padding: 12px 16px;
+            background: var(--brand);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 13px 18px;
             display: none;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 8px 24px rgba(12, 131, 31, 0.3);
+            box-shadow: 0 10px 30px rgba(12, 131, 31, 0.35);
             z-index: 99;
             cursor: pointer;
         }
-        .cart-float-bar .items-count { font-size: 10px; font-weight: 600; opacity: 0.9; }
-        .cart-float-bar .items-price { font-size: 14.5px; font-weight: 800; }
-        .cart-float-bar .right { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 4px; }
+        .cart-float-bar .items-count { font-size: 10.5px; font-weight: 600; opacity: 0.9; }
+        .cart-float-bar .items-price { font-size: 15px; font-weight: 800; }
+        .cart-float-bar .right { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; gap: 6px; }
 
+        /* Bottom Tab Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             width: 100%;
-            max-width: 440px;
+            max-width: 1200px;
             background: #ffffff;
-            border-top: 1px solid #eef1ef;
+            border-top: 1px solid var(--border-clr);
             display: flex;
             justify-content: space-around;
-            padding: 9px 0 11px;
+            padding: 10px 0 12px;
             z-index: 100;
         }
         .nav-link {
@@ -262,176 +484,295 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: #7b8882;
-            font-size: 9.5px;
+            color: var(--text-sub);
+            font-size: 10px;
             font-weight: 800;
             gap: 3px;
             cursor: pointer;
         }
-        .nav-link i { font-size: 20px; }
-        .nav-link.active { color: #0c831f; }
+        .nav-link i { font-size: 21px; }
+        .nav-link.active { color: var(--brand); }
 
+        /* Sliding Cart Drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .drawer-box {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            animation: slideLeft 0.25s ease-out;
+            padding: 20px;
+        }
+
+        @keyframes slideLeft {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-clr);
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 0;
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border-clr);
+        }
+
+        /* Cookie & Policy Agreement Bar */
+        .cookie-consent-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 480px;
+            margin: auto;
+            background: #18231e;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 999;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cookie-consent-bar p {
+            font-size: 11.5px;
+            color: #d1dbd5;
+            line-height: 1.4;
+        }
+
+        .cookie-consent-bar a {
+            color: #4ade80;
+            text-decoration: underline;
+        }
+
+        .btn-consent {
+            background: var(--brand);
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        /* Location & Address Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0,0,0,0.5);
             display: none;
             justify-content: center;
             align-items: flex-end;
             z-index: 1000;
         }
+        @media (min-width: 600px) {
+            .modal-overlay { align-items: center; }
+        }
+
         .modal-card {
             width: 100%;
             max-width: 440px;
             background: #ffffff;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            padding: 22px;
-            animation: slideIn 0.25s ease;
+            border-top-left-radius: 26px;
+            border-top-right-radius: 26px;
+            padding: 24px 20px;
         }
-        .modal-card h3 { font-size: 17px; font-weight: 800; color: #171d1b; margin-bottom: 12px; }
-        .modal-card input { width: 100%; height: 46px; border: 1.5px solid #e5ebe7; border-radius: 12px; padding: 0 14px; font-size: 13.5px; margin-bottom: 12px; outline: none; }
-        .modal-card button { width: 100%; height: 46px; background: #0c831f; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 13.5px; cursor: pointer; }
+        @media (min-width: 600px) {
+            .modal-card { border-radius: 24px; }
+        }
 
-        #settings-view { display: none; padding: 18px; }
-        .user-card { background: #eaf7ee; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-        .avatar { width: 48px; height: 48px; background: #0c831f; color: #fff; font-size: 17px; font-weight: 800; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
-        .menu-list { background: #fff; border-radius: 16px; border: 1px solid #edf1ee; overflow: hidden; margin-bottom: 14px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #f6f8f7; color: #222a27; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+        .gps-btn {
+            width: 100%;
+            height: 48px;
+            background: var(--brand-light);
+            color: var(--brand);
+            border: 1.5px dashed var(--brand);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-bottom: 14px;
+        }
+
+        /* Settings View */
+        #settings-view { display: none; padding: 20px; }
+        .user-card { background: var(--brand-light); border-radius: 18px; padding: 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .avatar { width: 52px; height: 52px; background: var(--brand); color: #fff; font-size: 18px; font-weight: 800; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+        .menu-list { background: #fff; border-radius: 16px; border: 1px solid var(--border-clr); overflow: hidden; margin-bottom: 16px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid #f6f8f7; color: var(--text-main); font-size: 13.5px; font-weight: 600; text-decoration: none; cursor: pointer; }
         .menu-item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-frame">
+    <div class="app-wrapper">
         
-        <div id="home-view">
-            <div class="top-bar">
-                <div class="delivery-eta">
-                    <div class="eta-badge">
-                        <i class="ph-bold ph-lightning"></i>
-                        Delivery in 10-12 Mins
-                    </div>
-                    <i class="ph-bold ph-bell" style="font-size:19px; color:#555e5a;"></i>
-                </div>
-                
-                <div class="location-bar" onclick="openLocationModal()">
-                    <i class="ph-bold ph-map-pin" style="color:#0c831f; font-size:15px;"></i>
-                    <span>Delivering to: <strong id="user-location-label">{{ user.address }}</strong></span>
-                    <i class="ph-bold ph-caret-down" style="font-size:11px;"></i>
-                </div>
-
-                <div class="search-wrap">
-                    <i class="ph ph-magnifying-glass"></i>
-                    <input type="text" placeholder="Search groceries, milk, atta, snacks...">
-                </div>
-            </div>
-
-            <div class="hero-banner">
-                <p class="tag">INSTANT GROCERY</p>
-                <h1>Daily Needs.<br>Delivered in 10 Mins.</h1>
-                <p>Fresh vegetables, daily dairy & snacks delivered straight to your door.</p>
-                <button>Order Now <i class="ph-bold ph-arrow-down"></i></button>
-            </div>
-
-            <div class="section-header">
-                <h3>Categories</h3>
-                <span>View All</span>
-            </div>
-            <div class="cat-scroll">
-                <div class="cat-card"><div class="cat-icon">🥛</div><span>Dairy</span></div>
-                <div class="cat-card"><div class="cat-icon">🍪</div><span>Snacks</span></div>
-                <div class="cat-card"><div class="cat-icon">🥤</div><span>Drinks</span></div>
-                <div class="cat-card"><div class="cat-icon">🌾</div><span>Atta & Dal</span></div>
-                <div class="cat-card"><div class="cat-icon">🧼</div><span>Care</span></div>
-            </div>
-
-            <div class="section-header">
-                <h3>Everyday Best Picks</h3>
-            </div>
-
-            <div class="products-grid">
-                <div class="product-card">
-                    <span class="badge-discount">9% OFF</span>
-                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300" class="prod-img">
-                    <span class="prod-brand">PARLE</span>
-                    <h4 class="prod-title">Parle-G Gold Biscuits</h4>
-                    <p class="prod-unit">1 kg</p>
-                    <div class="prod-footer">
-                        <div class="price-box">
-                            <span class="final-price">₹100</span>
-                            <span class="mrp">₹110</span>
+        <!-- TOP STICKY BAR -->
+        <header class="top-navbar">
+            <div class="nav-head">
+                <div class="brand-meta">
+                    <span class="brand-logo-text"><i class="ph-fill ph-leaf"></i> Roxen</span>
+                    
+                    <div class="location-pill" onclick="openLocationModal()">
+                        <div class="eta-title">
+                            <i class="ph-fill ph-lightning"></i> 10-12 Mins
                         </div>
-                        <button class="btn-add" id="btn-add-1" onclick="addItem(1, 'Parle-G Gold', 100)">ADD</button>
-                        <div class="qty-controller" id="qty-box-1">
-                            <span class="btn-qty" onclick="changeQty(1, -1)">-</span>
-                            <span id="qty-val-1">1</span>
-                            <span class="btn-qty" onclick="changeQty(1, 1)">+</span>
+                        <div class="location-sub">
+                            <span>To: <strong id="user-location-label">{{ user.address }}</strong></span>
+                            <i class="ph-bold ph-caret-down"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
-                    <span class="badge-discount">8% OFF</span>
-                    <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="prod-img">
-                    <span class="prod-brand">REAL</span>
-                    <h4 class="prod-title">Real Fruit Juice Active</h4>
-                    <p class="prod-unit">1 L</p>
-                    <div class="prod-footer">
-                        <div class="price-box">
-                            <span class="final-price">₹115</span>
-                            <span class="mrp">₹125</span>
-                        </div>
-                        <button class="btn-add" id="btn-add-2" onclick="addItem(2, 'Real Fruit Juice', 115)">ADD</button>
-                        <div class="qty-controller" id="qty-box-2">
-                            <span class="btn-qty" onclick="changeQty(2, -1)">-</span>
-                            <span id="qty-val-2">1</span>
-                            <span class="btn-qty" onclick="changeQty(2, 1)">+</span>
-                        </div>
-                    </div>
+                <div class="user-quick-actions">
+                    <button class="desktop-cart-btn" onclick="openCartDrawer()">
+                        <i class="ph-bold ph-shopping-bag"></i>
+                        <span id="desk-cart-count">0 items</span> • <span id="desk-cart-price">₹0</span>
+                    </button>
+                    <i class="ph-bold ph-bell" style="font-size:20px; color:#555e5a; cursor:pointer;"></i>
                 </div>
             </div>
+
+            <!-- SEARCH BAR -->
+            <div class="search-container">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" id="search-box" class="search-input" placeholder="Search groceries, milk, atta, snacks, cold drinks..." onkeyup="filterProducts()">
+            </div>
+        </header>
+
+        <!-- BUDGET & CATEGORY QUICK FILTER CHIPS -->
+        <div class="filter-scroller">
+            <div class="filter-chip active" onclick="setBudgetFilter('all', this)">All Items</div>
+            <div class="filter-chip" onclick="setBudgetFilter(50, this)">Under ₹50</div>
+            <div class="filter-chip" onclick="setBudgetFilter(100, this)">Under ₹100</div>
+            <div class="filter-chip" onclick="setBudgetFilter(200, this)">Under ₹200</div>
+            <div class="filter-chip" onclick="filterByCategory('Dairy', this)">🥛 Milk & Dairy</div>
+            <div class="filter-chip" onclick="filterByCategory('Snacks', this)">🍪 Munchies</div>
+            <div class="filter-chip" onclick="filterByCategory('Drinks', this)">🥤 Cold Drinks</div>
+            <div class="filter-chip" onclick="filterByCategory('Atta & Dal', this)">🌾 Kitchen Staples</div>
         </div>
 
-        <div id="settings-view">
-            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px; color:#171d1b;">My Account</h2>
+        <!-- MAIN STORE VIEW -->
+        <main id="home-view">
+            <!-- Promo Banner -->
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <p class="tag">SUPERFAST GROCERY DELIVERY</p>
+                    <h1>Daily Needs.<br>Delivered in 10 Mins.</h1>
+                    <p>Farm fresh fruits, daily staples & household items straight to your home.</p>
+                </div>
+            </div>
+
+            <!-- Categories Scroller -->
+            <div class="section-headline">
+                <h3>Shop By Category</h3>
+                <span onclick="setBudgetFilter('all', null)">View All</span>
+            </div>
+            <div class="cat-scroll">
+                <div class="cat-card" onclick="filterByCategory('Dairy', null)"><div class="cat-icon">🥛</div><span>Dairy</span></div>
+                <div class="cat-card" onclick="filterByCategory('Snacks', null)"><div class="cat-icon">🍪</div><span>Snacks</span></div>
+                <div class="cat-card" onclick="filterByCategory('Drinks', null)"><div class="cat-icon">🥤</div><span>Drinks</span></div>
+                <div class="cat-card" onclick="filterByCategory('Atta & Dal', null)"><div class="cat-icon">🌾</div><span>Atta & Dal</span></div>
+                <div class="cat-card" onclick="filterByCategory('Care', null)"><div class="cat-icon">🧼</div><span>Care</span></div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="section-headline">
+                <h3 id="section-title">Popular Everyday Picks</h3>
+                <span id="items-found-count">Showing All</span>
+            </div>
+
+            <!-- Product Cards Grid (Dynamic JS Filtered) -->
+            <div class="products-grid" id="products-container">
+                <!-- Products rendered via JS -->
+            </div>
+        </main>
+
+        <!-- PROFILE & SETTINGS VIEW -->
+        <section id="settings-view">
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:18px; color:var(--text-main);">My Account</h2>
 
             <div class="user-card">
                 <div class="avatar">{{ user.name[:2].upper() }}</div>
                 <div>
-                    <h3 style="font-size:16px; font-weight:800; color:#171d1b;">{{ user.name }}</h3>
-                    <p style="font-size:12px; color:#555e5a; font-weight:600;">{{ user.phone }}</p>
-                    <p style="font-size:11px; color:#7d8c85;">{{ user.email }}</p>
-                    <span style="font-size:9.5px; font-weight:800; background:#0c831f; color:#fff; padding:2px 6px; border-radius:5px; display:inline-block; margin-top:4px;">Verified Customer</span>
+                    <h3 style="font-size:17px; font-weight:800; color:var(--text-main);">{{ user.name }}</h3>
+                    <p style="font-size:12.5px; color:var(--text-sub); font-weight:600;">{{ user.phone }}</p>
+                    <p style="font-size:11.5px; color:#85968e;">{{ user.email }}</p>
+                    <span style="font-size:10px; font-weight:800; background:var(--brand); color:#fff; padding:2px 8px; border-radius:6px; display:inline-block; margin-top:5px;">Verified Customer</span>
                 </div>
             </div>
 
-            <p style="font-size:10.5px; font-weight:800; color:#7b8882; text-transform:uppercase; margin-bottom:6px;">Orders</p>
+            <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Orders & History</p>
             <div class="menu-list">
                 <div class="menu-item">
-                    <span><i class="ph ph-package" style="margin-right:8px; color:#0c831f;"></i> Order History</span>
+                    <span><i class="ph ph-package" style="margin-right:8px; color:var(--brand);"></i> My Orders</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
             </div>
 
-            <p style="font-size:10.5px; font-weight:800; color:#7b8882; text-transform:uppercase; margin-bottom:6px;">Support</p>
+            <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Legal & Settings</p>
             <div class="menu-list">
-                <div class="menu-item">
-                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:#0c831f;"></i> Privacy Policy</span>
+                <div class="menu-item" onclick="openLocationModal()">
+                    <span><i class="ph ph-map-pin" style="margin-right:8px; color:var(--brand);"></i> Saved Addresses</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
                 <div class="menu-item">
-                    <span><i class="ph ph-headphones" style="margin-right:8px; color:#0c831f;"></i> Customer Support</span>
+                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:var(--brand);"></i> Privacy Policy & Cookies</span>
+                    <i class="ph ph-caret-right"></i>
+                </div>
+                <div class="menu-item">
+                    <span><i class="ph ph-headphones" style="margin-right:8px; color:var(--brand);"></i> 24/7 Customer Support</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
             </div>
 
-            <a href="/logout" style="display:block; text-align:center; padding:12px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:12px; text-decoration:none; margin-top:16px; font-size:13px;">
-                Logout
+            <a href="/logout" style="display:block; text-align:center; padding:13px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:14px; text-decoration:none; margin-top:20px;">
+                Logout Session
             </a>
-        </div>
+        </section>
 
-        <div id="float-cart" class="cart-float-bar">
+        <!-- FLOATING BOTTOM CART BAR (Mobile) -->
+        <div id="float-cart" class="cart-float-bar" onclick="openCartDrawer()">
             <div>
                 <div class="items-count" id="cart-item-count">0 ITEMS</div>
                 <div class="items-price" id="cart-item-price">₹0</div>
@@ -441,7 +782,8 @@
             </div>
         </div>
 
-        <div class="bottom-nav">
+        <!-- BOTTOM TAB NAVIGATION -->
+        <nav class="bottom-nav">
             <div class="nav-link active" id="nav-home" onclick="showTab('home')">
                 <i class="ph-fill ph-house"></i>
                 <span>HOME</span>
@@ -450,7 +792,7 @@
                 <i class="ph ph-squares-four"></i>
                 <span>CATEGORY</span>
             </div>
-            <div class="nav-link" id="nav-cart" onclick="alert('Opening Checkout Cart...')">
+            <div class="nav-link" id="nav-cart" onclick="openCartDrawer()">
                 <i class="ph ph-shopping-bag"></i>
                 <span>CART</span>
             </div>
@@ -458,20 +800,286 @@
                 <i class="ph ph-user"></i>
                 <span>PROFILE</span>
             </div>
-        </div>
+        </nav>
 
-        <div class="modal-overlay" id="location-modal">
-            <div class="modal-card">
-                <h3>Change Delivery Address</h3>
-                <input type="text" id="new-location-input" placeholder="Enter sector, street or area...">
-                <button onclick="saveLocation()">Save Address</button>
+        <!-- SLIDING CART DRAWER -->
+        <div class="drawer-overlay" id="cart-drawer">
+            <div class="drawer-box">
+                <div class="drawer-header">
+                    <h3 style="font-weight:800; font-size:18px;">My Shopping Cart</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
+                </div>
+                
+                <div class="cart-items-list" id="cart-items-container">
+                    <!-- Items appended via JS -->
+                </div>
+
+                <div style="border-top: 1px solid var(--border-clr); padding-top: 14px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px; color:var(--text-sub);">
+                        <span>Item Total</span>
+                        <strong id="drawer-subtotal">₹0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:13px; color:var(--text-sub);">
+                        <span>Delivery Partner Fee</span>
+                        <span style="color:var(--brand); font-weight:700;">FREE</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-size:16px; font-weight:800;">
+                        <span>To Pay</span>
+                        <span id="drawer-grandtotal" style="color:var(--brand);">₹0</span>
+                    </div>
+                    <button style="width:100%; height:50px; background:var(--brand); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:15px; cursor:pointer;" onclick="alert('Order Placed Successfully! Your delivery partner is assigned.')">
+                        Place Delivery Order
+                    </button>
+                </div>
             </div>
         </div>
+
+        <!-- LOCATION & LIVE GPS MODAL -->
+        <div class="modal-overlay" id="location-modal">
+            <div class="modal-card">
+                <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Select Delivery Location</h3>
+                
+                <!-- Live GPS Button -->
+                <button class="gps-btn" onclick="fetchLiveGPSLocation()">
+                    <i class="ph-fill ph-navigation-arrow"></i> Use Current GPS Location
+                </button>
+
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:6px;">Or Enter Address Manually</p>
+                <input type="text" id="manual-address-input" placeholder="Flat, Sector, Street, Hisar..." style="width:100%; height:46px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 14px; font-size:13.5px; margin-bottom:12px; outline:none;">
+                <button onclick="saveManualLocation()" style="width:100%; height:46px; background:var(--brand); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Confirm Location</button>
+            </div>
+        </div>
+
+        <!-- COOKIE & PRIVACY AGREEMENT BAR -->
+        <div class="cookie-consent-bar" id="cookie-banner">
+            <p>We use cookies & location services to guarantee 10-minute delivery. By shopping, you agree to our <a href="#">Terms & Privacy</a>.</p>
+            <button class="btn-consent" onclick="acceptPolicy()">Accept</button>
+        </div>
+
     </div>
 
+    <!-- SCRIPT ENGINE -->
     <script>
-        let cart = {};
+        // Real Product Inventory Database
+        const productsDB = [
+            { id: 1, name: "Amul Taaza Fresh Toned Milk", brand: "AMUL", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" },
+            { id: 2, name: "Parle-G Gold Glucose Biscuits", brand: "PARLE", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300" },
+            { id: 3, name: "Real Fruit Power Mixed Fruit Juice", brand: "REAL", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" },
+            { id: 4, name: "Aashirvaad Shudh Chakki Atta", brand: "AASHIRVAAD", category: "Atta & Dal", price: 195, mrp: 220, unit: "5 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" },
+            { id: 5, name: "Dettol Original Germ Protection Soap", brand: "DETTOL", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300" },
+            { id: 6, name: "Lay's India's Magic Masala Chips", brand: "LAYS", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300" },
+            { id: 7, name: "Tata Salt Vacuum Evaporated", brand: "TATA", category: "Atta & Dal", price: 28, mrp: 30, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300" },
+            { id: 8, name: "Coca-Cola Zero Sugar Can", brand: "COCA-COLA", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300" }
+        ];
 
+        let cart = {};
+        let activeBudget = 'all';
+        let activeCategory = 'all';
+
+        // Render Dynamic Products to Grid
+        function renderProducts(items) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px 10px; color: var(--text-sub);">
+                    <i class="ph ph-magnifying-glass" style="font-size:36px; margin-bottom:8px;"></i>
+                    <p>No products found under this budget/search.</p>
+                </div>`;
+                document.getElementById('items-found-count').innerText = `0 items`;
+                return;
+            }
+
+            document.getElementById('items-found-count').innerText = `${items.length} items found`;
+
+            items.forEach(p => {
+                const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
+                const isItemInCart = cart[p.id] && cart[p.id].qty > 0;
+                const qty = isItemInCart ? cart[p.id].qty : 0;
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    ${discount > 0 ? `<span class="badge-discount">${discount}% OFF</span>` : ''}
+                    <div class="prod-img-box">
+                        <img src="${p.img}" class="prod-img" alt="${p.name}">
+                    </div>
+                    <span class="prod-brand">${p.brand}</span>
+                    <h4 class="prod-title">${p.name}</h4>
+                    <p class="prod-unit">${p.unit}</p>
+                    <div class="prod-footer">
+                        <div class="price-box">
+                            <span class="final-price">₹${p.price}</span>
+                            ${p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ''}
+                        </div>
+                        <button class="btn-add" id="btn-add-${p.id}" onclick="addItem(${p.id})" style="display: ${isItemInCart ? 'none' : 'inline-block'};">ADD</button>
+                        <div class="qty-controller" id="qty-box-${p.id}" style="display: ${isItemInCart ? 'inline-flex' : 'none'};">
+                            <span class="btn-qty" onclick="changeQty(${p.id}, -1)">-</span>
+                            <span id="qty-val-${p.id}">${qty}</span>
+                            <span class="btn-qty" onclick="changeQty(${p.id}, 1)">+</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Live Search & Multi-Filter Logic
+        function filterProducts() {
+            const query = document.getElementById('search-box').value.toLowerCase().trim();
+            
+            const filtered = productsDB.filter(p => {
+                const matchesQuery = p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+                const matchesCategory = (activeCategory === 'all') || (p.category.toLowerCase() === activeCategory.toLowerCase());
+                const matchesBudget = (activeBudget === 'all') || (p.price <= activeBudget);
+
+                return matchesQuery && matchesCategory && matchesBudget;
+            });
+
+            renderProducts(filtered);
+        }
+
+        function setBudgetFilter(limit, el) {
+            activeBudget = limit;
+            activeCategory = 'all';
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if(el) el.classList.add('active');
+            filterProducts();
+        }
+
+        function filterByCategory(cat, el) {
+            activeCategory = cat;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if(el) el.classList.add('active');
+            filterProducts();
+        }
+
+        // Cart State & Counters
+        function addItem(id) {
+            const prod = productsDB.find(p => p.id === id);
+            cart[id] = { ...prod, qty: 1 };
+            updateProductCardUI(id);
+            updateCartTotals();
+        }
+
+        function changeQty(id, delta) {
+            if (!cart[id]) return;
+            cart[id].qty += delta;
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+            }
+            updateProductCardUI(id);
+            updateCartTotals();
+        }
+
+        function updateProductCardUI(id) {
+            const addBtn = document.getElementById(`btn-add-${id}`);
+            const qtyBox = document.getElementById(`qty-box-${id}`);
+            const qtyVal = document.getElementById(`qty-val-${id}`);
+
+            if (cart[id] && cart[id].qty > 0) {
+                if(addBtn) addBtn.style.display = 'none';
+                if(qtyBox) qtyBox.style.display = 'inline-flex';
+                if(qtyVal) qtyVal.innerText = cart[id].qty;
+            } else {
+                if(addBtn) addBtn.style.display = 'inline-block';
+                if(qtyBox) qtyBox.style.display = 'none';
+            }
+        }
+
+        function updateCartTotals() {
+            let totalCount = 0;
+            let totalPrice = 0;
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            for (let id in cart) {
+                const item = cart[id];
+                totalCount += item.qty;
+                totalPrice += (item.qty * item.price);
+
+                // Populate sliding drawer rows
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.innerHTML = `
+                    <div>
+                        <h5 style="font-size:13px; font-weight:700;">${item.name}</h5>
+                        <p style="font-size:11px; color:var(--text-sub);">₹${item.price} × ${item.qty}</p>
+                    </div>
+                    <div style="font-size:14px; font-weight:800; color:var(--brand);">₹${item.price * item.qty}</div>
+                `;
+                container.appendChild(row);
+            }
+
+            // Mobile Floating Bar
+            const bar = document.getElementById('float-cart');
+            if (totalCount > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
+                document.getElementById('cart-item-price').innerText = `₹${totalPrice}`;
+            } else {
+                bar.style.display = 'none';
+            }
+
+            // Desktop Top Navbar Cart
+            document.getElementById('desk-cart-count').innerText = `${totalCount} items`;
+            document.getElementById('desk-cart-price').innerText = `₹${totalPrice}`;
+
+            // Drawer
+            document.getElementById('drawer-subtotal').innerText = `₹${totalPrice}`;
+            document.getElementById('drawer-grandtotal').innerText = `₹${totalPrice}`;
+        }
+
+        function openCartDrawer() {
+            document.getElementById('cart-drawer').style.display = 'flex';
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer').style.display = 'none';
+        }
+
+        // Live Geolocation API & Modal
+        function openLocationModal() {
+            document.getElementById('location-modal').style.display = 'flex';
+        }
+
+        function saveManualLocation() {
+            const addr = document.getElementById('manual-address-input').value.trim();
+            if (addr) {
+                updateLocationBackend(addr);
+            }
+            document.getElementById('location-modal').style.display = 'none';
+        }
+
+        function fetchLiveGPSLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude.toFixed(4);
+                        const lon = position.coords.longitude.toFixed(4);
+                        const gpsAddress = `GPS (${lat}, ${lon}), Hisar Sector Area`;
+                        updateLocationBackend(gpsAddress);
+                        document.getElementById('location-modal').style.display = 'none';
+                    },
+                    (error) => {
+                        alert("GPS Permission denied or unavailable. Please type your address manually.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        function updateLocationBackend(address) {
+            document.getElementById('user-location-label').innerText = address;
+            fetch('/api/update-location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ address: address })
+            });
+        }
+
+        // Tab Switching
         function showTab(tab) {
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-settings').classList.remove('active');
@@ -487,62 +1095,18 @@
             }
         }
 
-        function addItem(id, title, price) {
-            cart[id] = { title: title, price: price, qty: 1 };
-            document.getElementById(`btn-add-${id}`).style.display = 'none';
-            document.getElementById(`qty-box-${id}`).style.display = 'inline-flex';
-            document.getElementById(`qty-val-${id}`).innerText = 1;
-            updateCartBar();
+        // Cookie Policy Handlers
+        function acceptPolicy() {
+            localStorage.setItem('roxen_policy_accepted', 'true');
+            document.getElementById('cookie-banner').style.display = 'none';
         }
 
-        function changeQty(id, delta) {
-            if (!cart[id]) return;
-            cart[id].qty += delta;
-
-            if (cart[id].qty <= 0) {
-                delete cart[id];
-                document.getElementById(`btn-add-${id}`).style.display = 'inline-block';
-                document.getElementById(`qty-box-${id}`).style.display = 'none';
-            } else {
-                document.getElementById(`qty-val-${id}`).innerText = cart[id].qty;
+        window.onload = function() {
+            renderProducts(productsDB);
+            if (localStorage.getItem('roxen_policy_accepted') === 'true') {
+                document.getElementById('cookie-banner').style.display = 'none';
             }
-            updateCartBar();
-        }
-
-        function updateCartBar() {
-            let totalCount = 0;
-            let totalPrice = 0;
-            for (let id in cart) {
-                totalCount += cart[id].qty;
-                totalPrice += (cart[id].qty * cart[id].price);
-            }
-
-            const bar = document.getElementById('float-cart');
-            if (totalCount > 0) {
-                bar.style.display = 'flex';
-                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
-                document.getElementById('cart-item-price').innerText = `₹${totalPrice}`;
-            } else {
-                bar.style.display = 'none';
-            }
-        }
-
-        function openLocationModal() {
-            document.getElementById('location-modal').style.display = 'flex';
-        }
-
-        function saveLocation() {
-            const loc = document.getElementById('new-location-input').value.trim();
-            if (loc) {
-                document.getElementById('user-location-label').innerText = loc;
-                fetch('/api/update-location', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: loc })
-                });
-            }
-            document.getElementById('location-modal').style.display = 'none';
-        }
+        };
     </script>
 </body>
 </html>
