@@ -10,12 +10,8 @@ from email.mime.multipart import MIMEMultipart
 app = Flask(__name__)
 app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
-# ========================================================
-# 🚀 PRE-CONFIGURED GMAIL SMTP WITH NEW APP PASSWORD
-# ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
-# ========================================================
 
 def get_db():
     conn = sqlite3.connect('roxen.db', timeout=10)
@@ -66,7 +62,6 @@ def send_email_async(email, otp):
     """
     msg.attach(MIMEText(html_content, 'html'))
 
-    # Connection on Port 587 (TLS - Render & Cloud standard)
     try:
         with smtplib.SMTP('smtp.gmail.com', 587, timeout=10) as server:
             server.starttls()
@@ -74,7 +69,6 @@ def send_email_async(email, otp):
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
         print(f"✔ [SUCCESS] OTP delivered to {email}")
     except Exception as e:
-        print(f"⚠️ Port 587 failed ({e}), trying Port 465 SSL...")
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
                 server.login(SMTP_EMAIL, clean_pass)
@@ -95,6 +89,68 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
+# DIRECT BYPASS ROUTE: Seedha click par home page par le jane ke liye
+@app.route('/api/bypass-login', methods=['GET', 'POST'])
+def bypass_login():
+    conn = get_db()
+    cursor = conn.cursor()
+    # Check if demo user exists
+    user = cursor.execute("SELECT * FROM users WHERE email = 'sumitsingh34398@gmail.com'").fetchone()
+    if not user:
+        hashed_pwd = generate_password_hash("123456")
+        cursor.execute('''
+            INSERT INTO users (name, phone, email, password_hash, role, address)
+            VALUES (?, ?, ?, ?, 'customer', 'Hisar Sector 14, Haryana')
+        ''', ('Sumit Singh', '9602697303', 'sumitsingh34398@gmail.com', hashed_pwd))
+        conn.commit()
+        user = cursor.execute("SELECT * FROM users WHERE email = 'sumitsingh34398@gmail.com'").fetchone()
+    conn.close()
+
+    session['user_id'] = user['id']
+    session['user_name'] = user['name']
+    session['user_role'] = user['role']
+    return redirect(url_for('home'))
+
+# SIGN IN WITH DIRECT FALLBACK
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    data = request.get_json() or {}
+    identifier = data.get('identifier', '').strip()
+    password = data.get('password', '').strip()
+
+    conn = get_db()
+    user = conn.execute('SELECT * FROM users WHERE phone = ? OR email = ?', (identifier, identifier)).fetchone()
+
+    # Agar user pehle se database mein hai aur password match hota hai
+    if user and check_password_hash(user['password_hash'], password):
+        session['user_id'] = user['id']
+        session['user_name'] = user['name']
+        session['user_role'] = user['role']
+        conn.close()
+        return jsonify({'success': True, 'redirect': '/home'})
+
+    # BYPASS MODE: Agar user match na bhi ho, tab bhi dummy user banakar login allow karega
+    cursor = conn.cursor()
+    test_email = identifier if '@' in identifier else 'sumitsingh34398@gmail.com'
+    test_phone = identifier if identifier.isdigit() else '9602697303'
+    hashed_pwd = generate_password_hash(password or "123456")
+    
+    try:
+        cursor.execute('''
+            INSERT OR IGNORE INTO users (name, phone, email, password_hash, role, address)
+            VALUES (?, ?, ?, ?, 'customer', 'Hisar Sector 14, Haryana')
+        ''', ('Sumit Singh', test_phone, test_email, hashed_pwd))
+        conn.commit()
+        fresh_user = cursor.execute('SELECT * FROM users WHERE phone = ? OR email = ?', (test_phone, test_email)).fetchone()
+        session['user_id'] = fresh_user['id']
+        session['user_name'] = fresh_user['name']
+        session['user_role'] = fresh_user['role']
+        conn.close()
+        return jsonify({'success': True, 'redirect': '/home'})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': True, 'redirect': '/api/bypass-login'})
+
 @app.route('/api/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json() or {}
@@ -106,10 +162,7 @@ def send_otp():
     session['temp_otp'] = otp
     session['temp_email'] = email
 
-    print(f"\n==========================================")
-    print(f"⚡ [ROXEN QUICK COMMERCE] ⚡")
-    print(f"👉 Generated OTP for {email}: {otp}")
-    print(f"==========================================\n")
+    print(f"\n⚡ [ROXEN QUICK COMMERCE] OTP for {email}: {otp}\n")
 
     thread = threading.Thread(target=send_email_async, args=(email, otp))
     thread.daemon = True
@@ -129,14 +182,14 @@ def verify_register():
 
         saved_otp = session.get('temp_otp')
         if not saved_otp or entered_otp != saved_otp:
-            return jsonify({'success': False, 'error': 'Invalid OTP code. Please check your email.'})
+            return jsonify({'success': False, 'error': 'Invalid OTP code.'})
 
         hashed_password = generate_password_hash(password)
         conn = get_db()
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO users (name, phone, email, password_hash, role, address)
-            VALUES (?, ?, ?, ?, 'customer', 'Hisar, Haryana, India')
+            VALUES (?, ?, ?, ?, 'customer', 'Hisar Sector 14, Haryana')
         ''', (fullname, mobile, email, hashed_password))
         conn.commit()
         conn.close()
@@ -144,32 +197,10 @@ def verify_register():
         session.pop('temp_otp', None)
         return jsonify({'success': True})
     except sqlite3.IntegrityError:
-        return jsonify({'success': False, 'error': 'Mobile number or email already registered.'})
+        return jsonify({'success': False, 'error': 'Already registered.'})
     except Exception as e:
-        return jsonify({'success': False, 'error': f'Database error: {str(e)}'})
+        return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/api/login', methods=['POST'])
-def api_login():
-    data = request.get_json() or {}
-    identifier = data.get('identifier', '').strip()
-    password = data.get('password', '').strip()
-
-    if not identifier or not password:
-        return jsonify({'success': False, 'error': 'All fields are required.'})
-
-    conn = get_db()
-    user = conn.execute('SELECT * FROM users WHERE phone = ? OR email = ?', (identifier, identifier)).fetchone()
-    conn.close()
-
-    if user and check_password_hash(user['password_hash'], password):
-        session['user_id'] = user['id']
-        session['user_name'] = user['name']
-        session['user_role'] = user['role']
-        return jsonify({'success': True, 'redirect': '/home'})
-
-    return jsonify({'success': False, 'error': 'Invalid mobile/email or password.'})
-
-# UPDATED: Single safe /home route with NoneType prevention
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -179,7 +210,6 @@ def home():
     user = conn.execute('SELECT * FROM users WHERE id = ?', (session['user_id'],)).fetchone()
     conn.close()
 
-    # Agar deployment/restart ke baad user record missing ho, toh crash hone ki jagah auth par redirect karega
     if not user:
         session.clear()
         return redirect(url_for('auth_page'))
