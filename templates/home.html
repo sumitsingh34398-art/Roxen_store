@@ -45,7 +45,6 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            transition: background-color 0.2s, color 0.2s;
         }
 
         .app-wrapper {
@@ -70,7 +69,7 @@
             }
         }
 
-        /* Top Sticky Bar */
+        /* Top Bar */
         .top-navbar {
             position: sticky;
             top: 0;
@@ -93,6 +92,7 @@
             gap: 12px;
         }
 
+        /* Red Rox + Green en */
         .brand-logo-text {
             font-size: 25px;
             font-weight: 800;
@@ -215,7 +215,6 @@
             white-space: nowrap;
             transition: all 0.2s;
         }
-        .filter-chip:hover { border-color: var(--brand-green); }
         .filter-chip.active {
             background: var(--brand-green);
             color: #ffffff;
@@ -223,7 +222,7 @@
             box-shadow: 0 0 0 3px var(--glow-color);
         }
 
-        /* Fixed Floating Budget Dropdown */
+        /* Floating Budget Dropdown */
         .budget-dropdown-wrap { position: relative; }
         .budget-select-btn {
             border: 1.5px solid #d4ded8;
@@ -239,7 +238,6 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .budget-select-btn:hover { border-color: var(--brand-green); }
         .budget-select-btn.active {
             background: var(--brand-light);
             border-color: var(--brand-green);
@@ -265,46 +263,69 @@
             font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.15s;
         }
         .budget-option:hover {
             background: var(--brand-light);
             color: var(--brand-green);
         }
 
-        /* Banner with Rider Tracker Trigger */
+        /* Hero Banner matching Photo 27 */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
-            border-radius: 18px;
-            padding: 18px;
+            border-radius: 22px;
+            padding: 22px 18px;
             border: 1px solid #c2e8cb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             cursor: pointer;
             transition: transform 0.2s;
         }
-        .hero-banner:hover { transform: scale(1.01); }
-        .hero-content h1 {
-            font-size: 20px;
+        .hero-banner:hover { transform: scale(1.008); }
+        .hero-banner .tag-box {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--brand-green);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 6px;
+        }
+        .hero-banner h1 {
+            font-size: 24px;
             font-weight: 800;
             color: #075214;
-            line-height: 1.2;
-            margin: 4px 0;
+            line-height: 1.15;
+            margin-bottom: 6px;
         }
-        .hero-content p { font-size: 12px; color: #43544c; }
+        .hero-banner p { font-size: 12.5px; color: #43544c; line-height: 1.4; margin-bottom: 12px; }
+        .btn-shop-now {
+            background: var(--brand-green);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Recommendation Pill Bar (Photo 27) */
+        .rec-pill-bar {
+            margin: 0 18px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid var(--border-clr);
+            border-radius: 14px;
+            padding: 10px 14px;
+        }
+        .rec-pill-bar strong { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
 
         /* Products Grid */
-        .section-headline {
-            padding: 12px 18px 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .section-headline h3 { font-size: 16px; font-weight: 800; }
-        .section-headline span { font-size: 11.5px; font-weight: 700; color: var(--brand-green); cursor: pointer; }
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -317,8 +338,8 @@
         .product-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clr);
-            border-radius: 16px;
-            padding: 10px;
+            border-radius: 18px;
+            padding: 12px;
             position: relative;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
             display: flex;
@@ -328,54 +349,54 @@
             transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
         .product-card:hover { 
-            transform: translateY(-3px) scale(1.01); 
+            transform: translateY(-3px) scale(1.015); 
             box-shadow: 0 8px 24px rgba(0,0,0,0.06); 
             border-color: #c7ded0;
         }
 
         .badge-discount {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 10px;
+            left: 10px;
             background: var(--brand-green);
             color: #ffffff;
-            font-size: 9px;
+            font-size: 9.5px;
             font-weight: 800;
-            padding: 2px 6px;
+            padding: 2px 7px;
             border-radius: 6px;
             z-index: 2;
         }
 
         .prod-img-box {
             width: 100%;
-            height: 115px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 8px 0 6px;
+            margin: 6px 0 8px;
             background: #fafcfb;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
         }
         body.dark-theme .prod-img-box { background: #0f172a; }
-        .prod-img { max-width: 100%; max-height: 105px; object-fit: contain; }
+        .prod-img { max-width: 100%; max-height: 110px; object-fit: contain; }
 
-        .prod-brand { font-size: 9px; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
-        .prod-title { font-size: 13px; font-weight: 700; margin: 2px 0 4px; line-height: 1.3; }
-        .prod-unit { font-size: 11px; color: var(--text-sub); margin-bottom: 8px; }
+        .prod-brand { font-size: 9.5px; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
+        .prod-title { font-size: 13.5px; font-weight: 700; margin: 2px 0 4px; line-height: 1.3; }
+        .prod-unit { font-size: 11.5px; color: var(--text-sub); margin-bottom: 8px; }
 
         .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-        .final-price { font-size: 14.5px; font-weight: 800; }
-        .mrp { font-size: 10.5px; text-decoration: line-through; color: #98a69f; }
+        .final-price { font-size: 15px; font-weight: 800; }
+        .mrp { font-size: 11px; text-decoration: line-through; color: #98a69f; }
 
         .btn-add {
             background: #f1f8f4;
             border: 1.5px solid var(--brand-green);
             color: var(--brand-green);
             font-weight: 800;
-            font-size: 11.5px;
-            padding: 5px 12px;
-            border-radius: 8px;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 9px;
             cursor: pointer;
             transition: all 0.15s;
         }
@@ -384,15 +405,15 @@
             display: none;
             align-items: center;
             background: var(--brand-green);
-            border-radius: 8px;
-            padding: 4px 8px;
-            gap: 10px;
+            border-radius: 9px;
+            padding: 5px 9px;
+            gap: 12px;
             color: #ffffff;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 13px;
         }
 
-        /* Floating Bottom Cart Bar */
+        /* Floating Bottom Cart Bar (Exact Photo 27) */
         .cart-float-bar {
             position: fixed;
             bottom: 74px;
@@ -402,8 +423,8 @@
             transform: translateX(-50%);
             background: var(--brand-green);
             color: #ffffff;
-            border-radius: 16px;
-            padding: 13px 18px;
+            border-radius: 18px;
+            padding: 12px 18px;
             display: none;
             align-items: center;
             justify-content: space-between;
@@ -414,7 +435,7 @@
         }
         .cart-float-bar:hover { transform: translateX(-50%) scale(1.02); }
 
-        /* Categories View */
+        /* Exact Photo 20 Category Grid */
         #categories-view {
             display: none;
             padding: 18px;
@@ -460,7 +481,7 @@
         .cat-card-exact h4 { font-size: 13.5px; font-weight: 800; color: var(--text-main); }
         .cat-card-exact p { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
 
-        /* Settings View */
+        /* Exact Photos 21-25 Settings View */
         #settings-view {
             display: none;
             padding: 18px;
@@ -472,10 +493,7 @@
             gap: 10px;
             margin-bottom: 16px;
         }
-        .settings-header-title h3 {
-            font-size: 18px;
-            font-weight: 800;
-        }
+        .settings-header-title h3 { font-size: 18px; font-weight: 800; }
 
         .settings-section-title {
             font-size: 11.5px;
@@ -575,7 +593,7 @@
             box-shadow: 0 0 0 2px var(--glow-color);
         }
 
-        /* Product Detail Modal */
+        /* Product Detail Modal (Photos 18 & 19) */
         .prod-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -753,6 +771,31 @@
             margin-top: 8px;
         }
 
+        /* Payment Radio Selectors */
+        .payment-pill-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .payment-pill-card {
+            border: 1.5px solid var(--border-clr);
+            border-radius: 12px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .payment-pill-card.selected {
+            border-color: var(--brand-green);
+            background: var(--brand-light);
+            color: var(--brand-green);
+        }
+
         /* Generic Center Modals */
         .center-modal-overlay {
             position: fixed;
@@ -820,16 +863,17 @@
                     </div>
                 </div>
 
+                <!-- Verified Profile Trigger Only -->
                 <div class="user-quick-actions">
-                    <div class="profile-icon-btn" onclick="openEditProfileModal()">
-                        <i class="ph-bold ph-user"></i>
+                    <div class="profile-icon-btn" onclick="openVerifiedProfileModal()">
+                        <i class="ph-bold ph-user-check"></i>
                     </div>
                 </div>
             </div>
 
             <div class="search-container" id="search-bar-wrap">
                 <i class="ph ph-magnifying-glass"></i>
-                <input type="text" id="search-box" class="search-input" placeholder="Search milk, bread, atta, chips, juices, paneer..." onkeyup="filterProducts()">
+                <input type="text" id="search-box" class="search-input" placeholder="Search groceries, atta, snacks, drinks..." onkeyup="filterProducts()">
             </div>
         </header>
 
@@ -855,27 +899,25 @@
             </div>
         </div>
 
-        <!-- VIEW 1: HOME STORE VIEW -->
+        <!-- VIEW 1: HOME STORE VIEW (Photo 27 Match) -->
         <main id="home-view">
-            <!-- Hero banner with live delivery partner tracker popup -->
             <div class="hero-banner" onclick="openRiderTrackerModal()">
-                <div class="hero-content">
-                    <p style="font-size:10px; font-weight:800; color:var(--brand-green); letter-spacing:0.8px;">SUPERFAST GROCERY DELIVERY</p>
-                    <h1>Daily Fresh Essentials.<br>At Your Door in 10 Mins.</h1>
-                    <p>Live partner tracking active. Click to view rider status 🛵</p>
-                </div>
-                <div style="font-size:36px; color:var(--brand-green);"><i class="ph-fill ph-moped"></i></div>
+                <div class="tag-box"><i class="ph-bold ph-shopping-bag"></i> YOUR EVERYDAY PREMIUM STORE</div>
+                <h1>Daily Needs.<br>Delivered to Your Door.</h1>
+                <p>From fresh kitchen staples to snacks and daily essentials — everything your home needs is just a tap away.</p>
+                <button class="btn-shop-now">Shop Now <i class="ph-bold ph-arrow-down"></i></button>
             </div>
 
-            <div class="section-headline">
-                <h3 id="section-title">All Catalog Items</h3>
-                <span id="items-found-count">70 items available</span>
+            <!-- Fresh Picks Recommendation Pill Bar -->
+            <div class="rec-pill-bar">
+                <strong><i class="ph-fill ph-sparkle" style="color:#eab308;"></i> Fresh Picks for You...</strong>
+                <span style="font-size:12px; font-weight:700; color:var(--text-sub);">Recommended ▾</span>
             </div>
 
             <div class="products-grid" id="products-container"></div>
         </main>
 
-        <!-- VIEW 2: CATEGORY VIEW -->
+        <!-- VIEW 2: CATEGORY VIEW (Photo 20 Match) -->
         <section id="categories-view">
             <div style="margin-bottom: 12px;">
                 <h3 style="font-size:19px; font-weight:800;">Shop by Category</h3>
@@ -886,22 +928,22 @@
                 <div class="cat-card-exact selected" onclick="filterFromCategoryTab('all')">
                     <div class="icon-circle">🛍️</div>
                     <h4>All Products</h4>
-                    <p>70 Items</p>
+                    <p>60 Items</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Drinks')">
                     <div class="icon-circle">🥤</div>
                     <h4>Water & Drinks</h4>
-                    <p>15 Items</p>
+                    <p>12 Items</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Snacks')">
                     <div class="icon-circle">🍿</div>
                     <h4>Snacks</h4>
-                    <p>18 Items</p>
+                    <p>15 Items</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Dairy')">
                     <div class="icon-circle">🥛</div>
                     <h4>Milk & Dairy</h4>
-                    <p>20 Items</p>
+                    <p>18 Items</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Staples')">
                     <div class="icon-circle">🛒</div>
@@ -911,12 +953,12 @@
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Care')">
                     <div class="icon-circle">🧴</div>
                     <h4>Personal Care</h4>
-                    <p>7 Items</p>
+                    <p>5 Items</p>
                 </div>
             </div>
         </section>
 
-        <!-- VIEW 3: SETTINGS & ACCOUNT VIEW -->
+        <!-- VIEW 3: SETTINGS VIEW (Photos 21-25 Match) -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
@@ -925,7 +967,7 @@
                 <h3 id="txt-settings-head">Account & Settings</h3>
             </div>
 
-            <!-- QUICK TILES -->
+            <!-- QUICK TILES (Photo 23) -->
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openOrdersModal()">
                     <div class="settings-left-meta">
@@ -975,7 +1017,7 @@
                 </div>
             </div>
 
-            <!-- ACCOUNT SETTINGS -->
+            <!-- ACCOUNT SETTINGS (Photos 21 & 23) -->
             <p class="settings-section-title">ACCOUNT SETTINGS</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openEditProfileModal()">
@@ -1029,7 +1071,7 @@
                 </div>
             </div>
 
-            <!-- PREFERENCES -->
+            <!-- PREFERENCES (Photos 21 & 22) -->
             <p class="settings-section-title">PREFERENCES</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="toggleLanguage()">
@@ -1066,7 +1108,7 @@
                 </div>
             </div>
 
-            <!-- SUPPORT & LEGAL -->
+            <!-- SUPPORT & LEGAL (Photos 24 & 25) -->
             <p class="settings-section-title">SUPPORT & LEGAL</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openHelpSupportModal()">
@@ -1103,7 +1145,7 @@
                 </div>
             </div>
 
-            <!-- DANGER ZONE -->
+            <!-- DANGER ZONE (Photos 24 & 25) -->
             <p class="settings-section-title" style="color:#dc2626;">DANGER ZONE</p>
             <div class="settings-card-group" style="border-color:#fecaca;">
                 <div class="settings-row-item" onclick="location.href='/logout'" style="background:#fff8f8;">
@@ -1119,13 +1161,16 @@
             </div>
         </section>
 
-        <!-- FLOATING BOTTOM CART BAR -->
+        <!-- FLOATING BOTTOM CART BAR (Photo 27 Match) -->
         <div id="float-cart" class="cart-float-bar" onclick="openCartDrawer()">
-            <div>
-                <div style="font-size:10px; font-weight:700; opacity:0.9;" id="cart-item-count">0 ITEMS</div>
-                <div style="font-size:15px; font-weight:800;" id="cart-item-price">₹0</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="background:rgba(255,255,255,0.2); width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;" id="cart-item-count">0</div>
+                <div>
+                    <div style="font-size:9px; font-weight:700; opacity:0.85;">CART TOTAL</div>
+                    <div style="font-size:15px; font-weight:800;" id="cart-item-price">₹0</div>
+                </div>
             </div>
-            <div style="font-weight:800; font-size:13.5px; display:flex; align-items:center; gap:6px;">
+            <div style="background:#ffffff; color:var(--brand-green); padding:6px 14px; border-radius:10px; font-weight:800; font-size:12.5px; display:flex; align-items:center; gap:6px;">
                 View Cart <i class="ph-bold ph-arrow-right"></i>
             </div>
         </div>
@@ -1150,7 +1195,7 @@
             </div>
         </nav>
 
-        <!-- PRODUCT DETAIL MODAL (PHOTOS 18 & 19 MATCH) -->
+        <!-- PRODUCT DETAIL MODAL (Photos 18 & 19 Match) -->
         <div class="prod-modal-overlay" id="product-detail-modal">
             <div class="prod-modal-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1162,7 +1207,6 @@
                     <img id="modal-main-img" src="" alt="Product" style="max-height:170px; max-width:80%; object-fit:contain;">
                 </div>
 
-                <!-- Genuine / Drop / Pay Badges -->
                 <div class="benefit-tag-row">
                     <span class="benefit-tag"><i class="ph-bold ph-shield-check"></i> 100% Genuine</span>
                     <span class="benefit-tag"><i class="ph-bold ph-lightning"></i> Fast Drop</span>
@@ -1219,7 +1263,7 @@
             </div>
         </div>
 
-        <!-- BLINKIT CHECKOUT DRAWER -->
+        <!-- CHECKOUT DRAWER (Threshold ₹120 Free Delivery) -->
         <div class="drawer-overlay" id="cart-drawer">
             <div class="drawer-box">
                 <div class="checkout-head">
@@ -1230,13 +1274,14 @@
                     <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
 
+                <!-- Products in Cart with Photos -->
                 <div id="cart-items-wrapper"></div>
 
                 <!-- Bill Details Card -->
                 <div class="checkout-card">
-                    <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:8px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
-                        <i class="ph-fill ph-moped" style="font-size:18px;"></i>
-                        <span id="free-delivery-text">Add products worth ₹115 more to get FREE delivery</span>
+                    <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
+                        <i class="ph-fill ph-moped" style="font-size:20px;"></i>
+                        <span id="free-delivery-text">Add products worth ₹120 more to get FREE delivery</span>
                     </div>
 
                     <h4 style="font-size:14.5px; font-weight:800; margin-bottom:10px;">Bill details</h4>
@@ -1253,7 +1298,7 @@
                     </div>
                     <div class="bill-row">
                         <span>Delivery charge</span>
-                        <strong id="bill-delivery-charge">₹35</strong>
+                        <strong id="bill-delivery-charge">₹25</strong>
                     </div>
                     <div class="bill-row strong">
                         <span>Grand total</span>
@@ -1270,6 +1315,17 @@
                     <p style="font-size:12.5px; font-weight:700;" id="checkout-address-line">Hisar Sector 14, Haryana</p>
                 </div>
 
+                <!-- Payment Method Selection -->
+                <div class="checkout-card">
+                    <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Select Payment Option</span>
+                    <div class="payment-pill-list">
+                        <div class="payment-pill-card selected" onclick="setCheckoutPayment(this, 'PhonePe')">PhonePe UPI</div>
+                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Paytm')">Paytm Wallet</div>
+                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Google Pay')">Google Pay</div>
+                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Cash on Delivery')">Cash on Delivery</div>
+                    </div>
+                </div>
+
                 <div style="margin-top:auto; padding:16px; background:var(--card-bg); border-top:1px solid var(--border-clr);">
                     <button style="width:100%; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="triggerOrderSuccess()">
                         <span id="btn-total-label">₹0 TOTAL</span>
@@ -1279,7 +1335,74 @@
             </div>
         </div>
 
-        <!-- LIVE DELIVERY PARTNER TRACKER MODAL -->
+        <!-- VERIFIED PROFILE MODAL (TOP-RIGHT ONLY) -->
+        <div class="center-modal-overlay" id="verified-profile-modal">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Verified Member Profile</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeVerifiedProfileModal()"></i>
+                </div>
+
+                <div style="background:var(--brand-light); border-radius:18px; padding:18px; text-align:center; margin-bottom:14px;">
+                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; box-shadow:0 6px 16px rgba(12,131,31,0.25);">
+                        {{ (user.name[:2] if user and user.name else 'SS').upper() }}
+                    </div>
+                    <h3 style="font-size:17px; font-weight:800;" id="view-prof-name">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
+                    <p style="font-size:12.5px; color:var(--text-sub); margin:2px 0 8px;" id="view-prof-phone">+91 {{ user.phone if user and user.phone else '9602697303' }}</p>
+                    <span style="font-size:10.5px; font-weight:800; background:var(--brand-green); color:#fff; padding:3px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;">
+                        <i class="ph-bold ph-seal-check"></i> 100% KYC Verified Member
+                    </span>
+                </div>
+
+                <div style="border-top:1px solid var(--border-clr); padding-top:12px; font-size:12.5px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="color:var(--text-sub);">Registered Email:</span>
+                        <strong id="view-prof-email">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="color:var(--text-sub);">Delivery Zone:</span>
+                        <strong>Hisar, Haryana Sector Hub</strong>
+                    </div>
+                </div>
+
+                <button onclick="closeVerifiedProfileModal()" style="width:100%; height:42px; background:#111827; color:#fff; border:none; border-radius:12px; font-weight:800; margin-top:14px; cursor:pointer;">
+                    Close Verification Details
+                </button>
+            </div>
+        </div>
+
+        <!-- ORDER PLACED MODAL (DUAL ACTIONS: CONTINUE & TRACK RIDER) -->
+        <div class="center-modal-overlay" id="order-success-modal">
+            <div class="center-modal-box" style="text-align:center;">
+                <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <h3 style="font-size:20px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
+                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dark Store Packing Started 📦</p>
+
+                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Assigned Partner:</span>
+                        <strong>Rajesh Kumar (Pilot)</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="color:var(--text-sub);">Estimated Arrival:</span>
+                        <strong style="color:var(--brand-green);">10-12 Minutes</strong>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button onclick="dismissOrderSuccess()" style="height:44px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
+                        Continue Shopping
+                    </button>
+                    <button onclick="openRiderTrackerFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <i class="ph-fill ph-navigation-arrow"></i> Track Delivery
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIDER LIVE LOCATION TRACKER MODAL -->
         <div class="center-modal-overlay" id="rider-tracker-modal">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1344,19 +1467,38 @@
             </div>
         </div>
 
-        <!-- EDIT PROFILE MODAL -->
+        <!-- EDIT PROFILE MODAL (PREVIOUS VALUES ON TOP, EDIT BELOW) -->
         <div class="center-modal-overlay" id="edit-profile-modal">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Edit Profile</h3>
+                    <h3 style="font-size:17px; font-weight:800;">Edit Profile Information</h3>
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeEditProfileModal()"></i>
                 </div>
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">FULL NAME</label>
-                <input type="text" id="prof-name-input" value="Sumit Singh" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">MOBILE NUMBER</label>
-                <input type="text" id="prof-phone-input" value="9602697303" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">EMAIL ADDRESS</label>
-                <input type="email" id="prof-email-input" value="sumitsingh34398@gmail.com" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+
+                <!-- Current Info Card -->
+                <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Current Name:</span>
+                        <strong id="disp-prev-name">Sumit Singh</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Current Phone:</span>
+                        <strong id="disp-prev-phone">9602697303</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="color:var(--text-sub);">Current Email:</span>
+                        <strong id="disp-prev-email">sumitsingh34398@gmail.com</strong>
+                    </div>
+                </div>
+
+                <!-- Edit Inputs Below -->
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
+                <input type="text" id="prof-name-input" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
+                <input type="text" id="prof-phone-input" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
+                <input type="email" id="prof-email-input" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                
                 <button onclick="saveProfileData()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
                     Save Profile Changes
                 </button>
@@ -1387,7 +1529,7 @@
             </div>
         </div>
 
-        <!-- COOKIE PERSISTENT BAR (PHOTO 24/25 REQUIREMENT) -->
+        <!-- COOKIE PERSISTENT BAR -->
         <div class="cookie-persistent-bar" id="cookie-bar">
             <span style="font-size:11.5px;">We use essential functional cookies for 10-minute location delivery.</span>
             <button onclick="allowAllCookies()" style="background:var(--brand-green); border:none; color:#fff; font-weight:800; font-size:11px; padding:6px 12px; border-radius:8px; cursor:pointer; white-space:nowrap;">
@@ -1399,87 +1541,77 @@
 
     <!-- SCRIPT INVENTORY & LOGIC -->
     <script>
-        // Full 70+ Items Inventory Database
+        // 60 Unique Non-Duplicate Grocery Products
         const catalogDB = [
-            // Dairy (20 Items)
+            // Dairy (18 Unique Items)
             { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
             { id: 2, name: "Amul Gold Full Cream Milk", brand: "Amul", category: "Dairy", price: 34, mrp: 35, unit: "500 ml", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300", desc: "Rich full cream pasteurized milk ideal for tea and sweets." },
             { id: 3, name: "Mother Dairy Cow Fresh Milk", brand: "Mother Dairy", category: "Dairy", price: 29, mrp: 30, unit: "500 ml", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", desc: "Easily digestible wholesome fresh cow milk." },
-            { id: 4, name: "Amul Pasteurised Butter", brand: "Amul", category: "Dairy", price: 58, mrp: 60, unit: "100 g", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300", desc: "Utterly butterly delicious creamy table butter." },
+            { id: 4, name: "Amul Pasteurised Butter", brand: "Amul", category: "Dairy", price: 58, mrp: 60, unit: "100 g", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300", desc: "Creamy salted table butter." },
             { id: 5, name: "Amul Fresh Malai Paneer", brand: "Amul", category: "Dairy", price: 92, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300", desc: "Soft and fresh protein-rich pure paneer cubes." },
             { id: 6, name: "Mother Dairy Classic Curd", brand: "Mother Dairy", category: "Dairy", price: 35, mrp: 35, unit: "400 g", img: "https://images.unsplash.com/photo-1571212515416-fef01fc43637?w=300", desc: "Thick probiotic set curd made from pure milk." },
             { id: 7, name: "Amul Pure Buffalo Ghee", brand: "Amul", category: "Dairy", price: 320, mrp: 345, unit: "500 ml", img: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=300", desc: "Aromatic traditional clarified butter ghee." },
-            { id: 8, name: "Nestle Milkmaid Sweetened Milk", brand: "Nestle", category: "Dairy", price: 140, mrp: 145, unit: "380 g", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", desc: "Rich condensed milk for instant halwa & desserts." },
-            { id: 9, name: "Epigamia Greek Yogurt Strawberry", brand: "Epigamia", category: "Dairy", price: 50, mrp: 50, unit: "90 g", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300", desc: "High protein whipped fresh yogurt with strawberries." },
-            { id: 10, name: "Amul Cheese Slices (10 pcs)", brand: "Amul", category: "Dairy", price: 140, mrp: 145, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", desc: "Mouth-watering cheese slices for breakfast burgers." },
-            { id: 11, name: "Amul Salted Masti Chaach", brand: "Amul", category: "Dairy", price: 15, mrp: 15, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Refreshing spiced traditional buttermilk." },
-            { id: 12, name: "Britannia Daily Cheese Block", brand: "Britannia", category: "Dairy", price: 125, mrp: 130, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", desc: "Cheddar blend cheese block for pizza & pasta." },
-            { id: 13, name: "Amul Fresh Whipping Cream", brand: "Amul", category: "Dairy", price: 70, mrp: 75, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Low-fat versatile cooking & baking cream." },
-            { id: 14, name: "Go Cheese Mozzarella Shreds", brand: "Go", category: "Dairy", price: 115, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", desc: "Extra stretch mozzarella cheese for authentic baking." },
-            { id: 15, name: "Mother Dairy Cow Ghee Carton", brand: "Mother Dairy", category: "Dairy", price: 335, mrp: 350, unit: "500 ml", img: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=300", desc: "Granular aromatic cow milk clarified ghee." },
-            { id: 16, name: "Nestle Everyday Dairy Whitener", brand: "Nestle", category: "Dairy", price: 120, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", desc: "Makes thick creamy tea & coffee in seconds." },
-            { id: 17, name: "Amul Kool Kesar Badam Milk", brand: "Amul", category: "Dairy", price: 25, mrp: 25, unit: "180 ml", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300", desc: "Flavoured thick toned milk with roasted almond bits." },
-            { id: 18, name: "Mother Dairy Paneer Block", brand: "Mother Dairy", category: "Dairy", price: 90, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300", desc: "Hygienically packaged soft cottage cheese." },
-            { id: 19, name: "Yakult Probiotic Fermented Drink", brand: "Yakult", category: "Dairy", price: 80, mrp: 85, unit: "5 pcs", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300", desc: "Live Lactobacillus casei for digestive health." },
-            { id: 20, name: "Amul Lassi Rose Sweet Drink", brand: "Amul", category: "Dairy", price: 20, mrp: 20, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Traditional sweetened rose flavoured lassi." },
+            { id: 8, name: "Nestle Milkmaid Sweetened", brand: "Nestle", category: "Dairy", price: 140, mrp: 145, unit: "380 g", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300", desc: "Rich condensed milk for instant halwa & desserts." },
+            { id: 9, name: "Epigamia Greek Yogurt", brand: "Epigamia", category: "Dairy", price: 50, mrp: 50, unit: "90 g", img: "https://images.unsplash.com/photo-1570554886111-e80fcca6a029?w=300", desc: "High protein whipped fresh yogurt with strawberries." },
+            { id: 10, name: "Amul Cheese Slices (10 pcs)", brand: "Amul", category: "Dairy", price: 140, mrp: 145, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", desc: "Cheese slices for breakfast burgers & toast." },
+            { id: 11, name: "Amul Salted Masti Chaach", brand: "Amul", category: "Dairy", price: 15, mrp: 15, unit: "250 ml", img: "https://images.unsplash.com/photo-1517448939564-56903646702a?w=300", desc: "Refreshing spiced traditional buttermilk." },
+            { id: 12, name: "Britannia Daily Cheese Block", brand: "Britannia", category: "Dairy", price: 125, mrp: 130, unit: "200 g", img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=300", desc: "Cheddar blend cheese block for pizza & pasta." },
+            { id: 13, name: "Amul Fresh Whipping Cream", brand: "Amul", category: "Dairy", price: 70, mrp: 75, unit: "250 ml", img: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0?w=300", desc: "Low-fat versatile cooking cream." },
+            { id: 14, name: "Go Cheese Mozzarella", brand: "Go", category: "Dairy", price: 115, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=300", desc: "Extra stretch mozzarella cheese for authentic baking." },
+            { id: 15, name: "Mother Dairy Cow Ghee", brand: "Mother Dairy", category: "Dairy", price: 335, mrp: 350, unit: "500 ml", img: "https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=300", desc: "Granular aromatic cow milk clarified ghee." },
+            { id: 16, name: "Nestle Everyday Whitener", brand: "Nestle", category: "Dairy", price: 120, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=300", desc: "Makes thick creamy tea & coffee." },
+            { id: 17, name: "Amul Kool Kesar Badam Milk", brand: "Amul", category: "Dairy", price: 25, mrp: 25, unit: "180 ml", img: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300", desc: "Flavoured thick toned milk with roasted almond bits." },
+            { id: 18, name: "Mother Dairy Paneer Block", brand: "Mother Dairy", category: "Dairy", price: 90, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=300", desc: "Hygienically packaged soft cottage cheese." },
 
-            // Snacks & Munchies (18 Items)
-            { id: 21, name: "Parle-G Gold Glucose Biscuits", brand: "Parle", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "India's favourite golden glucose crunchy biscuit." },
-            { id: 22, name: "Lay's Magic Masala Chips", brand: "Lays", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Crispy potato chips coated with North Indian spices." },
-            { id: 23, name: "Kurkure Masala Munch Crunchy", brand: "Kurkure", category: "Snacks", price: 20, mrp: 20, unit: "80 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Tedhe-medhe crispy corn and rice puffs." },
-            { id: 24, name: "Cadbury Dairy Milk Silk", brand: "Cadbury", category: "Snacks", price: 80, mrp: 85, unit: "60 g", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300", desc: "Smooth creamy milk chocolate bar melting instantly." },
-            { id: 25, name: "Haldiram's Bhujia Sev", brand: "Haldiram", category: "Snacks", price: 50, mrp: 55, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", desc: "Spicy crisp gram flour noodle namkeen from Bikaner." },
-            { id: 26, name: "Oreo Vanilla Cream Biscuits", brand: "Cadbury", category: "Snacks", price: 35, mrp: 40, unit: "120 g", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "Rich chocolate cookie with smooth vanilla cream." },
-            { id: 27, name: "Act II Instant Butter Popcorn", brand: "Act II", category: "Snacks", price: 35, mrp: 40, unit: "80 g", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=300", desc: "Hot instant butter burst microwave popcorn." },
-            { id: 28, name: "Maggi 2-Minute Masala Noodles", brand: "Nestle", category: "Snacks", price: 14, mrp: 14, unit: "70 g", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300", desc: "Classic masala tastemaker instant quick noodles." },
-            { id: 29, name: "Britannia Good Day Butter", brand: "Britannia", category: "Snacks", price: 40, mrp: 45, unit: "200 g", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "Smiley pattern rich butter baked crispy biscuits." },
-            { id: 30, name: "Pringles Sour Cream & Onion", brand: "Pringles", category: "Snacks", price: 110, mrp: 115, unit: "107 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Stackable seasoned potato chips in container." },
-            { id: 31, name: "Haldiram's Khatta Meetha", brand: "Haldiram", category: "Snacks", price: 45, mrp: 50, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", desc: "Sweet and sour mixture of puffed rice & peanuts." },
-            { id: 32, name: "Doritos Cheese Nachos", brand: "Doritos", category: "Snacks", price: 30, mrp: 30, unit: "60 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Crunchy cheese flavored tortilla nachos." },
-            { id: 33, name: "Hide & Seek Chocolate Chip", brand: "Parle", category: "Snacks", price: 30, mrp: 30, unit: "100 g", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "Mouthful real chocolate chips in crispy biscuits." },
-            { id: 34, name: "Cadbury 5 Star Chocolate", brand: "Cadbury", category: "Snacks", price: 20, mrp: 20, unit: "40 g", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300", desc: "Chewy caramel chocolate bar." },
-            { id: 35, name: "Lay's Classic Salted Chips", brand: "Lays", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Crispy thinly sliced golden salted potatoes." },
-            { id: 36, name: "Bingo Mad Angles Achaari", brand: "Bingo", category: "Snacks", price: 20, mrp: 20, unit: "66 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Tangy mango pickle seasoned triangle chips." },
-            { id: 37, name: "KitKat 4 Finger Chocolate", brand: "Nestle", category: "Snacks", price: 40, mrp: 40, unit: "38 g", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300", desc: "Have a break, have a crispy wafer KitKat." },
-            { id: 38, name: "Haldiram's Aloo Bhujia", brand: "Haldiram", category: "Snacks", price: 55, mrp: 60, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", desc: "Mouth-watering potato & mint seasoned sev." },
+            // Snacks & Munchies (15 Unique Items)
+            { id: 19, name: "Parle-G Gold Glucose Biscuits", brand: "Parle", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "India's favourite golden glucose crunchy biscuit." },
+            { id: 20, name: "Lay's Magic Masala Chips", brand: "Lays", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Crispy potato chips coated with North Indian spices." },
+            { id: 21, name: "Kurkure Masala Munch Crunchy", brand: "Kurkure", category: "Snacks", price: 20, mrp: 20, unit: "80 g", img: "https://images.unsplash.com/photo-1621447504864-d8686e12698c?w=300", desc: "Tedhe-medhe crispy corn and rice puffs." },
+            { id: 22, name: "Cadbury Dairy Milk Silk", brand: "Cadbury", category: "Snacks", price: 80, mrp: 85, unit: "60 g", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300", desc: "Smooth creamy milk chocolate bar melting instantly." },
+            { id: 23, name: "Haldiram's Bhujia Sev", brand: "Haldiram", category: "Snacks", price: 50, mrp: 55, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", desc: "Spicy crisp gram flour noodle namkeen from Bikaner." },
+            { id: 24, name: "Oreo Vanilla Cream Biscuits", brand: "Cadbury", category: "Snacks", price: 35, mrp: 40, unit: "120 g", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=300", desc: "Rich chocolate cookie with smooth vanilla cream." },
+            { id: 25, name: "Act II Instant Butter Popcorn", brand: "Act II", category: "Snacks", price: 35, mrp: 40, unit: "80 g", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=300", desc: "Hot instant butter burst microwave popcorn." },
+            { id: 26, name: "Maggi 2-Minute Masala Noodles", brand: "Nestle", category: "Snacks", price: 14, mrp: 14, unit: "70 g", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300", desc: "Classic masala tastemaker instant noodles." },
+            { id: 27, name: "Britannia Good Day Butter", brand: "Britannia", category: "Snacks", price: 40, mrp: 45, unit: "200 g", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300", desc: "Smiley pattern rich butter baked crispy biscuits." },
+            { id: 28, name: "Pringles Sour Cream & Onion", brand: "Pringles", category: "Snacks", price: 110, mrp: 115, unit: "107 g", img: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300", desc: "Stackable seasoned potato chips in container." },
+            { id: 29, name: "Haldiram's Khatta Meetha", brand: "Haldiram", category: "Snacks", price: 45, mrp: 50, unit: "200 g", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300", desc: "Sweet and sour mixture of puffed rice & peanuts." },
+            { id: 30, name: "Doritos Cheese Nachos", brand: "Doritos", category: "Snacks", price: 30, mrp: 30, unit: "60 g", img: "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=300", desc: "Crunchy cheese flavored tortilla nachos." },
+            { id: 31, name: "Hide & Seek Choco Chip", brand: "Parle", category: "Snacks", price: 30, mrp: 30, unit: "100 g", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=300", desc: "Real chocolate chips in crispy biscuits." },
+            { id: 32, name: "KitKat 4 Finger Chocolate", brand: "Nestle", category: "Snacks", price: 40, mrp: 40, unit: "38 g", img: "https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=300", desc: "Crispy wafer chocolate break." },
+            { id: 33, name: "Haldiram's Aloo Bhujia", brand: "Haldiram", category: "Snacks", price: 55, mrp: 60, unit: "200 g", img: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=300", desc: "Potato & mint seasoned sev." },
 
-            // Water & Drinks (15 Items)
-            { id: 39, name: "Bisleri Packaged Drinking Water", brand: "Bisleri", category: "Drinks", price: 20, mrp: 20, unit: "1 L", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", desc: "Pure drinking water with essential minerals and double ozonisation protection." },
-            { id: 40, name: "Coca-Cola Soft Drink Can", brand: "Coca-Cola", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Ice-cold refreshing original cola taste." },
-            { id: 41, name: "Real Fruit Mixed Fruit Juice", brand: "Real", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Natural blend of 9 fruits rich in Vitamin C." },
-            { id: 42, name: "Thums Up Charged Cola", brand: "Thums Up", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Toofani strong spicy cola beverage." },
-            { id: 43, name: "Sprite Lemon-Lime Soda", brand: "Sprite", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Crisp and clear lemon lime thirst quencher." },
-            { id: 44, name: "Frooti Fresh Mango Drink", brand: "Frooti", category: "Drinks", price: 35, mrp: 40, unit: "600 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Sweet juicy rich Alphonso mango pulp juice." },
-            { id: 45, name: "Red Bull Energy Drink", brand: "Red Bull", category: "Drinks", price: 125, mrp: 130, unit: "250 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Vitalizes body & mind with caffeine & taurine." },
-            { id: 46, name: "Tropicana 100% Orange Juice", brand: "Tropicana", category: "Drinks", price: 130, mrp: 140, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Pure Valencia orange squeeze loaded with nutrients." },
-            { id: 47, name: "Maaza Mango Pulp Beverage", brand: "Maaza", category: "Drinks", price: 38, mrp: 42, unit: "600 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Thick real handpicked mango puree refreshment." },
-            { id: 48, name: "Sting Energy Drink Bottle", brand: "Sting", category: "Drinks", price: 20, mrp: 20, unit: "250 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Electrifying sweet berry energy booster." },
-            { id: 49, name: "Kinley Mineral Soda Water", brand: "Kinley", category: "Drinks", price: 20, mrp: 20, unit: "750 ml", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", desc: "Extra carbonated crisp soda." },
-            { id: 50, name: "Limca Fresh Lime Lemoni", brand: "Limca", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Cloudy lemon lime refreshing fizz." },
-            { id: 51, name: "Minute Maid Pulpy Orange", brand: "Minute Maid", category: "Drinks", price: 40, mrp: 45, unit: "400 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Real orange pulp in every sip." },
-            { id: 52, name: "Paper Boat Aam Panna", brand: "Paper Boat", category: "Drinks", price: 30, mrp: 30, unit: "200 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Authentic roasted raw mango cooler." },
-            { id: 53, name: "Aquafina Packaged Water", brand: "Aquafina", category: "Drinks", price: 20, mrp: 20, unit: "1 L", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", desc: "7-step purified pristine drinking water." },
+            // Water & Drinks (12 Unique Items)
+            { id: 34, name: "Bisleri Packaged Drinking Water", brand: "Bisleri", category: "Drinks", price: 20, mrp: 20, unit: "1 L", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", desc: "Pure drinking water with essential minerals and double ozonisation protection." },
+            { id: 35, name: "Coca-Cola Soft Drink Can", brand: "Coca-Cola", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Ice-cold refreshing original cola taste." },
+            { id: 36, name: "Real Fruit Mixed Fruit Juice", brand: "Real", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Natural blend of 9 fruits rich in Vitamin C." },
+            { id: 37, name: "Thums Up Charged Cola", brand: "Thums Up", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300", desc: "Strong spicy cola taste with high fizz." },
+            { id: 38, name: "Sprite Lemon-Lime Soda", brand: "Sprite", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=300", desc: "Crisp and clear lemon lime thirst quencher." },
+            { id: 39, name: "Frooti Fresh Mango Drink", brand: "Frooti", category: "Drinks", price: 35, mrp: 40, unit: "600 ml", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=300", desc: "Sweet juicy rich Alphonso mango pulp beverage." },
+            { id: 40, name: "Red Bull Energy Drink", brand: "Red Bull", category: "Drinks", price: 125, mrp: 130, unit: "250 ml", img: "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=300", desc: "Vitalizes body & mind with caffeine & taurine." },
+            { id: 41, name: "Tropicana 100% Orange Juice", brand: "Tropicana", category: "Drinks", price: 130, mrp: 140, unit: "1 L", img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300", desc: "Pure Valencia orange squeeze loaded with Vitamin C." },
+            { id: 42, name: "Maaza Mango Pulp Beverage", brand: "Maaza", category: "Drinks", price: 38, mrp: 42, unit: "600 ml", img: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=300", desc: "Thick real handpicked mango puree refreshment." },
+            { id: 43, name: "Sting Energy Drink Bottle", brand: "Sting", category: "Drinks", price: 20, mrp: 20, unit: "250 ml", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300", desc: "Electrifying sweet berry energy booster." },
+            { id: 44, name: "Kinley Mineral Soda Water", brand: "Kinley", category: "Drinks", price: 20, mrp: 20, unit: "750 ml", img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300", desc: "Extra carbonated crisp soda." },
+            { id: 45, name: "Limca Fresh Lime Lemoni", brand: "Limca", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300", desc: "Cloudy lemon lime refreshing fizz." },
 
-            // Grocery & Staples (10 Items)
-            { id: 54, name: "Aashirvaad Shudh Chakki Atta", brand: "Aashirvaad", category: "Staples", price: 195, mrp: 220, unit: "5 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", desc: "100% pure whole wheat stone chakki ground flour." },
-            { id: 55, name: "Fortune Sunlite Refined Oil", brand: "Fortune", category: "Staples", price: 135, mrp: 150, unit: "1 L", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300", desc: "Light digestible sunflower cooking oil rich in Vitamin E." },
-            { id: 56, name: "Tata Salt Vacuum Evaporated", brand: "Tata", category: "Staples", price: 28, mrp: 30, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", desc: "Desh ka namak pure iodized cooking table salt." },
-            { id: 57, name: "Fortune Everyday Basmati Rice", brand: "Fortune", category: "Staples", price: 95, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", desc: "Fluffy aromatic long grain pristine white rice." },
-            { id: 58, name: "Tata Sampann Toor Dal", brand: "Tata", category: "Staples", price: 165, mrp: 180, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", desc: "Natural unpolished pigeon pea dal rich in plant protein." },
-            { id: 59, name: "Catch Red Chilli Powder", brand: "Catch", category: "Staples", price: 58, mrp: 65, unit: "200 g", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", desc: "Low-temperature ground fiery red pepper." },
-            { id: 60, name: "Tata Sampann Chana Dal", brand: "Tata", category: "Staples", price: 95, mrp: 105, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", desc: "Protein rich unpolished Bengal gram dal." },
-            { id: 61, name: "Madhur Pure Crystal Sugar", brand: "Madhur", category: "Staples", price: 48, mrp: 52, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", desc: "Sulphur-free clean sparkling white sugar." },
-            { id: 62, name: "Catch Turmeric / Haldi Powder", brand: "Catch", category: "Staples", price: 40, mrp: 45, unit: "200 g", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", desc: "High curcumin aromatic golden turmeric." },
-            { id: 63, name: "Dhara Mustard / Kachi Ghani Oil", brand: "Dhara", category: "Staples", price: 145, mrp: 160, unit: "1 L", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300", desc: "Strong pungent cold pressed mustard oil." },
+            // Grocery & Staples (10 Unique Items)
+            { id: 46, name: "Aashirvaad Shudh Chakki Atta", brand: "Aashirvaad", category: "Staples", price: 195, mrp: 220, unit: "5 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", desc: "100% pure whole wheat stone chakki ground flour." },
+            { id: 47, name: "Fortune Sunlite Refined Oil", brand: "Fortune", category: "Staples", price: 135, mrp: 150, unit: "1 L", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300", desc: "Light digestible sunflower cooking oil rich in Vitamin E." },
+            { id: 48, name: "Tata Salt Vacuum Evaporated", brand: "Tata", category: "Staples", price: 28, mrp: 30, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", desc: "Desh ka namak pure iodized cooking table salt." },
+            { id: 49, name: "Fortune Everyday Basmati Rice", brand: "Fortune", category: "Staples", price: 95, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=300", desc: "Fluffy aromatic long grain white rice." },
+            { id: 50, name: "Tata Sampann Toor Dal", brand: "Tata", category: "Staples", price: 165, mrp: 180, unit: "1 kg", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300", desc: "Natural unpolished pigeon pea dal rich in plant protein." },
+            { id: 51, name: "Catch Red Chilli Powder", brand: "Catch", category: "Staples", price: 58, mrp: 65, unit: "200 g", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300", desc: "Fiery red ground pepper." },
+            { id: 52, name: "Tata Sampann Chana Dal", brand: "Tata", category: "Staples", price: 95, mrp: 105, unit: "1 kg", img: "https://images.unsplash.com/photo-1585994192701-f1a505c817ea?w=300", desc: "Unpolished Bengal gram dal." },
+            { id: 53, name: "Madhur Pure Crystal Sugar", brand: "Madhur", category: "Staples", price: 48, mrp: 52, unit: "1 kg", img: "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=300", desc: "Sulphur-free clean sparkling white sugar." },
+            { id: 54, name: "Catch Turmeric / Haldi Powder", brand: "Catch", category: "Staples", price: 40, mrp: 45, unit: "200 g", img: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=300", desc: "Curcumin rich golden turmeric." },
+            { id: 55, name: "Dhara Mustard Kachi Ghani Oil", brand: "Dhara", category: "Staples", price: 145, mrp: 160, unit: "1 L", img: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=300", desc: "Cold pressed pungent mustard oil." },
 
-            // Personal Care & Household (7 Items)
-            { id: 64, name: "Dettol Germ Protection Soap", brand: "Dettol", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", desc: "Protects from illness-causing germs with pine fragrance." },
-            { id: 65, name: "Colgate MaxFresh Peppermint", brand: "Colgate", category: "Care", price: 65, mrp: 70, unit: "150 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", desc: "Cooling crystals for fresh breath." },
-            { id: 66, name: "Surf Excel Easy Wash Detergent", brand: "Surf Excel", category: "Care", price: 140, mrp: 155, unit: "1 kg", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", desc: "Removes tough stains easily." },
-            { id: 67, name: "Vim Lemon Dishwash Gel Bottle", brand: "Vim", category: "Care", price: 55, mrp: 60, unit: "250 ml", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", desc: "Real lemon power cuts tough grease off steel & glass." },
-            { id: 68, name: "Lifebuoy Total Handwash Refill", brand: "Lifebuoy", category: "Care", price: 85, mrp: 99, unit: "750 ml", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", desc: "Silver shield formula kills 99.9% germs in 10 secs." },
-            { id: 69, name: "Harpic Power Plus Toilet Cleaner", brand: "Harpic", category: "Care", price: 92, mrp: 99, unit: "500 ml", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", desc: "Disinfectant toilet cleaner removing limescale." },
-            { id: 70, name: "Patanjali Dant Kanti Toothpaste", brand: "Patanjali", category: "Care", price: 55, mrp: 60, unit: "100 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", desc: "Ayurvedic herbal dental protection paste." }
+            // Personal Care & Household (5 Unique Items)
+            { id: 56, name: "Dettol Germ Protection Soap", brand: "Dettol", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", desc: "Protects from illness-causing germs with pine fragrance." },
+            { id: 57, name: "Colgate MaxFresh Peppermint", brand: "Colgate", category: "Care", price: 65, mrp: 70, unit: "150 g", img: "https://images.unsplash.com/photo-1559591937-e10c79328a6f?w=300", desc: "Cooling crystals for fresh breath." },
+            { id: 58, name: "Surf Excel Easy Wash Detergent", brand: "Surf Excel", category: "Care", price: 140, mrp: 155, unit: "1 kg", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", desc: "Removes tough stains easily." },
+            { id: 59, name: "Vim Lemon Dishwash Gel Bottle", brand: "Vim", category: "Care", price: 55, mrp: 60, unit: "250 ml", img: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300", desc: "Real lemon power cuts tough grease off steel." },
+            { id: 60, name: "Lifebuoy Total Handwash Refill", brand: "Lifebuoy", category: "Care", price: 85, mrp: 99, unit: "750 ml", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=300", desc: "Kills 99.9% germs in 10 seconds." }
         ];
 
         let cart = {};
@@ -1494,6 +1626,7 @@
         let currentModalProduct = null;
         let selectedPackRatio = 1;
         let modalQuantity = 1;
+        let selectedPaymentMode = "PhonePe";
         let currentLang = 'en';
 
         // Render Catalog
@@ -1504,13 +1637,10 @@
             if (items.length === 0) {
                 container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px 10px; color: var(--text-sub);">
                     <i class="ph ph-magnifying-glass" style="font-size:36px; margin-bottom:8px;"></i>
-                    <p>No products match your budget or category.</p>
+                    <p>No products match your search or budget.</p>
                 </div>`;
-                document.getElementById('items-found-count').innerText = `0 items`;
                 return;
             }
-
-            document.getElementById('items-found-count').innerText = `${items.length} items available`;
 
             items.forEach(p => {
                 const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
@@ -1601,7 +1731,7 @@
             filterProducts();
         }
 
-        // Cart Engine
+        // Cart Actions
         function addItem(id) {
             const prod = catalogDB.find(p => p.id === id);
             cart[id] = { ...prod, qty: 1 };
@@ -1631,6 +1761,7 @@
             }
         }
 
+        // Exact ₹120 Free Delivery Calculation
         function syncCheckoutData() {
             let totalCount = 0;
             let itemsTotal = 0;
@@ -1650,7 +1781,7 @@
                     card.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div style="display:flex; gap:10px; align-items:center;">
-                                <img src="${item.img}" style="width:44px; height:44px; object-fit:contain; border-radius:8px;">
+                                <img src="${item.img}" style="width:44px; height:44px; object-fit:contain; border-radius:8px; border:1px solid #edf1ee;">
                                 <div>
                                     <h5 style="font-size:13px; font-weight:700;">${item.name}</h5>
                                     <p style="font-size:11px; color:var(--text-sub);">${item.unit}</p>
@@ -1669,7 +1800,9 @@
             }
 
             const handling = itemsTotal > 0 ? 6 : 0;
-            const deliveryCharge = itemsTotal >= 200 || itemsTotal === 0 ? 0 : 35;
+            // Free delivery at ₹120
+            const isFreeDelivery = itemsTotal >= 120 || itemsTotal === 0;
+            const deliveryCharge = isFreeDelivery ? 0 : 25;
             const grandTotal = itemsTotal + handling + deliveryCharge;
 
             if(document.getElementById('bill-items-total')) {
@@ -1678,22 +1811,36 @@
                 document.getElementById('bill-delivery-charge').innerText = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
                 document.getElementById('bill-grand-total').innerText = `₹${grandTotal}`;
                 document.getElementById('btn-total-label').innerText = `₹${grandTotal} TOTAL`;
+
+                const freeBanner = document.getElementById('free-delivery-text');
+                if (itemsTotal < 120 && itemsTotal > 0) {
+                    freeBanner.innerText = `Add products worth ₹${120 - itemsTotal} more to get FREE delivery`;
+                } else if(itemsTotal >= 120) {
+                    freeBanner.innerText = `🎉 You have unlocked 100% FREE Delivery!`;
+                }
             }
 
             const floatBar = document.getElementById('float-cart');
             if (totalCount > 0) {
                 floatBar.style.display = 'flex';
-                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
+                document.getElementById('cart-item-count').innerText = `${totalCount}`;
                 document.getElementById('cart-item-price').innerText = `₹${grandTotal}`;
             } else {
                 floatBar.style.display = 'none';
             }
         }
 
+        function setCheckoutPayment(el, mode) {
+            document.querySelectorAll('.payment-pill-card').forEach(p => p.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPaymentMode = mode;
+            document.getElementById('active-pay-badge').innerText = mode;
+        }
+
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Product Details Modal
+        // Photos 18 & 19 Product Detail Modal
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -1708,14 +1855,13 @@
 
             document.getElementById('pack-label-1').innerText = p.unit;
             document.getElementById('pack-price-1').innerText = `₹${p.price}`;
-            document.getElementById('pack-label-2').innerText = 'Mega Pack';
+            document.getElementById('pack-label-2').innerText = 'Family Mega';
             document.getElementById('pack-price-2').innerText = `₹${Math.round(p.price * 2.8)}`;
 
             document.getElementById('chip-pack-1').classList.add('active');
             document.getElementById('chip-pack-2').classList.remove('active');
             document.getElementById('modal-qty-val').innerText = '1';
 
-            // Wishlist icon sync
             const wishIcon = document.getElementById('modal-wish-icon');
             if (wishlist[p.id]) {
                 wishIcon.className = "ph-fill ph-heart";
@@ -1781,7 +1927,36 @@
 
         function closeProductModal() { document.getElementById('product-detail-modal').style.display = 'none'; }
 
-        // Live Geolocation API & Address Slots
+        // Top-Right Verified Profile Modal
+        function openVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'flex'; }
+        function closeVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'none'; }
+
+        // Edit Profile Modal
+        function openEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'flex'; }
+        function closeEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
+        function saveProfileData() {
+            const name = document.getElementById('prof-name-input').value.trim();
+            const phone = document.getElementById('prof-phone-input').value.trim();
+            const email = document.getElementById('prof-email-input').value.trim();
+
+            if(name) {
+                document.getElementById('disp-prev-name').innerText = name;
+                document.getElementById('view-prof-name').innerText = name;
+            }
+            if(phone) {
+                document.getElementById('disp-prev-phone').innerText = phone;
+                document.getElementById('view-prof-phone').innerText = `+91 ${phone}`;
+            }
+            if(email) {
+                document.getElementById('disp-prev-email').innerText = email;
+                document.getElementById('view-prof-email').innerText = email;
+            }
+
+            alert("Profile successfully updated in database!");
+            closeEditProfileModal();
+        }
+
+        // Live Geolocation API & Address Management
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -1817,7 +1992,7 @@
                         closeLocationModal();
                     },
                     (err) => {
-                        alert("Please enable location permission in your phone/browser settings.");
+                        alert("Location error: Please enable GPS permission in your phone/browser settings.");
                         btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
                     },
                     { enableHighAccuracy: true, timeout: 10000 }
@@ -1840,25 +2015,42 @@
             });
         }
 
-        // Rider Tracker Modal
+        // Live Rider Tracker Modal
         function openRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'flex'; }
         function closeRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'none'; }
-
-        // Edit Profile Modal
-        function openEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'flex'; }
-        function closeEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
-        function saveProfileData() {
-            const name = document.getElementById('prof-name-input').value.trim();
-            alert(`Profile Updated for ${name}!`);
-            closeEditProfileModal();
+        function openRiderTrackerFromSuccess() {
+            document.getElementById('order-success-modal').style.display = 'none';
+            openRiderTrackerModal();
         }
 
-        // Refund Flow
+        // Order Success
+        function triggerOrderSuccess() {
+            let totalCount = 0;
+            for(let id in cart) totalCount += cart[id].qty;
+            if(totalCount === 0) {
+                alert("Cart is empty! Please add some groceries.");
+                return;
+            }
+
+            closeCartDrawer();
+            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
+            document.getElementById('order-success-modal').style.display = 'flex';
+            cart = {};
+            syncCheckoutData();
+            renderProducts(catalogDB);
+        }
+
+        function dismissOrderSuccess() {
+            document.getElementById('order-success-modal').style.display = 'none';
+            showTab('home');
+        }
+
+        // Return / Refund Photo Proof Flow
         function openRefundModal() { document.getElementById('refund-modal').style.display = 'flex'; }
         function closeRefundModal() { document.getElementById('refund-modal').style.display = 'none'; }
         function handleProofUploaded(input) {
             if(input.files && input.files[0]) {
-                document.getElementById('proof-photo-label').innerText = `✔ ${input.files[0].name} attached`;
+                document.getElementById('proof-photo-label').innerText = `✔ ${input.files[0].name} Attached`;
             }
         }
         function submitRefundClaim() {
@@ -1873,42 +2065,24 @@
             localStorage.setItem('roxen_cookies', 'true');
         }
 
-        // Order Success
-        function triggerOrderSuccess() {
-            let totalCount = 0;
-            for(let id in cart) totalCount += cart[id].qty;
-            if(totalCount === 0) {
-                alert("Cart is empty!");
-                return;
-            }
-            closeCartDrawer();
-            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
-            alert("Order #RX-2026 Placed Successfully! Delivery partner dispatched.");
-            cart = {};
-            syncCheckoutData();
-            renderProducts(catalogDB);
-        }
-
-        // Settings View Handlers
-        function openOrdersModal() {
-            alert(`You have ${pastOrders.length} past orders delivered.`);
-        }
+        // Settings Sub-options Handlers
+        function openOrdersModal() { alert(`You have ${pastOrders.length} past orders delivered.`); }
         function openWishlistModal() {
             const count = Object.keys(wishlist).length;
             alert(count > 0 ? `You have ${count} saved items in wishlist!` : "Wishlist is empty. Tap the heart icon on any product to save it.");
         }
         function openPaymentMethodsModal() {
-            alert("Active Payment Mode: PhonePe UPI (Default). You can also choose COD or GPay at checkout.");
+            alert(`Active Default Payment: ${selectedPaymentMode}. You can choose different options at checkout.`);
         }
         function openNotificationsModal() {
-            alert("Notifications:\n1. 10-Minute Superfast delivery live in Hisar.\n2. 50% discount on Amul Paneer.\n3. Wallet cashback credited.");
+            alert("Notifications:\n1. 10-Minute Superfast delivery live in Hisar.\n2. FREE delivery unlocked on orders above ₹120.\n3. Rajesh Kumar assigned for instant drop.");
         }
         function openHelpSupportModal() {
-            alert("Roxen 24/7 Support: Need assistance? Email sumitsingh34398@gmail.com or call our delivery helpline.");
+            alert("Roxen 24/7 Helpline: Call 9602697303 or email sumitsingh34398@gmail.com for instant delivery assistance.");
         }
         function openCookieManagerModal() {
             allowAllCookies();
-            alert("Cookies set to: All Allowed (Functional & Analytical).");
+            alert("Cookie status: All Allowed (Functional and secure location tokens active).");
         }
         function openLegalTermsModal() {
             alert("Legal & Terms: Roxen guarantees 10-minute delivery. Return claims with photographic proof are refunded within 5 minutes.");
@@ -1932,7 +2106,7 @@
             document.getElementById('txt-wishlist').innerText = (currentLang === 'en') ? 'Wishlist' : 'पसंदीदा सामान';
         }
 
-        // Tab Router
+        // Tab Navigation Router
         function showTab(tab) {
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById('home-view').style.display = 'none';
