@@ -7,6 +7,7 @@
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         * {
@@ -25,6 +26,7 @@
             --text-main: #18231e;
             --text-sub: #64736c;
             --border-clr: #e6ece8;
+            --glow-color: rgba(12, 131, 31, 0.25);
         }
 
         body {
@@ -50,9 +52,9 @@
         @media (min-width: 900px) {
             .app-wrapper {
                 padding-bottom: 30px;
-                margin: 20px auto;
+                margin: 16px auto;
                 border-radius: 24px;
-                min-height: calc(100vh - 40px);
+                min-height: calc(100vh - 32px);
                 border: 1px solid var(--border-clr);
             }
         }
@@ -80,7 +82,6 @@
             gap: 16px;
         }
 
-        /* Logo styling: Rox in Red, en in Green */
         .brand-logo-text {
             font-size: 26px;
             font-weight: 800;
@@ -96,6 +97,12 @@
             display: flex;
             flex-direction: column;
             cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        .location-pill:hover {
+            background: var(--brand-light);
         }
 
         .eta-title {
@@ -138,8 +145,32 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+        .desktop-cart-btn:hover {
+            box-shadow: 0 4px 14px rgba(12, 131, 31, 0.3);
+            transform: translateY(-1px);
         }
         @media (min-width: 768px) { .desktop-cart-btn { display: inline-flex; } }
+
+        .profile-icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--brand-light);
+            color: var(--brand-green);
+            border: 1px solid #d4ebd9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.2s;
+        }
+        .profile-icon-btn:hover {
+            box-shadow: 0 0 0 3px var(--glow-color);
+            background: #d8f3e0;
+        }
 
         .search-container {
             margin-top: 12px;
@@ -169,7 +200,7 @@
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.1);
         }
 
-        /* Budget & Category Filter Bar */
+        /* Filter Controls */
         .filter-scroller {
             display: flex;
             gap: 8px;
@@ -193,26 +224,73 @@
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
+            position: relative;
+        }
+        .filter-chip:hover {
+            border-color: var(--brand-green);
         }
         .filter-chip.active {
             background: var(--brand-green);
             color: #ffffff;
             border-color: var(--brand-green);
-            box-shadow: 0 3px 10px rgba(12, 131, 31, 0.2);
+            box-shadow: 0 0 0 3px var(--glow-color);
         }
 
-        .custom-budget-input {
-            height: 33px;
-            width: 110px;
+        /* Budget Dropdown Pill */
+        .budget-dropdown-wrap {
+            position: relative;
+            display: inline-block;
+        }
+        .budget-select-btn {
             border: 1.5px solid #d4ded8;
-            border-radius: 18px;
-            padding: 0 10px;
+            background: #ffffff;
+            padding: 7px 14px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
-            outline: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .budget-select-btn.active {
+            background: var(--brand-light);
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+        .budget-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: #ffffff;
+            border: 1px solid var(--border-clr);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            padding: 8px;
+            min-width: 170px;
+            display: none;
+            z-index: 200;
+        }
+        .budget-option {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .budget-option:hover {
+            background: var(--brand-light);
+            color: var(--brand-green);
         }
 
-        /* Banner */
+        /* Hero Banner */
         .hero-banner {
             margin: 16px 20px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
@@ -262,9 +340,13 @@
             flex-direction: column;
             justify-content: space-between;
             cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.2s;
+            transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
         }
-        .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .product-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06); 
+            border-color: #c7ded0;
+        }
 
         .badge-discount {
             position: absolute;
@@ -309,6 +391,10 @@
             padding: 6px 14px;
             border-radius: 9px;
             cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-add:hover {
+            box-shadow: 0 0 0 3px var(--glow-color);
         }
         .qty-controller {
             display: none;
@@ -322,7 +408,7 @@
             font-size: 13px;
         }
 
-        /* Floating Bottom Cart */
+        /* Floating Bottom Cart Bar (Mobile Only) */
         .cart-float-bar {
             position: fixed;
             bottom: 74px;
@@ -340,6 +426,53 @@
             box-shadow: 0 10px 30px rgba(12, 131, 31, 0.35);
             z-index: 99;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cart-float-bar:hover {
+            box-shadow: 0 0 0 4px var(--glow-color);
+        }
+
+        /* Categories Section View */
+        #categories-view {
+            display: none;
+            padding: 20px;
+        }
+        .category-big-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 14px;
+        }
+        @media (min-width: 650px) {
+            .category-big-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        .category-tile {
+            background: #ffffff;
+            border: 1.5px solid var(--border-clr);
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .category-tile:hover {
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px var(--glow-color);
+            transform: translateY(-2px);
+        }
+        .category-tile .tile-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        .category-tile h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .category-tile p {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 2px;
         }
 
         /* Bottom Tab Navigation */
@@ -365,10 +498,17 @@
             font-weight: 800;
             gap: 3px;
             cursor: pointer;
+            transition: all 0.2s;
+            padding: 4px 10px;
+            border-radius: 12px;
         }
-        .nav-link.active { color: var(--brand-green); }
+        .nav-link.active {
+            color: var(--brand-green);
+            background: var(--brand-light);
+            box-shadow: 0 0 0 2px var(--glow-color);
+        }
 
-        /* Full Blinkit Checkout Drawer */
+        /* Drawer Overlay */
         .drawer-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -402,7 +542,7 @@
         }
         .checkout-card {
             background: #ffffff;
-            margin: 12px 16px;
+            margin: 10px 16px;
             border-radius: 18px;
             padding: 16px;
             border: 1px solid #eef2ef;
@@ -437,6 +577,36 @@
             border-top: 1px dashed #dbe3de;
             padding-top: 10px;
             margin-top: 8px;
+        }
+
+        /* Payment Method Radio Cards */
+        .payment-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .pay-option-card {
+            border: 1.5px solid #e1e7e4;
+            border-radius: 14px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pay-option-card.active {
+            border-color: var(--brand-green);
+            background: var(--brand-light);
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+        .pay-option-card i.radio-icon {
+            font-size: 16px;
+            color: #9bb0a4;
+        }
+        .pay-option-card.active i.radio-icon {
+            color: var(--brand-green);
         }
 
         /* Product Detail Full Modal */
@@ -517,7 +687,7 @@
         }
         .location-modal-box {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: #ffffff;
             border-radius: 24px;
             padding: 22px;
@@ -531,14 +701,23 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .address-card-item:hover {
+            border-color: var(--brand-green);
         }
         .address-card-item.selected {
             border-color: var(--brand-green);
             background: var(--brand-light);
+            box-shadow: 0 0 0 3px var(--glow-color);
         }
 
-        /* Settings & Guidelines Tabs */
-        #settings-view { display: none; padding: 20px; }
+        /* Profile & Settings Views */
+        #profile-view, #settings-view {
+            display: none;
+            padding: 20px;
+        }
+
         .info-accordion {
             background: #ffffff;
             border: 1px solid var(--border-clr);
@@ -565,6 +744,82 @@
             line-height: 1.6;
             display: none;
         }
+
+        /* GSTIN Modal */
+        .gstin-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .gstin-box {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        /* Premium Order Placed Modal */
+        .order-success-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .order-success-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 26px;
+            padding: 30px 22px;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .success-check-circle {
+            width: 72px;
+            height: 72px;
+            background: #dcfce7;
+            color: var(--brand-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin: 0 auto 16px;
+            border: 3px solid #86efac;
+        }
+        .eta-track-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            margin: 18px 0 10px;
+            overflow: hidden;
+        }
+        .eta-fill {
+            height: 100%;
+            width: 35%;
+            background: var(--brand-green);
+            border-radius: 6px;
+            animation: trackPulse 2s infinite ease-in-out;
+        }
+        @keyframes trackPulse {
+            0% { width: 25%; }
+            50% { width: 55%; }
+            100% { width: 25%; }
+        }
     </style>
 </head>
 <body>
@@ -586,7 +841,7 @@
                             <i class="ph-fill ph-lightning" style="color:#eab308;"></i> 10-12 Mins
                         </div>
                         <div class="location-sub">
-                            <span>To: <strong id="active-location-display">{{ user.address if user and user.address else 'Hisar, Haryana, India' }}</strong></span>
+                            <span>To: <strong id="active-location-display">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</strong></span>
                             <i class="ph-bold ph-caret-down"></i>
                         </div>
                     </div>
@@ -597,34 +852,51 @@
                         <i class="ph-bold ph-shopping-bag"></i>
                         <span id="desk-cart-count">0 items</span> • <span id="desk-cart-price">₹0</span>
                     </button>
-                    <i class="ph-bold ph-gear" style="font-size:22px; color:#555e5a; cursor:pointer;" onclick="showTab('settings')"></i>
+                    <!-- Dedicated Profile Button -->
+                    <div class="profile-icon-btn" onclick="showTab('profile')">
+                        <i class="ph-bold ph-user"></i>
+                    </div>
                 </div>
             </div>
 
             <div class="search-container">
                 <i class="ph ph-magnifying-glass"></i>
-                <input type="text" id="search-box" class="search-input" placeholder="Search milk, bread, atta, snacks, juices..." onkeyup="filterProducts()">
+                <input type="text" id="search-box" class="search-input" placeholder="Search milk, bread, atta, chips, juices, paneer..." onkeyup="filterProducts()">
             </div>
         </header>
 
-        <!-- BUDGET & CATEGORY QUICK FILTERS -->
+        <!-- DYNAMIC FILTER SCROLLER -->
         <div class="filter-scroller">
-            <div class="filter-chip active" onclick="setBudgetFilter('all', this)">All Items</div>
-            <div class="filter-chip" onclick="setBudgetFilter(50, this)">Under ₹50</div>
-            <div class="filter-chip" onclick="setBudgetFilter(100, this)">Under ₹100</div>
-            <div class="filter-chip" onclick="setBudgetFilter(200, this)">Under ₹200</div>
-            
-            <!-- Custom Budget Input -->
-            <input type="number" class="custom-budget-input" placeholder="₹ Custom Max" oninput="setCustomBudget(this.value)">
+            <div class="filter-chip active" id="chip-all" onclick="setBudgetFilter('all', this)">All Items</div>
+
+            <!-- Single Budget Dropdown Pill -->
+            <div class="budget-dropdown-wrap">
+                <div class="budget-select-btn" id="budget-btn" onclick="toggleBudgetMenu()">
+                    <i class="ph-bold ph-currency-inr"></i>
+                    <span id="budget-label">Under ₹ Budget</span>
+                    <i class="ph-bold ph-caret-down"></i>
+                </div>
+                <div class="budget-dropdown-menu" id="budget-menu">
+                    <div class="budget-option" onclick="chooseBudget('all')">Any Price (All)</div>
+                    <div class="budget-option" onclick="chooseBudget(50)">Under ₹50</div>
+                    <div class="budget-option" onclick="chooseBudget(100)">Under ₹100</div>
+                    <div class="budget-option" onclick="chooseBudget(200)">Under ₹200</div>
+                    <div class="budget-option" onclick="chooseBudget(300)">Under ₹300</div>
+                    <div class="budget-option" onclick="chooseBudget(500)">Under ₹500</div>
+                    <div style="border-top:1px solid #edf2ef; margin:6px 0; padding-top:6px;">
+                        <input type="number" id="custom-budget-input" placeholder="Custom Max ₹" oninput="chooseBudget(this.value)" style="width:100%; height:32px; border:1px solid #d4ded8; border-radius:8px; padding:0 8px; font-size:12px; font-weight:700; outline:none;">
+                    </div>
+                </div>
+            </div>
 
             <div class="filter-chip" onclick="filterByCategory('Dairy', this)">🥛 Milk & Dairy</div>
             <div class="filter-chip" onclick="filterByCategory('Snacks', this)">🍪 Snacks & Munchies</div>
-            <div class="filter-chip" onclick="filterByCategory('Drinks', this)">🥤 Cold Drinks</div>
+            <div class="filter-chip" onclick="filterByCategory('Drinks', this)">🥤 Cold Drinks & Juices</div>
             <div class="filter-chip" onclick="filterByCategory('Staples', this)">🌾 Atta & Staples</div>
             <div class="filter-chip" onclick="filterByCategory('Care', this)">🧼 Bath & Cleaning</div>
         </div>
 
-        <!-- MAIN STORE VIEW -->
+        <!-- VIEW 1: MAIN HOME STORE -->
         <main id="home-view">
             <div class="hero-banner">
                 <div class="hero-content">
@@ -639,24 +911,76 @@
                 <span id="items-found-count">Loading items...</span>
             </div>
 
-            <!-- Dynamic Product Grid -->
             <div class="products-grid" id="products-container"></div>
         </main>
 
-        <!-- SETTINGS & COMPLIANCE VIEW -->
-        <section id="settings-view">
-            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px;">Settings & Guidelines</h2>
+        <!-- VIEW 2: CATEGORIES DEDICATED VIEW -->
+        <section id="categories-view">
+            <h2 style="font-size:20px; font-weight:800; margin-bottom:4px;">Browse Categories</h2>
+            <p style="font-size:12.5px; color:var(--text-sub); margin-bottom:16px;">Select any department to filter stock instantly</p>
 
-            <div style="background:var(--brand-light); border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px; margin-bottom:20px;">
-                <div style="width:50px; height:50px; background:var(--brand-green); color:#fff; font-size:18px; font-weight:800; border-radius:14px; display:flex; align-items:center; justify-content:center;">
-                    {{ (user.name[:2] if user and user.name else 'RX').upper() }}
+            <div class="category-big-grid">
+                <div class="category-tile" onclick="openCategoryFromGrid('Dairy')">
+                    <div class="tile-icon">🥛</div>
+                    <h4>Milk & Dairy</h4>
+                    <p>20 Fresh Items</p>
                 </div>
-                <div>
-                    <h3 style="font-size:17px; font-weight:800;">{{ user.name if user and user.name else 'Roxen Member' }}</h3>
-                    <p style="font-size:12.5px; color:var(--text-sub);">{{ user.phone if user and user.phone else '9602697303' }}</p>
-                    <p style="font-size:11.5px; color:#85968e;">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</p>
+                <div class="category-tile" onclick="openCategoryFromGrid('Snacks')">
+                    <div class="tile-icon">🍪</div>
+                    <h4>Snacks & Munchies</h4>
+                    <p>12 Crunchy Items</p>
+                </div>
+                <div class="category-tile" onclick="openCategoryFromGrid('Drinks')">
+                    <div class="tile-icon">🥤</div>
+                    <h4>Cold Drinks & Juices</h4>
+                    <p>10 Fizzy Items</p>
+                </div>
+                <div class="category-tile" onclick="openCategoryFromGrid('Staples')">
+                    <div class="tile-icon">🌾</div>
+                    <h4>Atta, Rice & Staples</h4>
+                    <p>6 Kitchen Items</p>
+                </div>
+                <div class="category-tile" onclick="openCategoryFromGrid('Care')">
+                    <div class="tile-icon">🧼</div>
+                    <h4>Bath & Home Care</h4>
+                    <p>4 Hygiene Items</p>
                 </div>
             </div>
+        </section>
+
+        <!-- VIEW 3: PROFILE ONLY VIEW -->
+        <section id="profile-view">
+            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px;">User Profile</h2>
+
+            <div style="background:var(--brand-light); border-radius:20px; padding:20px; display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:20px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(12,131,31,0.25);">
+                    {{ (user.name[:2] if user and user.name else 'SS').upper() }}
+                </div>
+                <div>
+                    <h3 style="font-size:18px; font-weight:800;">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
+                    <p style="font-size:13px; color:var(--text-sub); font-weight:600;">+91 {{ user.phone if user and user.phone else '9602697303' }}</p>
+                    <p style="font-size:12px; color:#85968e;">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</p>
+                    <span style="font-size:10px; font-weight:800; background:var(--brand-green); color:#fff; padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px;">Verified Roxen Member</span>
+                </div>
+            </div>
+
+            <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Delivery Coordinates</p>
+            <div class="address-card-item selected" style="margin-bottom:12px;">
+                <div>
+                    <strong style="font-size:13px;">Active Location</strong>
+                    <span style="font-size:12px; color:var(--text-sub);" id="profile-active-loc">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</span>
+                </div>
+                <button onclick="openLocationModal()" style="border:none; background:var(--brand-green); color:#fff; font-size:11px; font-weight:700; padding:6px 12px; border-radius:8px; cursor:pointer;">Change</button>
+            </div>
+
+            <a href="/logout" style="display:block; text-align:center; padding:13px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:14px; text-decoration:none; margin-top:24px;">
+                Logout Account
+            </a>
+        </section>
+
+        <!-- VIEW 4: SETTINGS & GUIDELINES VIEW -->
+        <section id="settings-view">
+            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px;">App Settings & Policy Hub</h2>
 
             <!-- Orders & Refund Policy -->
             <div class="info-accordion">
@@ -693,10 +1017,6 @@
                     • Zero tolerance against harassment of riders or customers.</p>
                 </div>
             </div>
-
-            <a href="/logout" style="display:block; text-align:center; padding:12px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:12px; text-decoration:none; margin-top:20px;">
-                Logout Account
-            </a>
         </section>
 
         <!-- FLOATING BOTTOM CART BAR (Mobile) -->
@@ -713,24 +1033,24 @@
         <!-- BOTTOM TAB NAVIGATION -->
         <nav class="bottom-nav">
             <div class="nav-link active" id="nav-home" onclick="showTab('home')">
-                <i class="ph-fill ph-house"></i>
+                <i class="ph-fill ph-house" style="font-size:20px;"></i>
                 <span>HOME</span>
             </div>
-            <div class="nav-link" id="nav-cat" onclick="showTab('home')">
-                <i class="ph ph-squares-four"></i>
+            <div class="nav-link" id="nav-cat" onclick="showTab('categories')">
+                <i class="ph-bold ph-squares-four" style="font-size:20px;"></i>
                 <span>CATEGORIES</span>
             </div>
             <div class="nav-link" id="nav-cart" onclick="openCartDrawer()">
-                <i class="ph ph-shopping-bag"></i>
+                <i class="ph-bold ph-shopping-bag" style="font-size:20px;"></i>
                 <span>CART</span>
             </div>
             <div class="nav-link" id="nav-settings" onclick="showTab('settings')">
-                <i class="ph ph-gear"></i>
+                <i class="ph-bold ph-gear" style="font-size:20px;"></i>
                 <span>SETTINGS</span>
             </div>
         </nav>
 
-        <!-- EXACT BLINKIT CHECKOUT DRAWER (From Reference Screenshot) -->
+        <!-- BLINKIT CHECKOUT DRAWER -->
         <div class="drawer-overlay" id="cart-drawer">
             <div class="drawer-box">
                 <div class="checkout-head">
@@ -772,16 +1092,39 @@
                     </div>
                 </div>
 
-                <!-- Add GSTIN Card -->
-                <div class="checkout-card" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+                <!-- Interactive GSTIN Trigger -->
+                <div class="checkout-card" onclick="openGstinModal()" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="ph-bold ph-receipt" style="color:#2563eb; font-size:22px;"></i>
                         <div>
-                            <h5 style="font-size:13.5px; font-weight:800;">Add GSTIN</h5>
+                            <h5 style="font-size:13.5px; font-weight:800;" id="gstin-status-text">Add GSTIN</h5>
                             <p style="font-size:11px; color:var(--text-sub);">Claim GST input credit up to 18% on your order</p>
                         </div>
                     </div>
                     <i class="ph-bold ph-caret-right" style="color:#85968e;"></i>
+                </div>
+
+                <!-- Selectable Payment Methods -->
+                <div class="checkout-card">
+                    <h5 style="font-size:13.5px; font-weight:800; margin-bottom:8px;">Choose Payment Option</h5>
+                    <div class="payment-options-grid">
+                        <div class="pay-option-card active" onclick="selectPaymentMode(this, 'PhonePe UPI')">
+                            <span style="font-size:12px; font-weight:700;"><i class="ph-bold ph-wallet" style="color:#673ab7; margin-right:4px;"></i> PhonePe</span>
+                            <i class="ph-fill ph-check-circle radio-icon"></i>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMode(this, 'Google Pay UPI')">
+                            <span style="font-size:12px; font-weight:700;"><i class="ph-bold ph-google-logo" style="color:#ea4335; margin-right:4px;"></i> GPay UPI</span>
+                            <i class="ph-circle radio-icon"></i>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMode(this, 'Paytm / Wallet')">
+                            <span style="font-size:12px; font-weight:700;"><i class="ph-bold ph-credit-card" style="color:#00b9f1; margin-right:4px;"></i> Paytm</span>
+                            <i class="ph-circle radio-icon"></i>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMode(this, 'Cash on Delivery')">
+                            <span style="font-size:12px; font-weight:700;"><i class="ph-bold ph-money" style="color:var(--brand-green); margin-right:4px;"></i> Pay on Delivery</span>
+                            <i class="ph-circle radio-icon"></i>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Delivery Address Selected -->
@@ -798,9 +1141,9 @@
                     <div style="display:flex; gap:12px; align-items:center;">
                         <div style="display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700;">
                             <i class="ph-fill ph-shield-check" style="color:var(--brand-green); font-size:18px;"></i>
-                            <span>PhonePe / UPI</span>
+                            <span id="selected-payment-display">PhonePe UPI</span>
                         </div>
-                        <button style="flex:1; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="alert('Order placed successfully! Delivery partner arriving in 10 mins.')">
+                        <button style="flex:1; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="triggerPremiumOrderPlacement()">
                             <span id="btn-total-label">₹0 TOTAL</span>
                             <span>Place Order <i class="ph-bold ph-caret-right"></i></span>
                         </button>
@@ -809,7 +1152,7 @@
             </div>
         </div>
 
-        <!-- PRODUCT DETAILS QUICK-VIEW MODAL (With Nutrients & Multi-Photos) -->
+        <!-- PRODUCT DETAILS QUICK-VIEW MODAL -->
         <div class="prod-modal-overlay" id="product-detail-modal">
             <div class="prod-modal-card">
                 <i class="ph-bold ph-x" style="position:absolute; right:16px; top:16px; font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
@@ -846,7 +1189,7 @@
             </div>
         </div>
 
-        <!-- LOCATION MODAL (GPS + 2 SAVED ADDRESSES) -->
+        <!-- LOCATION MODAL (REAL LIVE GPS & 2 SAVED SLOTS) -->
         <div class="location-modal-overlay" id="location-modal">
             <div class="location-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -854,36 +1197,79 @@
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeLocationModal()"></i>
                 </div>
 
-                <!-- GPS Trigger -->
-                <button onclick="fetchExactLiveGPS()" style="width:100%; height:48px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:14px; font-weight:800; font-size:13.5px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:16px;">
+                <!-- High Precision GPS Trigger -->
+                <button id="gps-action-btn" onclick="fetchExactLiveGPS()" style="width:100%; height:48px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:14px; font-weight:800; font-size:13.5px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:16px;">
                     <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
                 </button>
 
-                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Addresses (Click to Select)</p>
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
                 
-                <!-- Address Slot 1 -->
                 <div class="address-card-item selected" id="slot-1" onclick="selectAddressSlot(1)">
                     <div>
-                        <strong style="font-size:13px; display:block;" id="label-addr-1">Home Address</strong>
-                        <span style="font-size:12px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
+                        <strong style="font-size:13px; display:block;">Home Slot 1</strong>
+                        <span style="font-size:12px; color:var(--text-sub);" id="val-addr-1">Hisar Sector 14, Haryana</span>
                     </div>
                     <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
                 </div>
 
-                <!-- Address Slot 2 -->
                 <div class="address-card-item" id="slot-2" onclick="selectAddressSlot(2)">
                     <div>
-                        <strong style="font-size:13px; display:block;" id="label-addr-2">College / Office Address</strong>
+                        <strong style="font-size:13px; display:block;">College / Office Slot 2</strong>
                         <span style="font-size:12px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
                     </div>
                     <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
                 </div>
 
-                <!-- Edit Custom Address Box -->
-                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin:14px 0 6px;">Add / Update Selected Address</p>
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin:14px 0 6px;">Add / Edit Selected Address</p>
                 <input type="text" id="custom-addr-input" placeholder="Type new flat, road, or landmark..." style="width:100%; height:44px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 14px; font-size:13px; outline:none; margin-bottom:12px;">
                 <button onclick="saveCustomAddress()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
                     Save & Set Location
+                </button>
+            </div>
+        </div>
+
+        <!-- GSTIN MODAL -->
+        <div class="gstin-modal-overlay" id="gstin-modal">
+            <div class="gstin-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Add GSTIN Details</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeGstinModal()"></i>
+                </div>
+                <input type="text" id="gst-number" placeholder="Enter 15-digit GSTIN (e.g. 06AAAAA0000A1Z5)" style="width:100%; height:44px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 12px; font-size:13px; font-weight:700; text-transform:uppercase; margin-bottom:10px; outline:none;">
+                <input type="text" id="gst-name" placeholder="Registered Business Name" style="width:100%; height:44px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 12px; font-size:13px; margin-bottom:14px; outline:none;">
+                <button onclick="saveGstinDetails()" style="width:100%; height:46px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
+                    Claim 18% Tax Credit
+                </button>
+            </div>
+        </div>
+
+        <!-- PREMIUM ORDER SUCCESS MODAL -->
+        <div class="order-success-overlay" id="order-success-modal">
+            <div class="order-success-card">
+                <div class="success-check-circle">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <h3 style="font-size:21px; font-weight:800; color:#0d5c3a;">Order Placed!</h3>
+                <p style="font-size:13px; color:var(--text-sub); margin-top:4px;">Dark Store Packing in Progress 📦</p>
+
+                <div class="eta-track-bar">
+                    <div class="eta-fill"></div>
+                </div>
+                <p style="font-size:12px; font-weight:700; color:var(--brand-green);">Delivery Partner arriving in 10-12 Mins</p>
+
+                <div style="background:#f8faf9; border:1px solid #edf2ee; border-radius:14px; padding:12px; margin:18px 0; text-align:left; font-size:12.5px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Order ID:</span>
+                        <strong id="success-order-id">#RX-2026-981</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="color:var(--text-sub);">Payment Method:</span>
+                        <strong id="success-order-pay">PhonePe UPI</strong>
+                    </div>
+                </div>
+
+                <button onclick="dismissOrderSuccess()" style="width:100%; height:46px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
+                    Continue Shopping
                 </button>
             </div>
         </div>
@@ -892,7 +1278,7 @@
 
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        // 50+ Product Inventory Database
+        // Full Inventory Database
         const catalogDB = [
             // Dairy (20 Items)
             { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", energy: "58 kcal", protein: "3.2 g", carbs: "4.7 g", fat: "3.0 g", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
@@ -950,7 +1336,7 @@
             { id: 47, name: "Tata Sampann Unpolished Toor Dal", brand: "Tata", category: "Staples", price: 165, mrp: 180, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", energy: "340 kcal", protein: "22 g", carbs: "57 g", fat: "1.5 g", desc: "Natural unpolished pigeon pea dal rich in plant protein." },
             { id: 48, name: "Catch Red Chilli Powder / Lal Mirch", brand: "Catch", category: "Staples", price: 58, mrp: 65, unit: "200 g", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", energy: "280 kcal", protein: "10 g", carbs: "40 g", fat: "12 g", desc: "Low-temperature ground fiery aromatic red pepper." },
 
-            // Personal Care & Cleaning (5 Items)
+            // Personal Care & Cleaning (4 Items)
             { id: 49, name: "Dettol Original Germ Protection Soap", brand: "Dettol", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Protects from 100 illness-causing germs with pine fragrance." },
             { id: 50, name: "Colgate MaxFresh Peppermint Paste", brand: "Colgate", category: "Care", price: 65, mrp: 70, unit: "150 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Intense cooling crystals for all-day fresh breath." },
             { id: 51, name: "Surf Excel Easy Wash Detergent", brand: "Surf Excel", category: "Care", price: 140, mrp: 155, unit: "1 kg", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Removes tough stains easily like mud, ink and oil." },
@@ -962,8 +1348,9 @@
         let activeCategory = 'all';
         let currentModalProductId = null;
         let selectedAddressSlot = 1;
+        let selectedPaymentMethod = "PhonePe UPI";
 
-        // Render Catalog Grid
+        // Render Dynamic Catalog Grid
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -987,7 +1374,6 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = (e) => {
-                    // Agar button par click hua toh modal open mat karo
                     if (e.target.closest('.btn-add') || e.target.closest('.qty-controller')) return;
                     openProductDetailModal(p.id);
                 };
@@ -1017,7 +1403,7 @@
             });
         }
 
-        // Filters Engine
+        // Live Search & Multi-Filters
         function filterProducts() {
             const query = document.getElementById('search-box').value.toLowerCase().trim();
             const filtered = catalogDB.filter(p => {
@@ -1029,21 +1415,37 @@
             renderProducts(filtered);
         }
 
-        function setBudgetFilter(limit, el) {
-            activeBudget = limit;
+        // Budget Pill Menu Logic
+        function toggleBudgetMenu() {
+            const menu = document.getElementById('budget-menu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function chooseBudget(limit) {
+            const btn = document.getElementById('budget-btn');
+            const label = document.getElementById('budget-label');
+
+            if (limit === 'all' || !limit) {
+                activeBudget = 'all';
+                label.innerText = 'Under ₹ Budget';
+                btn.classList.remove('active');
+            } else {
+                activeBudget = parseFloat(limit);
+                label.innerText = `Under ₹${limit}`;
+                btn.classList.add('active');
+            }
+
+            document.getElementById('budget-menu').style.display = 'none';
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            if(el) el.classList.add('active');
             filterProducts();
         }
 
-        function setCustomBudget(val) {
-            const num = parseFloat(val);
-            if (!isNaN(num) && num > 0) {
-                activeBudget = num;
-                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            } else {
-                activeBudget = 'all';
-            }
+        function setBudgetFilter(limit, el) {
+            activeBudget = limit;
+            document.getElementById('budget-btn').classList.remove('active');
+            document.getElementById('budget-label').innerText = 'Under ₹ Budget';
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if(el) el.classList.add('active');
             filterProducts();
         }
 
@@ -1051,6 +1453,19 @@
             activeCategory = cat;
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
             if(el) el.classList.add('active');
+            filterProducts();
+        }
+
+        function openCategoryFromGrid(cat) {
+            showTab('home');
+            activeCategory = cat;
+            document.querySelectorAll('.filter-chip').forEach(c => {
+                if (c.innerText.toLowerCase().includes(cat.toLowerCase())) {
+                    c.classList.add('active');
+                } else {
+                    c.classList.remove('active');
+                }
+            });
             filterProducts();
         }
 
@@ -1084,7 +1499,7 @@
             }
         }
 
-        // Exact Blinkit Checkout Bill Sync
+        // Exact Blinkit Bill Breakdown Sync
         function syncCheckoutData() {
             let totalCount = 0;
             let itemsTotal = 0;
@@ -1121,12 +1536,10 @@
                 itemsWrapper.appendChild(card);
             }
 
-            // Calculation
             const handling = itemsTotal > 0 ? 6 : 0;
             const deliveryCharge = itemsTotal >= 200 || itemsTotal === 0 ? 0 : 35;
             const grandTotal = itemsTotal + handling + deliveryCharge;
 
-            // Update DOM Values
             document.getElementById('bill-items-total').innerText = `₹${itemsTotal}`;
             document.getElementById('bill-savings-tag').innerText = `Saved ₹${totalSavings}`;
             document.getElementById('bill-delivery-charge').innerText = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
@@ -1139,7 +1552,6 @@
                 document.getElementById('free-delivery-text').innerText = `🎉 You have unlocked FREE Delivery!`;
             }
 
-            // Bars
             const floatBar = document.getElementById('float-cart');
             if (totalCount > 0) {
                 floatBar.style.display = 'flex';
@@ -1156,7 +1568,7 @@
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Product Details Modal Logic
+        // Product Details Modal
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -1170,13 +1582,11 @@
             document.getElementById('modal-mrp').innerText = `₹${p.mrp}`;
             document.getElementById('modal-desc').innerText = p.desc;
 
-            // Nutrients
             document.getElementById('n-energy').innerText = p.energy || "340 kcal";
             document.getElementById('n-protein').innerText = p.protein || "8.5 g";
             document.getElementById('n-carbs').innerText = p.carbs || "55 g";
             document.getElementById('n-fat').innerText = p.fat || "2.1 g";
 
-            // Multi-Photo Gallery Thumbnails
             const thumbs = document.getElementById('modal-thumbnails');
             thumbs.innerHTML = `
                 <img src="${p.img}" class="thumb-item active" onclick="switchModalPhoto('${p.img}', this)">
@@ -1198,7 +1608,7 @@
 
         function closeProductModal() { document.getElementById('product-detail-modal').style.display = 'none'; }
 
-        // Address Management (2 Saved Slots + Live GPS)
+        // Location Management (GPS + 2 Saved Slots)
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -1207,6 +1617,10 @@
             document.getElementById('slot-1').classList.remove('selected');
             document.getElementById('slot-2').classList.remove('selected');
             document.getElementById(`slot-${slot}`).classList.add('selected');
+
+            document.getElementById('slot-1').querySelector('.ph-check-circle, .ph-circle').className = "ph-bold ph-circle";
+            document.getElementById('slot-2').querySelector('.ph-check-circle, .ph-circle').className = "ph-bold ph-circle";
+            document.getElementById(`slot-${slot}`).querySelector('.ph-circle, .ph-check-circle').className = "ph-bold ph-check-circle";
 
             const text = document.getElementById(`val-addr-${slot}`).innerText;
             updateActiveLocation(text);
@@ -1222,30 +1636,41 @@
             closeLocationModal();
         }
 
+        // Live High-Precision GPS Fetching
         function fetchExactLiveGPS() {
+            const btn = document.getElementById('gps-action-btn');
+            btn.innerHTML = `<i class="ph-bold ph-spinner ph-spin"></i> Getting exact GPS coordinates...`;
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (pos) => {
                         const lat = pos.coords.latitude.toFixed(4);
                         const lon = pos.coords.longitude.toFixed(4);
-                        const exactGps = `GPS (${lat}, ${lon}), Rampura Beri, Rajasthan Area`;
+                        const exactGps = `GPS: (${lat}, ${lon}) - Rampura Beri Area`;
+                        
                         document.getElementById(`val-addr-${selectedAddressSlot}`).innerText = exactGps;
                         updateActiveLocation(exactGps);
+                        btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
                         closeLocationModal();
                     },
                     (err) => {
-                        alert("Please enable GPS/Location permission in your browser.");
+                        alert("Location error: Please enable GPS permission in your browser.");
+                        btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
                     },
-                    { enableHighAccuracy: true, timeout: 8000 }
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
                 );
             } else {
                 alert("Geolocation is not supported by your browser.");
+                btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
             }
         }
 
         function updateActiveLocation(addr) {
             document.getElementById('active-location-display').innerText = addr;
             document.getElementById('checkout-address-line').innerText = addr;
+            const profLoc = document.getElementById('profile-active-loc');
+            if (profLoc) profLoc.innerText = addr;
+
             fetch('/api/update-location', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1253,20 +1678,92 @@
             });
         }
 
-        // Tab Navigation
+        // Selectable Payment Modes
+        function selectPaymentMode(el, modeName) {
+            document.querySelectorAll('.pay-option-card').forEach(c => {
+                c.classList.remove('active');
+                c.querySelector('.radio-icon').className = 'ph-circle radio-icon';
+            });
+            el.classList.add('active');
+            el.querySelector('.radio-icon').className = 'ph-fill ph-check-circle radio-icon';
+            selectedPaymentMethod = modeName;
+            document.getElementById('selected-payment-display').innerText = modeName;
+        }
+
+        // GSTIN Modal Logic
+        function openGstinModal() { document.getElementById('gstin-modal').style.display = 'flex'; }
+        function closeGstinModal() { document.getElementById('gstin-modal').style.display = 'none'; }
+        
+        function saveGstinDetails() {
+            const num = document.getElementById('gst-number').value.trim();
+            const name = document.getElementById('gst-name').value.trim();
+            if (num.length >= 15) {
+                document.getElementById('gstin-status-text').innerHTML = `GSTIN Applied: <strong style="color:var(--brand-green);">${num}</strong> (${name || 'Verified'})`;
+                closeGstinModal();
+            } else {
+                alert("Please enter a valid 15-digit GSTIN number.");
+            }
+        }
+
+        // Premium Order Placement & Tracking
+        function triggerPremiumOrderPlacement() {
+            let totalCount = 0;
+            for(let id in cart) totalCount += cart[id].qty;
+
+            if (totalCount === 0) {
+                alert("Your cart is empty! Please add some groceries.");
+                return;
+            }
+
+            closeCartDrawer();
+            
+            // Random Order ID
+            const orderId = '#RX-2026-' + Math.floor(100 + Math.random() * 900);
+            document.getElementById('success-order-id').innerText = orderId;
+            document.getElementById('success-order-pay').innerText = selectedPaymentMethod;
+            document.getElementById('order-success-modal').style.display = 'flex';
+
+            // Confetti Celebration
+            try {
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.6 }
+                });
+            } catch (e) {}
+
+            // Clear Cart
+            cart = {};
+            syncCheckoutData();
+            renderProducts(catalogDB);
+        }
+
+        function dismissOrderSuccess() {
+            document.getElementById('order-success-modal').style.display = 'none';
+            showTab('home');
+        }
+
+        // Tab Navigation Router
         function showTab(tab) {
-            document.getElementById('nav-home').classList.remove('active');
-            document.getElementById('nav-settings').classList.remove('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('categories-view').style.display = 'none';
+            document.getElementById('profile-view').style.display = 'none';
+            document.getElementById('settings-view').style.display = 'none';
 
             if(tab === 'home') {
                 document.getElementById('home-view').style.display = 'block';
-                document.getElementById('settings-view').style.display = 'none';
                 document.getElementById('nav-home').classList.add('active');
-            } else {
-                document.getElementById('home-view').style.display = 'none';
+            } else if(tab === 'categories') {
+                document.getElementById('categories-view').style.display = 'block';
+                document.getElementById('nav-cat').classList.add('active');
+            } else if(tab === 'profile') {
+                document.getElementById('profile-view').style.display = 'block';
+            } else if(tab === 'settings') {
                 document.getElementById('settings-view').style.display = 'block';
                 document.getElementById('nav-settings').classList.add('active');
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function toggleAccordion(btn) {
@@ -1276,11 +1773,17 @@
             btn.querySelector('.ph-caret-down').style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
-        // Initial Load
+        // Close dropdown when clicked outside
+        window.onclick = function(e) {
+            if (!e.target.closest('.budget-dropdown-wrap')) {
+                const menu = document.getElementById('budget-menu');
+                if(menu) menu.style.display = 'none';
+            }
+        };
+
         window.onload = function() {
             renderProducts(catalogDB);
             
-            // Restore saved addresses from LocalStorage if present
             if(localStorage.getItem('roxen_addr_1')) {
                 document.getElementById('val-addr-1').innerText = localStorage.getItem('roxen_addr_1');
             }
