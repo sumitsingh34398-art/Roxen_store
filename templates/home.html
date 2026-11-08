@@ -18,9 +18,9 @@
         }
 
         :root {
-            --brand: #0c831f;
+            --brand-green: #0c831f;
+            --brand-red: #e11d48;
             --brand-light: #e8f7ee;
-            --brand-dark: #085a15;
             --bg-page: #f5f7f6;
             --text-main: #18231e;
             --text-sub: #64736c;
@@ -35,7 +35,6 @@
             justify-content: center;
         }
 
-        /* Responsive Layout Engine: Mobile = App Frame, Laptop = Fluid Desktop Dashboard */
         .app-wrapper {
             width: 100%;
             max-width: 1200px;
@@ -45,7 +44,7 @@
             flex-direction: column;
             position: relative;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.04);
-            padding-bottom: 80px;
+            padding-bottom: 84px;
         }
 
         @media (min-width: 900px) {
@@ -54,12 +53,11 @@
                 margin: 20px auto;
                 border-radius: 24px;
                 min-height: calc(100vh - 40px);
-                overflow: hidden;
                 border: 1px solid var(--border-clr);
             }
         }
 
-        /* Top Sticky Navbar */
+        /* Top Sticky Bar */
         .top-navbar {
             position: sticky;
             top: 0;
@@ -82,15 +80,17 @@
             gap: 16px;
         }
 
+        /* Logo styling: Rox in Red, en in Green */
         .brand-logo-text {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
-            color: var(--brand);
-            letter-spacing: -0.6px;
+            letter-spacing: -0.8px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            cursor: pointer;
         }
+        .logo-part-red { color: var(--brand-red); }
+        .logo-part-green { color: var(--brand-green); }
 
         .location-pill {
             display: flex;
@@ -107,26 +107,18 @@
             color: var(--text-main);
         }
 
-        .eta-title i {
-            color: #eab308;
-            font-size: 17px;
-        }
-
         .location-sub {
             font-size: 12px;
             color: var(--text-sub);
             display: flex;
             align-items: center;
             gap: 4px;
-            max-width: 240px;
+            max-width: 250px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        .location-sub strong {
-            color: var(--text-main);
-        }
+        .location-sub strong { color: var(--text-main); }
 
         .user-quick-actions {
             display: flex;
@@ -135,7 +127,7 @@
         }
 
         .desktop-cart-btn {
-            background: var(--brand);
+            background: var(--brand-green);
             color: #ffffff;
             border: none;
             padding: 10px 18px;
@@ -147,17 +139,12 @@
             gap: 8px;
             cursor: pointer;
         }
+        @media (min-width: 768px) { .desktop-cart-btn { display: inline-flex; } }
 
-        @media (min-width: 768px) {
-            .desktop-cart-btn { display: inline-flex; }
-        }
-
-        /* Search & Filter Bar */
         .search-container {
             margin-top: 12px;
             position: relative;
         }
-
         .search-container i {
             position: absolute;
             left: 14px;
@@ -165,7 +152,6 @@
             font-size: 18px;
             color: #8c9892;
         }
-
         .search-input {
             width: 100%;
             height: 44px;
@@ -177,17 +163,17 @@
             outline: none;
             transition: all 0.2s;
         }
-
         .search-input:focus {
             background: #ffffff;
-            border-color: var(--brand);
+            border-color: var(--brand-green);
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.1);
         }
 
-        /* Budget & Quick Filter Chips */
+        /* Budget & Category Filter Bar */
         .filter-scroller {
             display: flex;
             gap: 8px;
+            align-items: center;
             overflow-x: auto;
             padding: 12px 20px;
             scrollbar-width: none;
@@ -206,119 +192,64 @@
             color: var(--text-sub);
             cursor: pointer;
             white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
             transition: all 0.2s;
         }
-
         .filter-chip.active {
-            background: var(--brand);
+            background: var(--brand-green);
             color: #ffffff;
-            border-color: var(--brand);
+            border-color: var(--brand-green);
             box-shadow: 0 3px 10px rgba(12, 131, 31, 0.2);
         }
 
-        /* Hero Banner */
+        .custom-budget-input {
+            height: 33px;
+            width: 110px;
+            border: 1.5px solid #d4ded8;
+            border-radius: 18px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        /* Banner */
         .hero-banner {
             margin: 16px 20px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
             border-radius: 20px;
-            padding: 22px 20px;
+            padding: 20px;
             border: 1px solid #c2e8cb;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .hero-content .tag {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--brand);
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
         .hero-content h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            color: var(--brand-dark);
+            color: #075214;
             line-height: 1.2;
             margin: 4px 0 6px;
         }
+        .hero-content p { font-size: 13px; color: #43544c; }
 
-        .hero-content p {
-            font-size: 13px;
-            color: #43544c;
-        }
-
-        /* Categories Section */
+        /* Products Grid */
         .section-headline {
             padding: 14px 20px 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        .section-headline h3 { font-size: 17px; font-weight: 800; }
+        .section-headline span { font-size: 12px; font-weight: 700; color: var(--brand-green); cursor: pointer; }
 
-        .section-headline h3 {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .section-headline span {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--brand);
-            cursor: pointer;
-        }
-
-        .cat-scroll {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding: 4px 20px 14px;
-            scrollbar-width: none;
-        }
-        .cat-scroll::-webkit-scrollbar { display: none; }
-
-        .cat-card {
-            min-width: 76px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .cat-icon {
-            width: 64px;
-            height: 64px;
-            background: #f4fbf7;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            margin: 0 auto 6px;
-            border: 1.5px solid #d8ede1;
-            transition: transform 0.2s;
-        }
-        .cat-card:active .cat-icon { transform: scale(0.93); }
-        .cat-card span { font-size: 11.5px; font-weight: 700; color: #2e3a34; }
-
-        /* Products Dynamic Grid (Responsive) */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 14px;
             padding: 6px 20px 24px;
         }
-
-        @media (min-width: 650px) {
-            .products-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        @media (min-width: 950px) {
-            .products-grid { grid-template-columns: repeat(4, 1fr); }
-        }
+        @media (min-width: 650px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 950px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
 
         .product-card {
             background: #ffffff;
@@ -330,23 +261,22 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
         }
-
-        .product-card:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        }
+        .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
 
         .badge-discount {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: var(--brand);
+            background: var(--brand-green);
             color: #ffffff;
             font-size: 9.5px;
             font-weight: 800;
             padding: 3px 7px;
             border-radius: 7px;
+            z-index: 2;
         }
 
         .prod-img-box {
@@ -360,90 +290,39 @@
             border-radius: 12px;
             overflow: hidden;
         }
+        .prod-img { max-width: 100%; max-height: 110px; object-fit: contain; }
 
-        .prod-img {
-            max-width: 100%;
-            max-height: 110px;
-            object-fit: contain;
-        }
+        .prod-brand { font-size: 9.5px; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
+        .prod-title { font-size: 13.5px; font-weight: 700; margin: 2px 0 4px; line-height: 1.3; }
+        .prod-unit { font-size: 11.5px; color: var(--text-sub); margin-bottom: 8px; }
 
-        .prod-brand {
-            font-size: 9.5px;
-            font-weight: 800;
-            color: var(--brand);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .prod-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 2px 0 4px;
-            line-height: 1.3;
-        }
-
-        .prod-unit {
-            font-size: 11.5px;
-            color: var(--text-sub);
-            margin-bottom: 10px;
-        }
-
-        .prod-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-        }
-
-        .price-box {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .final-price {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .mrp {
-            font-size: 11px;
-            text-decoration: line-through;
-            color: #98a69f;
-        }
+        .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+        .final-price { font-size: 15px; font-weight: 800; }
+        .mrp { font-size: 11px; text-decoration: line-through; color: #98a69f; }
 
         .btn-add {
             background: #f1f8f4;
-            border: 1.5px solid var(--brand);
-            color: var(--brand);
+            border: 1.5px solid var(--brand-green);
+            color: var(--brand-green);
             font-weight: 800;
-            font-size: 12.5px;
-            padding: 6px 16px;
-            border-radius: 10px;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 9px;
             cursor: pointer;
-            transition: all 0.15s;
         }
-        .btn-add:active { transform: scale(0.92); }
-
         .qty-controller {
             display: none;
             align-items: center;
-            background: var(--brand);
-            border-radius: 10px;
+            background: var(--brand-green);
+            border-radius: 9px;
             padding: 5px 9px;
             gap: 12px;
             color: #ffffff;
             font-weight: 800;
             font-size: 13px;
         }
-        .qty-controller span.btn-qty {
-            cursor: pointer;
-            font-size: 16px;
-            user-select: none;
-        }
 
-        /* Floating Bottom Cart Bar (Mobile Only) */
+        /* Floating Bottom Cart */
         .cart-float-bar {
             position: fixed;
             bottom: 74px;
@@ -451,7 +330,7 @@
             max-width: 440px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--brand);
+            background: var(--brand-green);
             color: #ffffff;
             border-radius: 16px;
             padding: 13px 18px;
@@ -462,9 +341,6 @@
             z-index: 99;
             cursor: pointer;
         }
-        .cart-float-bar .items-count { font-size: 10.5px; font-weight: 600; opacity: 0.9; }
-        .cart-float-bar .items-price { font-size: 15px; font-weight: 800; }
-        .cart-float-bar .right { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; gap: 6px; }
 
         /* Bottom Tab Navigation */
         .bottom-nav {
@@ -490,175 +366,227 @@
             gap: 3px;
             cursor: pointer;
         }
-        .nav-link i { font-size: 21px; }
-        .nav-link.active { color: var(--brand); }
+        .nav-link.active { color: var(--brand-green); }
 
-        /* Sliding Cart Drawer */
+        /* Full Blinkit Checkout Drawer */
         .drawer-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.55);
             z-index: 1000;
             display: none;
             justify-content: flex-end;
         }
-
         .drawer-box {
             width: 100%;
-            max-width: 420px;
-            background: #ffffff;
+            max-width: 450px;
+            background: #f4f6f5;
             height: 100%;
             display: flex;
             flex-direction: column;
             animation: slideLeft 0.25s ease-out;
-            padding: 20px;
+            overflow-y: auto;
         }
-
         @keyframes slideLeft {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
         }
 
-        .drawer-header {
+        .checkout-head {
+            background: #ffffff;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-bottom: 14px;
             border-bottom: 1px solid var(--border-clr);
         }
-
-        .cart-items-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 14px 0;
+        .checkout-card {
+            background: #ffffff;
+            margin: 12px 16px;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid #eef2ef;
         }
 
-        .cart-item-row {
+        .free-delivery-banner {
+            background: #f0f7ff;
+            border: 1px solid #d0e4ff;
+            border-radius: 12px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
+            font-size: 12.5px;
+            color: #0369a1;
+            font-weight: 600;
             margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed var(--border-clr);
         }
 
-        /* Cookie & Policy Agreement Bar */
-        .cookie-consent-bar {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            max-width: 480px;
-            margin: auto;
-            background: #18231e;
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 14px 18px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        .bill-row {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            z-index: 999;
-            animation: slideUp 0.3s ease-out;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 9px;
+            color: var(--text-sub);
+        }
+        .bill-row.strong {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+            border-top: 1px dashed #dbe3de;
+            padding-top: 10px;
+            margin-top: 8px;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(80px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .cookie-consent-bar p {
-            font-size: 11.5px;
-            color: #d1dbd5;
-            line-height: 1.4;
-        }
-
-        .cookie-consent-bar a {
-            color: #4ade80;
-            text-decoration: underline;
-        }
-
-        .btn-consent {
-            background: var(--brand);
-            color: #ffffff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        /* Location & Address Modal */
-        .modal-overlay {
+        /* Product Detail Full Modal */
+        .prod-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1100;
             display: none;
+            align-items: center;
             justify-content: center;
-            align-items: flex-end;
-            z-index: 1000;
+            padding: 16px;
         }
-        @media (min-width: 600px) {
-            .modal-overlay { align-items: center; }
-        }
-
-        .modal-card {
+        .prod-modal-card {
             width: 100%;
-            max-width: 440px;
+            max-width: 520px;
             background: #ffffff;
-            border-top-left-radius: 26px;
-            border-top-right-radius: 26px;
-            padding: 24px 20px;
+            border-radius: 26px;
+            padding: 22px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
         }
-        @media (min-width: 600px) {
-            .modal-card { border-radius: 24px; }
-        }
-
-        .gps-btn {
+        .modal-gallery-main {
             width: 100%;
-            height: 48px;
-            background: var(--brand-light);
-            color: var(--brand);
-            border: 1.5px dashed var(--brand);
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 13.5px;
+            height: 220px;
+            background: #fbfdfc;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .modal-gallery-main img { max-height: 200px; max-width: 90%; object-fit: contain; }
+
+        .thumb-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .thumb-item {
+            width: 56px;
+            height: 56px;
+            border: 1.5px solid #dbe3de;
+            border-radius: 12px;
+            padding: 4px;
             cursor: pointer;
-            margin-bottom: 14px;
+            object-fit: contain;
+        }
+        .thumb-item.active { border-color: var(--brand-green); }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+        }
+        .nutri-box {
+            background: #f8faf9;
+            border: 1px solid #e7ede9;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+        .nutri-val { font-size: 15px; font-weight: 800; color: var(--brand-green); }
+        .nutri-lbl { font-size: 10.5px; color: var(--text-sub); font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+
+        /* Location Selection Modal */
+        .location-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .location-modal-box {
+            width: 100%;
+            max-width: 460px;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 22px;
+        }
+        .address-card-item {
+            border: 1.5px solid #e1e7e4;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .address-card-item.selected {
+            border-color: var(--brand-green);
+            background: var(--brand-light);
         }
 
-        /* Settings View */
+        /* Settings & Guidelines Tabs */
         #settings-view { display: none; padding: 20px; }
-        .user-card { background: var(--brand-light); border-radius: 18px; padding: 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-        .avatar { width: 52px; height: 52px; background: var(--brand); color: #fff; font-size: 18px; font-weight: 800; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
-        .menu-list { background: #fff; border-radius: 16px; border: 1px solid var(--border-clr); overflow: hidden; margin-bottom: 16px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid #f6f8f7; color: var(--text-main); font-size: 13.5px; font-weight: 600; text-decoration: none; cursor: pointer; }
-        .menu-item:last-child { border-bottom: none; }
+        .info-accordion {
+            background: #ffffff;
+            border: 1px solid var(--border-clr);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .accordion-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .accordion-content {
+            padding: 0 16px 14px;
+            font-size: 12.5px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
     <div class="app-wrapper">
         
-        <!-- TOP STICKY BAR -->
+        <!-- TOP STICKY NAVBAR -->
         <header class="top-navbar">
             <div class="nav-head">
                 <div class="brand-meta">
-                    <span class="brand-logo-text"><i class="ph-fill ph-leaf"></i> Roxen</span>
+                    <!-- Red Rox + Green en Logo -->
+                    <div class="brand-logo-text" onclick="showTab('home')">
+                        <i class="ph-fill ph-leaf" style="color:var(--brand-green); margin-right:4px;"></i>
+                        <span class="logo-part-red">Rox</span><span class="logo-part-green">en</span>
+                    </div>
                     
                     <div class="location-pill" onclick="openLocationModal()">
                         <div class="eta-title">
-                            <i class="ph-fill ph-lightning"></i> 10-12 Mins
+                            <i class="ph-fill ph-lightning" style="color:#eab308;"></i> 10-12 Mins
                         </div>
                         <div class="location-sub">
-                            <span>To: <strong id="user-location-label">{{ user.address }}</strong></span>
+                            <span>To: <strong id="active-location-display">{{ user.address if user and user.address else 'Hisar, Haryana, India' }}</strong></span>
                             <i class="ph-bold ph-caret-down"></i>
                         </div>
                     </div>
@@ -669,105 +597,105 @@
                         <i class="ph-bold ph-shopping-bag"></i>
                         <span id="desk-cart-count">0 items</span> • <span id="desk-cart-price">₹0</span>
                     </button>
-                    <i class="ph-bold ph-bell" style="font-size:20px; color:#555e5a; cursor:pointer;"></i>
+                    <i class="ph-bold ph-gear" style="font-size:22px; color:#555e5a; cursor:pointer;" onclick="showTab('settings')"></i>
                 </div>
             </div>
 
-            <!-- SEARCH BAR -->
             <div class="search-container">
                 <i class="ph ph-magnifying-glass"></i>
-                <input type="text" id="search-box" class="search-input" placeholder="Search groceries, milk, atta, snacks, cold drinks..." onkeyup="filterProducts()">
+                <input type="text" id="search-box" class="search-input" placeholder="Search milk, bread, atta, snacks, juices..." onkeyup="filterProducts()">
             </div>
         </header>
 
-        <!-- BUDGET & CATEGORY QUICK FILTER CHIPS -->
+        <!-- BUDGET & CATEGORY QUICK FILTERS -->
         <div class="filter-scroller">
             <div class="filter-chip active" onclick="setBudgetFilter('all', this)">All Items</div>
             <div class="filter-chip" onclick="setBudgetFilter(50, this)">Under ₹50</div>
             <div class="filter-chip" onclick="setBudgetFilter(100, this)">Under ₹100</div>
             <div class="filter-chip" onclick="setBudgetFilter(200, this)">Under ₹200</div>
+            
+            <!-- Custom Budget Input -->
+            <input type="number" class="custom-budget-input" placeholder="₹ Custom Max" oninput="setCustomBudget(this.value)">
+
             <div class="filter-chip" onclick="filterByCategory('Dairy', this)">🥛 Milk & Dairy</div>
-            <div class="filter-chip" onclick="filterByCategory('Snacks', this)">🍪 Munchies</div>
+            <div class="filter-chip" onclick="filterByCategory('Snacks', this)">🍪 Snacks & Munchies</div>
             <div class="filter-chip" onclick="filterByCategory('Drinks', this)">🥤 Cold Drinks</div>
-            <div class="filter-chip" onclick="filterByCategory('Atta & Dal', this)">🌾 Kitchen Staples</div>
+            <div class="filter-chip" onclick="filterByCategory('Staples', this)">🌾 Atta & Staples</div>
+            <div class="filter-chip" onclick="filterByCategory('Care', this)">🧼 Bath & Cleaning</div>
         </div>
 
         <!-- MAIN STORE VIEW -->
         <main id="home-view">
-            <!-- Promo Banner -->
             <div class="hero-banner">
                 <div class="hero-content">
-                    <p class="tag">SUPERFAST GROCERY DELIVERY</p>
-                    <h1>Daily Needs.<br>Delivered in 10 Mins.</h1>
-                    <p>Farm fresh fruits, daily staples & household items straight to your home.</p>
+                    <p style="font-size:10px; font-weight:800; color:var(--brand-green); letter-spacing:0.8px;">SUPERFAST GROCERY DELIVERY</p>
+                    <h1>Daily Fresh Essentials.<br>At Your Door in 10 Mins.</h1>
+                    <p>Dairy, staples, fruits & instant snacks with live doorstep tracking.</p>
                 </div>
             </div>
 
-            <!-- Categories Scroller -->
             <div class="section-headline">
-                <h3>Shop By Category</h3>
-                <span onclick="setBudgetFilter('all', null)">View All</span>
-            </div>
-            <div class="cat-scroll">
-                <div class="cat-card" onclick="filterByCategory('Dairy', null)"><div class="cat-icon">🥛</div><span>Dairy</span></div>
-                <div class="cat-card" onclick="filterByCategory('Snacks', null)"><div class="cat-icon">🍪</div><span>Snacks</span></div>
-                <div class="cat-card" onclick="filterByCategory('Drinks', null)"><div class="cat-icon">🥤</div><span>Drinks</span></div>
-                <div class="cat-card" onclick="filterByCategory('Atta & Dal', null)"><div class="cat-icon">🌾</div><span>Atta & Dal</span></div>
-                <div class="cat-card" onclick="filterByCategory('Care', null)"><div class="cat-icon">🧼</div><span>Care</span></div>
+                <h3 id="section-title">All Catalog Items</h3>
+                <span id="items-found-count">Loading items...</span>
             </div>
 
-            <!-- Products Section -->
-            <div class="section-headline">
-                <h3 id="section-title">Popular Everyday Picks</h3>
-                <span id="items-found-count">Showing All</span>
-            </div>
-
-            <!-- Product Cards Grid (Dynamic JS Filtered) -->
-            <div class="products-grid" id="products-container">
-                <!-- Products rendered via JS -->
-            </div>
+            <!-- Dynamic Product Grid -->
+            <div class="products-grid" id="products-container"></div>
         </main>
 
-        <!-- PROFILE & SETTINGS VIEW -->
+        <!-- SETTINGS & COMPLIANCE VIEW -->
         <section id="settings-view">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:18px; color:var(--text-main);">My Account</h2>
+            <h2 style="font-size:20px; font-weight:800; margin-bottom:16px;">Settings & Guidelines</h2>
 
-            <div class="user-card">
-                <div class="avatar">{{ user.name[:2].upper() }}</div>
+            <div style="background:var(--brand-light); border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+                <div style="width:50px; height:50px; background:var(--brand-green); color:#fff; font-size:18px; font-weight:800; border-radius:14px; display:flex; align-items:center; justify-content:center;">
+                    {{ (user.name[:2] if user and user.name else 'RX').upper() }}
+                </div>
                 <div>
-                    <h3 style="font-size:17px; font-weight:800; color:var(--text-main);">{{ user.name }}</h3>
-                    <p style="font-size:12.5px; color:var(--text-sub); font-weight:600;">{{ user.phone }}</p>
-                    <p style="font-size:11.5px; color:#85968e;">{{ user.email }}</p>
-                    <span style="font-size:10px; font-weight:800; background:var(--brand); color:#fff; padding:2px 8px; border-radius:6px; display:inline-block; margin-top:5px;">Verified Customer</span>
+                    <h3 style="font-size:17px; font-weight:800;">{{ user.name if user and user.name else 'Roxen Member' }}</h3>
+                    <p style="font-size:12.5px; color:var(--text-sub);">{{ user.phone if user and user.phone else '9602697303' }}</p>
+                    <p style="font-size:11.5px; color:#85968e;">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</p>
                 </div>
             </div>
 
-            <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Orders & History</p>
-            <div class="menu-list">
-                <div class="menu-item">
-                    <span><i class="ph ph-package" style="margin-right:8px; color:var(--brand);"></i> My Orders</span>
-                    <i class="ph ph-caret-right"></i>
+            <!-- Orders & Refund Policy -->
+            <div class="info-accordion">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span><i class="ph-bold ph-arrow-counter-clockwise" style="color:var(--brand-green); margin-right:8px;"></i> Instant Refund & Cancellation Policy</span>
+                    <i class="ph-bold ph-caret-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <p>• <strong>Instant 100% Refund:</strong> Agar delivery packet damaged hai ya item missing hai, instant wallet/UPI refund claim karein.<br>
+                    • <strong>Cancellation:</strong> Dark Store se packaging shuru hone se pehle (2 minutes ke andar) ek-click order cancel kar sakte hain.</p>
                 </div>
             </div>
 
-            <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Legal & Settings</p>
-            <div class="menu-list">
-                <div class="menu-item" onclick="openLocationModal()">
-                    <span><i class="ph ph-map-pin" style="margin-right:8px; color:var(--brand);"></i> Saved Addresses</span>
-                    <i class="ph ph-caret-right"></i>
-                </div>
-                <div class="menu-item">
-                    <span><i class="ph ph-shield-check" style="margin-right:8px; color:var(--brand);"></i> Privacy Policy & Cookies</span>
-                    <i class="ph ph-caret-right"></i>
-                </div>
-                <div class="menu-item">
-                    <span><i class="ph ph-headphones" style="margin-right:8px; color:var(--brand);"></i> 24/7 Customer Support</span>
-                    <i class="ph ph-caret-right"></i>
+            <!-- Cookie & Privacy -->
+            <div class="info-accordion">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span><i class="ph-bold ph-cookie" style="color:var(--brand-green); margin-right:8px;"></i> Cookie Management & Privacy</span>
+                    <i class="ph-bold ph-caret-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <p>Roxen app aapke location data aur cart sessions ko optimize karne ke liye strictly essential functional cookies store karta hai. Hum kisi bhi third-party advertisement trackers ko user data provide nahi karte.</p>
                 </div>
             </div>
 
-            <a href="/logout" style="display:block; text-align:center; padding:13px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:14px; text-decoration:none; margin-top:20px;">
-                Logout Session
+            <!-- Guidelines -->
+            <div class="info-accordion">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span><i class="ph-bold ph-shield-check" style="color:var(--brand-green); margin-right:8px;"></i> Safety & Delivery Partner Guidelines</span>
+                    <i class="ph-bold ph-caret-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <p>• Contactless doorstep delivery available hai.<br>
+                    • Late-night delivery partners ke safety standards compliance me 100% verified rides hoti hain.<br>
+                    • Zero tolerance against harassment of riders or customers.</p>
+                </div>
+            </div>
+
+            <a href="/logout" style="display:block; text-align:center; padding:12px; background:#fee2e2; color:#b91c1c; font-weight:700; border-radius:12px; text-decoration:none; margin-top:20px;">
+                Logout Account
             </a>
         </section>
 
@@ -777,7 +705,7 @@
                 <div class="items-count" id="cart-item-count">0 ITEMS</div>
                 <div class="items-price" id="cart-item-price">₹0</div>
             </div>
-            <div class="right">
+            <div style="font-weight:800; font-size:13.5px; display:flex; align-items:center; gap:6px;">
                 View Cart <i class="ph-bold ph-arrow-right"></i>
             </div>
         </div>
@@ -790,93 +718,252 @@
             </div>
             <div class="nav-link" id="nav-cat" onclick="showTab('home')">
                 <i class="ph ph-squares-four"></i>
-                <span>CATEGORY</span>
+                <span>CATEGORIES</span>
             </div>
             <div class="nav-link" id="nav-cart" onclick="openCartDrawer()">
                 <i class="ph ph-shopping-bag"></i>
                 <span>CART</span>
             </div>
             <div class="nav-link" id="nav-settings" onclick="showTab('settings')">
-                <i class="ph ph-user"></i>
-                <span>PROFILE</span>
+                <i class="ph ph-gear"></i>
+                <span>SETTINGS</span>
             </div>
         </nav>
 
-        <!-- SLIDING CART DRAWER -->
+        <!-- EXACT BLINKIT CHECKOUT DRAWER (From Reference Screenshot) -->
         <div class="drawer-overlay" id="cart-drawer">
             <div class="drawer-box">
-                <div class="drawer-header">
-                    <h3 style="font-weight:800; font-size:18px;">My Shopping Cart</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
-                </div>
-                
-                <div class="cart-items-list" id="cart-items-container">
-                    <!-- Items appended via JS -->
+                <div class="checkout-head">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="ph-bold ph-arrow-left" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
+                        <h3 style="font-weight:800; font-size:17px;">Checkout</h3>
+                    </div>
+                    <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
 
-                <div style="border-top: 1px solid var(--border-clr); padding-top: 14px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px; color:var(--text-sub);">
-                        <span>Item Total</span>
-                        <strong id="drawer-subtotal">₹0</strong>
+                <div id="cart-items-wrapper"></div>
+
+                <!-- Bill Details Card Matching Screenshot -->
+                <div class="checkout-card">
+                    <div class="free-delivery-banner">
+                        <i class="ph-fill ph-moped" style="font-size:20px;"></i>
+                        <span id="free-delivery-text">Add products worth ₹115 more to get FREE delivery</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:13px; color:var(--text-sub);">
-                        <span>Delivery Partner Fee</span>
-                        <span style="color:var(--brand); font-weight:700;">FREE</span>
+
+                    <h4 style="font-size:15px; font-weight:800; margin-bottom:12px;">Bill details</h4>
+                    <div class="bill-row">
+                        <span>Items total</span>
+                        <div>
+                            <span id="bill-savings-tag" style="background:#e0f2fe; color:#0369a1; font-size:10px; font-weight:800; padding:2px 6px; border-radius:5px; margin-right:6px;">Saved ₹0</span>
+                            <strong id="bill-items-total">₹0</strong>
+                        </div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-size:16px; font-weight:800;">
-                        <span>To Pay</span>
-                        <span id="drawer-grandtotal" style="color:var(--brand);">₹0</span>
+                    <div class="bill-row">
+                        <span>Handling charge</span>
+                        <strong>₹6</strong>
                     </div>
-                    <button style="width:100%; height:50px; background:var(--brand); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:15px; cursor:pointer;" onclick="alert('Order Placed Successfully! Your delivery partner is assigned.')">
-                        Place Delivery Order
-                    </button>
+                    <div class="bill-row">
+                        <span>Delivery charge</span>
+                        <strong id="bill-delivery-charge">₹35</strong>
+                    </div>
+                    <div class="bill-row strong">
+                        <span>Grand total</span>
+                        <span id="bill-grand-total" style="color:var(--brand-green);">₹0</span>
+                    </div>
+                </div>
+
+                <!-- Add GSTIN Card -->
+                <div class="checkout-card" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="ph-bold ph-receipt" style="color:#2563eb; font-size:22px;"></i>
+                        <div>
+                            <h5 style="font-size:13.5px; font-weight:800;">Add GSTIN</h5>
+                            <p style="font-size:11px; color:var(--text-sub);">Claim GST input credit up to 18% on your order</p>
+                        </div>
+                    </div>
+                    <i class="ph-bold ph-caret-right" style="color:#85968e;"></i>
+                </div>
+
+                <!-- Delivery Address Selected -->
+                <div class="checkout-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Delivering to Selected Address</span>
+                        <span style="color:var(--brand-green); font-size:12px; font-weight:800; cursor:pointer;" onclick="openLocationModal()">Change</span>
+                    </div>
+                    <p style="font-size:13px; font-weight:700;" id="checkout-address-line">Loading address...</p>
+                </div>
+
+                <!-- Bottom Place Order Floating Area -->
+                <div style="margin-top:auto; padding:16px; background:#ffffff; border-top:1px solid var(--border-clr);">
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700;">
+                            <i class="ph-fill ph-shield-check" style="color:var(--brand-green); font-size:18px;"></i>
+                            <span>PhonePe / UPI</span>
+                        </div>
+                        <button style="flex:1; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="alert('Order placed successfully! Delivery partner arriving in 10 mins.')">
+                            <span id="btn-total-label">₹0 TOTAL</span>
+                            <span>Place Order <i class="ph-bold ph-caret-right"></i></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- LOCATION & LIVE GPS MODAL -->
-        <div class="modal-overlay" id="location-modal">
-            <div class="modal-card">
-                <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Select Delivery Location</h3>
+        <!-- PRODUCT DETAILS QUICK-VIEW MODAL (With Nutrients & Multi-Photos) -->
+        <div class="prod-modal-overlay" id="product-detail-modal">
+            <div class="prod-modal-card">
+                <i class="ph-bold ph-x" style="position:absolute; right:16px; top:16px; font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
                 
-                <!-- Live GPS Button -->
-                <button class="gps-btn" onclick="fetchLiveGPSLocation()">
-                    <i class="ph-fill ph-navigation-arrow"></i> Use Current GPS Location
+                <div class="modal-gallery-main">
+                    <img id="modal-main-img" src="" alt="Product">
+                </div>
+
+                <div class="thumb-row" id="modal-thumbnails"></div>
+
+                <span id="modal-brand" style="font-size:11px; font-weight:800; color:var(--brand-green); text-transform:uppercase;"></span>
+                <h3 id="modal-title" style="font-size:18px; font-weight:800; margin:4px 0 6px;"></h3>
+                <p id="modal-unit" style="font-size:13px; color:var(--text-sub);"></p>
+
+                <div style="display:flex; align-items:center; gap:10px; margin:10px 0 16px;">
+                    <span id="modal-price" style="font-size:20px; font-weight:800;"></span>
+                    <span id="modal-mrp" style="font-size:13px; text-decoration:line-through; color:#98a69f;"></span>
+                </div>
+
+                <h4 style="font-size:14px; font-weight:800; margin-bottom:6px;">Nutritional Information (Per 100g)</h4>
+                <div class="nutrition-grid">
+                    <div class="nutri-box"><div class="nutri-val" id="n-energy">360 kcal</div><div class="nutri-lbl">Energy</div></div>
+                    <div class="nutri-box"><div class="nutri-val" id="n-protein">12.5 g</div><div class="nutri-lbl">Protein</div></div>
+                    <div class="nutri-box"><div class="nutri-val" id="n-carbs">68 g</div><div class="nutri-lbl">Carbs</div></div>
+                    <div class="nutri-box"><div class="nutri-val" id="n-fat">2.5 g</div><div class="nutri-lbl">Fats</div></div>
+                    <div class="nutri-box"><div class="nutri-val" id="n-calcium">120 mg</div><div class="nutri-lbl">Calcium</div></div>
+                    <div class="nutri-box"><div class="nutri-val" id="n-vitamin">Vit A, D</div><div class="nutri-lbl">Vitamins</div></div>
+                </div>
+
+                <p id="modal-desc" style="font-size:12.5px; color:var(--text-sub); line-height:1.5; margin-bottom:16px;"></p>
+                <button id="modal-add-btn" style="width:100%; height:46px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <!-- LOCATION MODAL (GPS + 2 SAVED ADDRESSES) -->
+        <div class="location-modal-overlay" id="location-modal">
+            <div class="location-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:18px; font-weight:800;">Choose Delivery Location</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeLocationModal()"></i>
+                </div>
+
+                <!-- GPS Trigger -->
+                <button onclick="fetchExactLiveGPS()" style="width:100%; height:48px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:14px; font-weight:800; font-size:13.5px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:16px;">
+                    <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
                 </button>
 
-                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:6px;">Or Enter Address Manually</p>
-                <input type="text" id="manual-address-input" placeholder="Flat, Sector, Street, Hisar..." style="width:100%; height:46px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 14px; font-size:13.5px; margin-bottom:12px; outline:none;">
-                <button onclick="saveManualLocation()" style="width:100%; height:46px; background:var(--brand); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Confirm Location</button>
-            </div>
-        </div>
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Addresses (Click to Select)</p>
+                
+                <!-- Address Slot 1 -->
+                <div class="address-card-item selected" id="slot-1" onclick="selectAddressSlot(1)">
+                    <div>
+                        <strong style="font-size:13px; display:block;" id="label-addr-1">Home Address</strong>
+                        <span style="font-size:12px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
+                </div>
 
-        <!-- COOKIE & PRIVACY AGREEMENT BAR -->
-        <div class="cookie-consent-bar" id="cookie-banner">
-            <p>We use cookies & location services to guarantee 10-minute delivery. By shopping, you agree to our <a href="#">Terms & Privacy</a>.</p>
-            <button class="btn-consent" onclick="acceptPolicy()">Accept</button>
+                <!-- Address Slot 2 -->
+                <div class="address-card-item" id="slot-2" onclick="selectAddressSlot(2)">
+                    <div>
+                        <strong style="font-size:13px; display:block;" id="label-addr-2">College / Office Address</strong>
+                        <span style="font-size:12px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
+                </div>
+
+                <!-- Edit Custom Address Box -->
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin:14px 0 6px;">Add / Update Selected Address</p>
+                <input type="text" id="custom-addr-input" placeholder="Type new flat, road, or landmark..." style="width:100%; height:44px; border:1.5px solid var(--border-clr); border-radius:12px; padding:0 14px; font-size:13px; outline:none; margin-bottom:12px;">
+                <button onclick="saveCustomAddress()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
+                    Save & Set Location
+                </button>
+            </div>
         </div>
 
     </div>
 
-    <!-- SCRIPT ENGINE -->
+    <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        // Real Product Inventory Database
-        const productsDB = [
-            { id: 1, name: "Amul Taaza Fresh Toned Milk", brand: "AMUL", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" },
-            { id: 2, name: "Parle-G Gold Glucose Biscuits", brand: "PARLE", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300" },
-            { id: 3, name: "Real Fruit Power Mixed Fruit Juice", brand: "REAL", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" },
-            { id: 4, name: "Aashirvaad Shudh Chakki Atta", brand: "AASHIRVAAD", category: "Atta & Dal", price: 195, mrp: 220, unit: "5 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" },
-            { id: 5, name: "Dettol Original Germ Protection Soap", brand: "DETTOL", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300" },
-            { id: 6, name: "Lay's India's Magic Masala Chips", brand: "LAYS", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300" },
-            { id: 7, name: "Tata Salt Vacuum Evaporated", brand: "TATA", category: "Atta & Dal", price: 28, mrp: 30, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300" },
-            { id: 8, name: "Coca-Cola Zero Sugar Can", brand: "COCA-COLA", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300" }
+        // 50+ Product Inventory Database
+        const catalogDB = [
+            // Dairy (20 Items)
+            { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", energy: "58 kcal", protein: "3.2 g", carbs: "4.7 g", fat: "3.0 g", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
+            { id: 2, name: "Amul Gold Full Cream Milk", brand: "Amul", category: "Dairy", price: 34, mrp: 35, unit: "500 ml", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300", energy: "89 kcal", protein: "3.5 g", carbs: "5.0 g", fat: "6.0 g", desc: "Rich full cream pasteurized milk ideal for tea and sweets." },
+            { id: 3, name: "Mother Dairy Cow Fresh Milk", brand: "Mother Dairy", category: "Dairy", price: 29, mrp: 30, unit: "500 ml", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", energy: "62 kcal", protein: "3.2 g", carbs: "4.8 g", fat: "3.5 g", desc: "Easily digestible wholesome fresh cow milk." },
+            { id: 4, name: "Amul Pasteurised Butter", brand: "Amul", category: "Dairy", price: 58, mrp: 60, unit: "100 g", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300", energy: "720 kcal", protein: "0.5 g", carbs: "0.2 g", fat: "80 g", desc: "Utterly butterly delicious creamy table butter." },
+            { id: 5, name: "Amul Fresh Malai Paneer", brand: "Amul", category: "Dairy", price: 92, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300", energy: "290 kcal", protein: "18 g", carbs: "3.0 g", fat: "22 g", desc: "Soft and fresh protein-rich pure paneer cubes." },
+            { id: 6, name: "Mother Dairy Classic Curd / Dahi", brand: "Mother Dairy", category: "Dairy", price: 35, mrp: 35, unit: "400 g", img: "https://images.unsplash.com/photo-1571212515416-fef01fc43637?w=300", energy: "65 kcal", protein: "4.0 g", carbs: "5.2 g", fat: "3.0 g", desc: "Thick probiotic set curd made from pure milk." },
+            { id: 7, name: "Amul Pure Buffalo Ghee Jar", brand: "Amul", category: "Dairy", price: 320, mrp: 345, unit: "500 ml", img: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=300", energy: "900 kcal", protein: "0 g", carbs: "0 g", fat: "99.7 g", desc: "Aromatic traditional clarified butter ghee." },
+            { id: 8, name: "Nestle Milkmaid Sweetened Milk", brand: "Nestle", category: "Dairy", price: 140, mrp: 145, unit: "380 g", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", energy: "320 kcal", protein: "8 g", carbs: "55 g", fat: "8 g", desc: "Rich condensed milk for instant halwa & desserts." },
+            { id: 9, name: "Epigamia Greek Yogurt Strawberry", brand: "Epigamia", category: "Dairy", price: 50, mrp: 50, unit: "90 g", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300", energy: "95 kcal", protein: "6.0 g", carbs: "12 g", fat: "2.0 g", desc: "High protein whipped fresh yogurt with strawberries." },
+            { id: 10, name: "Amul Cheese Slices (Pack of 10)", brand: "Amul", category: "Dairy", price: 140, mrp: 145, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", energy: "310 kcal", protein: "20 g", carbs: "2 g", fat: "25 g", desc: "Mouth-watering cheese slices for breakfast burgers & toast." },
+            { id: 11, name: "Amul Salted Masti Buttermilk", brand: "Amul", category: "Dairy", price: 15, mrp: 15, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", energy: "30 kcal", protein: "1.5 g", carbs: "2.0 g", fat: "1.2 g", desc: "Refreshing spiced traditional chaach." },
+            { id: 12, name: "Britannia Daily Cheese Block", brand: "Britannia", category: "Dairy", price: 125, mrp: 130, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", energy: "320 kcal", protein: "21 g", carbs: "3 g", fat: "26 g", desc: "Cheddar blend cheese block for grating over pizza & pasta." },
+            { id: 13, name: "Amul Fresh Whipping Cream", brand: "Amul", category: "Dairy", price: 70, mrp: 75, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", energy: "245 kcal", protein: "2.5 g", carbs: "3.5 g", fat: "25 g", desc: "Low-fat versatile cooking & baking cream." },
+            { id: 14, name: "Go Cheese Pizza Mozzarella", brand: "Go", category: "Dairy", price: 115, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1618060932014-4deda4932554?w=300", energy: "300 kcal", protein: "22 g", carbs: "2 g", fat: "24 g", desc: "Extra stretch mozzarella cheese for authentic baking." },
+            { id: 15, name: "Mother Dairy Cow Ghee Carton", brand: "Mother Dairy", category: "Dairy", price: 335, mrp: 350, unit: "500 ml", img: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=300", energy: "898 kcal", protein: "0 g", carbs: "0 g", fat: "99.8 g", desc: "Granular aromatic cow milk clarified ghee." },
+            { id: 16, name: "Nestle Everyday Dairy Whitener", brand: "Nestle", category: "Dairy", price: 120, mrp: 125, unit: "200 g", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", energy: "450 kcal", protein: "12 g", carbs: "50 g", fat: "18 g", desc: "Makes thick creamy tea & coffee in seconds." },
+            { id: 17, name: "Amul Kool Kesar Badam Milk", brand: "Amul", category: "Dairy", price: 25, mrp: 25, unit: "180 ml", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300", energy: "85 kcal", protein: "3.0 g", carbs: "12 g", fat: "3.0 g", desc: "Flavoured thick toned milk with roasted almond bits." },
+            { id: 18, name: "Mother Dairy Paneer Block", brand: "Mother Dairy", category: "Dairy", price: 90, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300", energy: "280 kcal", protein: "17 g", carbs: "2.8 g", fat: "21 g", desc: "Hygienically packaged soft farm cottage cheese." },
+            { id: 19, name: "Yakult Probiotic Fermented Drink", brand: "Yakult", category: "Dairy", price: 80, mrp: 85, unit: "Pack of 5", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300", energy: "50 kcal", protein: "1.0 g", carbs: "12 g", fat: "0.1 g", desc: "Live Lactobacillus casei strain shirota for gut health." },
+            { id: 20, name: "Amul Lassi Rose Sweet Flavour", brand: "Amul", category: "Dairy", price: 20, mrp: 20, unit: "250 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", energy: "90 kcal", protein: "2.2 g", carbs: "15 g", fat: "2.5 g", desc: "Traditional sweetened rose flavoured lassi." },
+
+            // Snacks & Munchies (12 Items)
+            { id: 21, name: "Parle-G Gold Glucose Biscuits", brand: "Parle", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", energy: "450 kcal", protein: "6.5 g", carbs: "78 g", fat: "13 g", desc: "India's favourite golden glucose crunchy biscuit." },
+            { id: 22, name: "Lay's India's Magic Masala", brand: "Lays", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", energy: "540 kcal", protein: "7.0 g", carbs: "52 g", fat: "33 g", desc: "Crispy potato chips coated with North Indian spices." },
+            { id: 23, name: "Kurkure Masala Munch Crunchy", brand: "Kurkure", category: "Snacks", price: 20, mrp: 20, unit: "80 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", energy: "558 kcal", protein: "5.8 g", carbs: "55 g", fat: "35 g", desc: "Tedhe-medhe crispy corn and rice puffs." },
+            { id: 24, name: "Cadbury Dairy Milk Silk Bar", brand: "Cadbury", category: "Snacks", price: 80, mrp: 85, unit: "60 g", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300", energy: "530 kcal", protein: "7.8 g", carbs: "58 g", fat: "30 g", desc: "Smooth creamy milk chocolate bar melting instantly." },
+            { id: 25, name: "Haldiram's Bhujia Sev Sevian", brand: "Haldiram", category: "Snacks", price: 50, mrp: 55, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", energy: "580 kcal", protein: "11 g", carbs: "42 g", fat: "40 g", desc: "Spicy crisp gram flour noodle namkeen from Bikaner." },
+            { id: 26, name: "Oreo Original Vanilla Cream", brand: "Cadbury", category: "Snacks", price: 35, mrp: 40, unit: "120 g", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", energy: "480 kcal", protein: "4.5 g", carbs: "70 g", fat: "20 g", desc: "Rich chocolate cookie with smooth vanilla cream inside." },
+            { id: 27, name: "Act II Butter Lovers Popcorn", brand: "Act II", category: "Snacks", price: 35, mrp: 40, unit: "80 g", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=300", energy: "490 kcal", protein: "8.0 g", carbs: "60 g", fat: "25 g", desc: "Hot instant butter burst microwave popcorn." },
+            { id: 28, name: "Maggi 2-Minute Masala Noodles", brand: "Nestle", category: "Snacks", price: 14, mrp: 14, unit: "70 g", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300", energy: "420 kcal", protein: "8.5 g", carbs: "63 g", fat: "15 g", desc: "Classic masala tastemaker instant quick noodles." },
+            { id: 29, name: "Britannia Good Day Butter Cookies", brand: "Britannia", category: "Snacks", price: 40, mrp: 45, unit: "200 g", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", energy: "490 kcal", protein: "6.0 g", carbs: "68 g", fat: "22 g", desc: "Smiley pattern rich butter baked crispy biscuits." },
+            { id: 30, name: "Pringles Sour Cream & Onion", brand: "Pringles", category: "Snacks", price: 110, mrp: 115, unit: "107 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", energy: "520 kcal", protein: "4.0 g", carbs: "56 g", fat: "32 g", desc: "Stackable seasoned potato chips in container." },
+            { id: 31, name: "Haldiram's Khatta Meetha Namkeen", brand: "Haldiram", category: "Snacks", price: 45, mrp: 50, unit: "200 g", img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300", energy: "510 kcal", protein: "9.0 g", carbs: "55 g", fat: "28 g", desc: "Sweet and sour mixture of puffed rice, sev & peanuts." },
+            { id: 32, name: "Doritos Cheese Nachos Chips", brand: "Doritos", category: "Snacks", price: 30, mrp: 30, unit: "60 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", energy: "500 kcal", protein: "7.0 g", carbs: "62 g", fat: "26 g", desc: "Tooth-rattling crunch cheese flavored tortilla nachos." },
+
+            // Cold Drinks & Juices (10 Items)
+            { id: 33, name: "Coca-Cola Zero Sugar Soft Drink", brand: "Coca-Cola", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", energy: "0 kcal", protein: "0 g", carbs: "0 g", fat: "0 g", desc: "Zero calories, zero sugar, pure refreshing fizz." },
+            { id: 34, name: "Real Fruit Mixed Fruit Juice", brand: "Real", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", energy: "56 kcal", protein: "0.4 g", carbs: "13.5 g", fat: "0 g", desc: "Natural blend of 9 fruits with no added preservatives." },
+            { id: 35, name: "Thums Up Charged Fizzy Drink", brand: "Thums Up", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", energy: "44 kcal", protein: "0 g", carbs: "11 g", fat: "0 g", desc: "Strong spicy cola taste with high fizz." },
+            { id: 36, name: "Sprite Lemon-Lime Carbonated", brand: "Sprite", category: "Drinks", price: 40, mrp: 40, unit: "750 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", energy: "48 kcal", protein: "0 g", carbs: "12 g", fat: "0 g", desc: "Clear crisp refreshing lime lemon soda." },
+            { id: 37, name: "Frooti Fresh Mango Nectar", brand: "Frooti", category: "Drinks", price: 35, mrp: 40, unit: "600 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", energy: "65 kcal", protein: "0.2 g", carbs: "16 g", fat: "0 g", desc: "Sweet juicy rich Alphonso mango pulp beverage." },
+            { id: 38, name: "Red Bull Energy Drink Can", brand: "Red Bull", category: "Drinks", price: 125, mrp: 130, unit: "250 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", energy: "45 kcal", protein: "1.2 g", carbs: "11 g", fat: "0 g", desc: "Vitalizes body & mind with caffeine & B vitamins." },
+            { id: 39, name: "Bisleri Packaged Drinking Water", brand: "Bisleri", category: "Drinks", price: 20, mrp: 20, unit: "1 L", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", energy: "0 kcal", protein: "0 g", carbs: "0 g", fat: "0 g", desc: "Double ozonised mineral enriched drinking water." },
+            { id: 40, name: "Tropicana 100% Orange Juice", brand: "Tropicana", category: "Drinks", price: 130, mrp: 140, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", energy: "48 kcal", protein: "0.8 g", carbs: "11 g", fat: "0 g", desc: "Pure Valencia orange squeeze loaded with Vitamin C." },
+            { id: 41, name: "Maaza Mango Pulp Drink Bottle", brand: "Maaza", category: "Drinks", price: 38, mrp: 42, unit: "600 ml", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", energy: "68 kcal", protein: "0.3 g", carbs: "17 g", fat: "0 g", desc: "Thick real handpicked mango puree refreshment." },
+            { id: 42, name: "Sting Energy Drink Berry Flavour", brand: "Sting", category: "Drinks", price: 20, mrp: 20, unit: "250 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", energy: "52 kcal", protein: "0 g", carbs: "13 g", fat: "0 g", desc: "Electrifying sweet berry energy booster." },
+
+            // Atta & Staples (6 Items)
+            { id: 43, name: "Aashirvaad Shudh Chakki Atta", brand: "Aashirvaad", category: "Staples", price: 195, mrp: 220, unit: "5 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", energy: "360 kcal", protein: "12 g", carbs: "73 g", fat: "1.8 g", desc: "100% pure whole wheat stone chakki ground flour." },
+            { id: 44, name: "Fortune Sunlite Refined Oil", brand: "Fortune", category: "Staples", price: 135, mrp: 150, unit: "1 L", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300", energy: "900 kcal", protein: "0 g", carbs: "0 g", fat: "100 g", desc: "Light digestible sunflower cooking oil rich in Vitamin E." },
+            { id: 45, name: "Tata Salt Vacuum Evaporated", brand: "Tata", category: "Staples", price: 28, mrp: 30, unit: "1 kg", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", energy: "0 kcal", protein: "0 g", carbs: "0 g", fat: "0 g", desc: "Desh ka namak pure iodized cooking table salt." },
+            { id: 46, name: "Fortune Everyday Basmati Rice", brand: "Fortune", category: "Staples", price: 95, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", energy: "350 kcal", protein: "8.0 g", carbs: "78 g", fat: "0.5 g", desc: "Fluffy aromatic long grain pristine white rice." },
+            { id: 47, name: "Tata Sampann Unpolished Toor Dal", brand: "Tata", category: "Staples", price: 165, mrp: 180, unit: "1 kg", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", energy: "340 kcal", protein: "22 g", carbs: "57 g", fat: "1.5 g", desc: "Natural unpolished pigeon pea dal rich in plant protein." },
+            { id: 48, name: "Catch Red Chilli Powder / Lal Mirch", brand: "Catch", category: "Staples", price: 58, mrp: 65, unit: "200 g", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300", energy: "280 kcal", protein: "10 g", carbs: "40 g", fat: "12 g", desc: "Low-temperature ground fiery aromatic red pepper." },
+
+            // Personal Care & Cleaning (5 Items)
+            { id: 49, name: "Dettol Original Germ Protection Soap", brand: "Dettol", category: "Care", price: 42, mrp: 45, unit: "75 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Protects from 100 illness-causing germs with pine fragrance." },
+            { id: 50, name: "Colgate MaxFresh Peppermint Paste", brand: "Colgate", category: "Care", price: 65, mrp: 70, unit: "150 g", img: "https://images.unsplash.com/photo-1607006314605-aac02cb06813?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Intense cooling crystals for all-day fresh breath." },
+            { id: 51, name: "Surf Excel Easy Wash Detergent", brand: "Surf Excel", category: "Care", price: 140, mrp: 155, unit: "1 kg", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Removes tough stains easily like mud, ink and oil." },
+            { id: 52, name: "Vim Lemon Dishwash Gel Bottle", brand: "Vim", category: "Care", price: 55, mrp: 60, unit: "250 ml", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300", energy: "-", protein: "-", carbs: "-", fat: "-", desc: "Real lemon power cuts tough grease off steel & glass." }
         ];
 
         let cart = {};
         let activeBudget = 'all';
         let activeCategory = 'all';
+        let currentModalProductId = null;
+        let selectedAddressSlot = 1;
 
-        // Render Dynamic Products to Grid
+        // Render Catalog Grid
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -884,13 +971,13 @@
             if (items.length === 0) {
                 container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px 10px; color: var(--text-sub);">
                     <i class="ph ph-magnifying-glass" style="font-size:36px; margin-bottom:8px;"></i>
-                    <p>No products found under this budget/search.</p>
+                    <p>No products match your budget or category.</p>
                 </div>`;
                 document.getElementById('items-found-count').innerText = `0 items`;
                 return;
             }
 
-            document.getElementById('items-found-count').innerText = `${items.length} items found`;
+            document.getElementById('items-found-count').innerText = `${items.length} items available`;
 
             items.forEach(p => {
                 const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
@@ -899,6 +986,12 @@
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                card.onclick = (e) => {
+                    // Agar button par click hua toh modal open mat karo
+                    if (e.target.closest('.btn-add') || e.target.closest('.qty-controller')) return;
+                    openProductDetailModal(p.id);
+                };
+
                 card.innerHTML = `
                     ${discount > 0 ? `<span class="badge-discount">${discount}% OFF</span>` : ''}
                     <div class="prod-img-box">
@@ -908,15 +1001,15 @@
                     <h4 class="prod-title">${p.name}</h4>
                     <p class="prod-unit">${p.unit}</p>
                     <div class="prod-footer">
-                        <div class="price-box">
+                        <div>
                             <span class="final-price">₹${p.price}</span>
                             ${p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ''}
                         </div>
                         <button class="btn-add" id="btn-add-${p.id}" onclick="addItem(${p.id})" style="display: ${isItemInCart ? 'none' : 'inline-block'};">ADD</button>
                         <div class="qty-controller" id="qty-box-${p.id}" style="display: ${isItemInCart ? 'inline-flex' : 'none'};">
-                            <span class="btn-qty" onclick="changeQty(${p.id}, -1)">-</span>
+                            <span onclick="changeQty(${p.id}, -1)">-</span>
                             <span id="qty-val-${p.id}">${qty}</span>
-                            <span class="btn-qty" onclick="changeQty(${p.id}, 1)">+</span>
+                            <span onclick="changeQty(${p.id}, 1)">+</span>
                         </div>
                     </div>
                 `;
@@ -924,26 +1017,33 @@
             });
         }
 
-        // Live Search & Multi-Filter Logic
+        // Filters Engine
         function filterProducts() {
             const query = document.getElementById('search-box').value.toLowerCase().trim();
-            
-            const filtered = productsDB.filter(p => {
-                const matchesQuery = p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
-                const matchesCategory = (activeCategory === 'all') || (p.category.toLowerCase() === activeCategory.toLowerCase());
-                const matchesBudget = (activeBudget === 'all') || (p.price <= activeBudget);
-
-                return matchesQuery && matchesCategory && matchesBudget;
+            const filtered = catalogDB.filter(p => {
+                const matchQuery = p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+                const matchCategory = (activeCategory === 'all') || (p.category.toLowerCase() === activeCategory.toLowerCase());
+                const matchBudget = (activeBudget === 'all') || (p.price <= activeBudget);
+                return matchQuery && matchCategory && matchBudget;
             });
-
             renderProducts(filtered);
         }
 
         function setBudgetFilter(limit, el) {
             activeBudget = limit;
-            activeCategory = 'all';
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
             if(el) el.classList.add('active');
+            filterProducts();
+        }
+
+        function setCustomBudget(val) {
+            const num = parseFloat(val);
+            if (!isNaN(num) && num > 0) {
+                activeBudget = num;
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            } else {
+                activeBudget = 'all';
+            }
             filterProducts();
         }
 
@@ -954,29 +1054,26 @@
             filterProducts();
         }
 
-        // Cart State & Counters
+        // Cart Actions
         function addItem(id) {
-            const prod = productsDB.find(p => p.id === id);
+            const prod = catalogDB.find(p => p.id === id);
             cart[id] = { ...prod, qty: 1 };
             updateProductCardUI(id);
-            updateCartTotals();
+            syncCheckoutData();
         }
 
         function changeQty(id, delta) {
             if (!cart[id]) return;
             cart[id].qty += delta;
-            if (cart[id].qty <= 0) {
-                delete cart[id];
-            }
+            if (cart[id].qty <= 0) delete cart[id];
             updateProductCardUI(id);
-            updateCartTotals();
+            syncCheckoutData();
         }
 
         function updateProductCardUI(id) {
             const addBtn = document.getElementById(`btn-add-${id}`);
             const qtyBox = document.getElementById(`qty-box-${id}`);
             const qtyVal = document.getElementById(`qty-val-${id}`);
-
             if (cart[id] && cart[id].qty > 0) {
                 if(addBtn) addBtn.style.display = 'none';
                 if(qtyBox) qtyBox.style.display = 'inline-flex';
@@ -987,99 +1084,176 @@
             }
         }
 
-        function updateCartTotals() {
+        // Exact Blinkit Checkout Bill Sync
+        function syncCheckoutData() {
             let totalCount = 0;
-            let totalPrice = 0;
-            const container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
+            let itemsTotal = 0;
+            let totalSavings = 0;
+            const itemsWrapper = document.getElementById('cart-items-wrapper');
+            itemsWrapper.innerHTML = '';
 
             for (let id in cart) {
                 const item = cart[id];
                 totalCount += item.qty;
-                totalPrice += (item.qty * item.price);
+                itemsTotal += (item.qty * item.price);
+                totalSavings += (item.qty * (item.mrp - item.price));
 
-                // Populate sliding drawer rows
-                const row = document.createElement('div');
-                row.className = 'cart-item-row';
-                row.innerHTML = `
-                    <div>
-                        <h5 style="font-size:13px; font-weight:700;">${item.name}</h5>
-                        <p style="font-size:11px; color:var(--text-sub);">₹${item.price} × ${item.qty}</p>
+                const card = document.createElement('div');
+                card.className = 'checkout-card';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <img src="${item.img}" style="width:48px; height:48px; object-fit:contain; border-radius:8px; border:1px solid #edf1ee;">
+                            <div>
+                                <h5 style="font-size:13px; font-weight:700;">${item.name}</h5>
+                                <p style="font-size:11px; color:var(--text-sub);">${item.unit}</p>
+                                <span style="font-size:13.5px; font-weight:800;">₹${item.price}</span>
+                                <span style="font-size:11px; text-decoration:line-through; color:#98a69f;">₹${item.mrp}</span>
+                            </div>
+                        </div>
+                        <div class="qty-controller" style="display:inline-flex;">
+                            <span onclick="changeQty(${item.id}, -1)">-</span>
+                            <span>${item.qty}</span>
+                            <span onclick="changeQty(${item.id}, 1)">+</span>
+                        </div>
                     </div>
-                    <div style="font-size:14px; font-weight:800; color:var(--brand);">₹${item.price * item.qty}</div>
                 `;
-                container.appendChild(row);
+                itemsWrapper.appendChild(card);
             }
 
-            // Mobile Floating Bar
-            const bar = document.getElementById('float-cart');
-            if (totalCount > 0) {
-                bar.style.display = 'flex';
-                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
-                document.getElementById('cart-item-price').innerText = `₹${totalPrice}`;
+            // Calculation
+            const handling = itemsTotal > 0 ? 6 : 0;
+            const deliveryCharge = itemsTotal >= 200 || itemsTotal === 0 ? 0 : 35;
+            const grandTotal = itemsTotal + handling + deliveryCharge;
+
+            // Update DOM Values
+            document.getElementById('bill-items-total').innerText = `₹${itemsTotal}`;
+            document.getElementById('bill-savings-tag').innerText = `Saved ₹${totalSavings}`;
+            document.getElementById('bill-delivery-charge').innerText = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
+            document.getElementById('bill-grand-total').innerText = `₹${grandTotal}`;
+            document.getElementById('btn-total-label').innerText = `₹${grandTotal} TOTAL`;
+
+            if (itemsTotal < 200 && itemsTotal > 0) {
+                document.getElementById('free-delivery-text').innerText = `Add products worth ₹${200 - itemsTotal} more to get FREE delivery`;
             } else {
-                bar.style.display = 'none';
+                document.getElementById('free-delivery-text').innerText = `🎉 You have unlocked FREE Delivery!`;
             }
 
-            // Desktop Top Navbar Cart
+            // Bars
+            const floatBar = document.getElementById('float-cart');
+            if (totalCount > 0) {
+                floatBar.style.display = 'flex';
+                document.getElementById('cart-item-count').innerText = `${totalCount} ITEMS`;
+                document.getElementById('cart-item-price').innerText = `₹${grandTotal}`;
+            } else {
+                floatBar.style.display = 'none';
+            }
+
             document.getElementById('desk-cart-count').innerText = `${totalCount} items`;
-            document.getElementById('desk-cart-price').innerText = `₹${totalPrice}`;
-
-            // Drawer
-            document.getElementById('drawer-subtotal').innerText = `₹${totalPrice}`;
-            document.getElementById('drawer-grandtotal').innerText = `₹${totalPrice}`;
+            document.getElementById('desk-cart-price').innerText = `₹${grandTotal}`;
         }
 
-        function openCartDrawer() {
-            document.getElementById('cart-drawer').style.display = 'flex';
+        function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
+        function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
+
+        // Product Details Modal Logic
+        function openProductDetailModal(id) {
+            const p = catalogDB.find(item => item.id === id);
+            if(!p) return;
+            currentModalProductId = p.id;
+
+            document.getElementById('modal-main-img').src = p.img;
+            document.getElementById('modal-brand').innerText = p.brand;
+            document.getElementById('modal-title').innerText = p.name;
+            document.getElementById('modal-unit').innerText = p.unit;
+            document.getElementById('modal-price').innerText = `₹${p.price}`;
+            document.getElementById('modal-mrp').innerText = `₹${p.mrp}`;
+            document.getElementById('modal-desc').innerText = p.desc;
+
+            // Nutrients
+            document.getElementById('n-energy').innerText = p.energy || "340 kcal";
+            document.getElementById('n-protein').innerText = p.protein || "8.5 g";
+            document.getElementById('n-carbs').innerText = p.carbs || "55 g";
+            document.getElementById('n-fat').innerText = p.fat || "2.1 g";
+
+            // Multi-Photo Gallery Thumbnails
+            const thumbs = document.getElementById('modal-thumbnails');
+            thumbs.innerHTML = `
+                <img src="${p.img}" class="thumb-item active" onclick="switchModalPhoto('${p.img}', this)">
+                <img src="${p.img}" style="filter: contrast(120%);" class="thumb-item" onclick="switchModalPhoto('${p.img}', this)">
+                <img src="${p.img}" style="filter: brightness(110%);" class="thumb-item" onclick="switchModalPhoto('${p.img}', this)">
+            `;
+
+            const btn = document.getElementById('modal-add-btn');
+            btn.onclick = () => { addItem(p.id); closeProductModal(); };
+
+            document.getElementById('product-detail-modal').style.display = 'flex';
         }
 
-        function closeCartDrawer() {
-            document.getElementById('cart-drawer').style.display = 'none';
+        function switchModalPhoto(src, el) {
+            document.getElementById('modal-main-img').src = src;
+            document.querySelectorAll('.thumb-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        // Live Geolocation API & Modal
-        function openLocationModal() {
-            document.getElementById('location-modal').style.display = 'flex';
+        function closeProductModal() { document.getElementById('product-detail-modal').style.display = 'none'; }
+
+        // Address Management (2 Saved Slots + Live GPS)
+        function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
+        function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
+
+        function selectAddressSlot(slot) {
+            selectedAddressSlot = slot;
+            document.getElementById('slot-1').classList.remove('selected');
+            document.getElementById('slot-2').classList.remove('selected');
+            document.getElementById(`slot-${slot}`).classList.add('selected');
+
+            const text = document.getElementById(`val-addr-${slot}`).innerText;
+            updateActiveLocation(text);
         }
 
-        function saveManualLocation() {
-            const addr = document.getElementById('manual-address-input').value.trim();
-            if (addr) {
-                updateLocationBackend(addr);
+        function saveCustomAddress() {
+            const input = document.getElementById('custom-addr-input').value.trim();
+            if (input) {
+                document.getElementById(`val-addr-${selectedAddressSlot}`).innerText = input;
+                localStorage.setItem(`roxen_addr_${selectedAddressSlot}`, input);
+                updateActiveLocation(input);
             }
-            document.getElementById('location-modal').style.display = 'none';
+            closeLocationModal();
         }
 
-        function fetchLiveGPSLocation() {
+        function fetchExactLiveGPS() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude.toFixed(4);
-                        const lon = position.coords.longitude.toFixed(4);
-                        const gpsAddress = `GPS (${lat}, ${lon}), Hisar Sector Area`;
-                        updateLocationBackend(gpsAddress);
-                        document.getElementById('location-modal').style.display = 'none';
+                    (pos) => {
+                        const lat = pos.coords.latitude.toFixed(4);
+                        const lon = pos.coords.longitude.toFixed(4);
+                        const exactGps = `GPS (${lat}, ${lon}), Rampura Beri, Rajasthan Area`;
+                        document.getElementById(`val-addr-${selectedAddressSlot}`).innerText = exactGps;
+                        updateActiveLocation(exactGps);
+                        closeLocationModal();
                     },
-                    (error) => {
-                        alert("GPS Permission denied or unavailable. Please type your address manually.");
-                    }
+                    (err) => {
+                        alert("Please enable GPS/Location permission in your browser.");
+                    },
+                    { enableHighAccuracy: true, timeout: 8000 }
                 );
             } else {
                 alert("Geolocation is not supported by your browser.");
             }
         }
 
-        function updateLocationBackend(address) {
-            document.getElementById('user-location-label').innerText = address;
+        function updateActiveLocation(addr) {
+            document.getElementById('active-location-display').innerText = addr;
+            document.getElementById('checkout-address-line').innerText = addr;
             fetch('/api/update-location', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ address: address })
+                body: JSON.stringify({ address: addr })
             });
         }
 
-        // Tab Switching
+        // Tab Navigation
         function showTab(tab) {
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-settings').classList.remove('active');
@@ -1095,17 +1269,28 @@
             }
         }
 
-        // Cookie Policy Handlers
-        function acceptPolicy() {
-            localStorage.setItem('roxen_policy_accepted', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isVisible = content.style.display === 'block';
+            content.style.display = isVisible ? 'none' : 'block';
+            btn.querySelector('.ph-caret-down').style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
+        // Initial Load
         window.onload = function() {
-            renderProducts(productsDB);
-            if (localStorage.getItem('roxen_policy_accepted') === 'true') {
-                document.getElementById('cookie-banner').style.display = 'none';
+            renderProducts(catalogDB);
+            
+            // Restore saved addresses from LocalStorage if present
+            if(localStorage.getItem('roxen_addr_1')) {
+                document.getElementById('val-addr-1').innerText = localStorage.getItem('roxen_addr_1');
             }
+            if(localStorage.getItem('roxen_addr_2')) {
+                document.getElementById('val-addr-2').innerText = localStorage.getItem('roxen_addr_2');
+            }
+
+            const initialAddress = document.getElementById('val-addr-1').innerText;
+            document.getElementById('checkout-address-line').innerText = initialAddress;
+            syncCheckoutData();
         };
     </script>
 </body>
