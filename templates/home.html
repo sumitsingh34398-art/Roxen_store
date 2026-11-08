@@ -27,7 +27,7 @@
             --text-main: #18231e;
             --text-sub: #64736c;
             --border-clr: #e9efe9;
-            --glow-color: rgba(12, 131, 31, 0.2);
+            --glow-color: rgba(12, 131, 31, 0.22);
         }
 
         body.dark-theme {
@@ -69,7 +69,27 @@
             }
         }
 
-        /* Top Sticky Bar */
+        /* Running Festival Headline Ticker */
+        .festival-ticker-wrap {
+            background: linear-gradient(90deg, #e11d48 0%, #0c831f 100%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .festival-ticker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 22s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* Top Sticky Navbar */
         .top-navbar {
             position: sticky;
             top: 0;
@@ -92,6 +112,7 @@
             gap: 12px;
         }
 
+        /* Red Rox + Green en */
         .brand-logo-text {
             font-size: 25px;
             font-weight: 800;
@@ -228,7 +249,7 @@
             cursor: pointer;
         }
 
-        /* Fresh Picks & Recommended Filter Pill (Photos 28 & 29) */
+        /* Fresh Picks & Recommended Filter Pill */
         .rec-pill-bar {
             margin: 0 18px 10px;
             display: flex;
@@ -298,6 +319,21 @@
             z-index: 2;
         }
 
+        /* Wishlist Heart Icon Bahar Bhi */
+        .card-wishlist-heart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: #94a3b8;
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.2s, color 0.2s;
+            padding: 4px;
+        }
+        .card-wishlist-heart:hover { transform: scale(1.2); }
+        .card-wishlist-heart.active { color: var(--brand-red); }
+
         .prod-img-box {
             width: 100%;
             height: 120px;
@@ -366,7 +402,7 @@
         }
         .cart-float-bar:hover { transform: translateX(-50%) scale(1.02); }
 
-        /* Exact Photo 20 Category Grid */
+        /* Category Grid */
         #categories-view { display: none; padding: 18px; }
         .category-exact-grid {
             display: grid;
@@ -409,10 +445,10 @@
         .cat-card-exact h4 { font-size: 13.5px; font-weight: 800; color: var(--text-main); }
         .cat-card-exact p { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
 
-        /* Settings View matching Photos 21-25 & 37 */
+        /* Settings View */
         #settings-view { display: none; padding: 18px; background: var(--bg-page); }
 
-        /* Profile Card (Photo 37) */
+        /* Profile Card */
         .profile-verified-card {
             background: var(--brand-light);
             border: 1.5px solid #c8edd3;
@@ -546,7 +582,7 @@
             box-shadow: 0 0 0 2px var(--glow-color);
         }
 
-        /* Modals */
+        /* Generic Modals */
         .center-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -559,7 +595,7 @@
         }
         .center-modal-box {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: var(--card-bg);
             border-radius: 22px;
             padding: 22px;
@@ -568,7 +604,7 @@
             position: relative;
         }
 
-        /* Product Detail Bottom Sheet (Photos 18 & 19) */
+        /* Product Detail Bottom Sheet */
         .prod-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -748,7 +784,7 @@
             color: var(--brand-green);
         }
 
-        /* Recommended Sorting Dialog (Photo 28) */
+        /* Recommended Sorting Dialog */
         .sort-dialog-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -769,7 +805,7 @@
         .sort-option-row:hover { background: var(--brand-light); color: var(--brand-green); }
         .sort-option-row.active { color: var(--brand-green); }
 
-        /* Cookie Switch UI (Photo 31) */
+        /* Cookie Switch UI */
         .cookie-switch-row {
             display: flex;
             align-items: center;
@@ -804,6 +840,13 @@
 
     <div class="app-wrapper">
         
+        <!-- RUNNING FESTIVAL OFFER HEADLINE TICKER -->
+        <div class="festival-ticker-wrap">
+            <div class="festival-ticker">
+                ⚡ FESTIVAL MEGA SAVINGS LIVE • Diwali & Chhath Puja Special: FLAT 50% OFF On Sweets, Dry Fruits & Dairy Essentials • Instant 10-Minute Delivery Guaranteed To Your Doorstep! •
+            </div>
+        </div>
+
         <!-- TOP STICKY NAVBAR -->
         <header class="top-navbar" id="main-top-navbar">
             <div class="nav-head">
@@ -837,7 +880,7 @@
             </div>
         </header>
 
-        <!-- VIEW 1: HOME STORE VIEW (Photo 27 Match) -->
+        <!-- VIEW 1: HOME STORE VIEW -->
         <main id="home-view">
             <div class="hero-banner" onclick="openRiderTrackerModal()">
                 <div class="tag-box"><i class="ph-bold ph-shopping-bag"></i> YOUR EVERYDAY PREMIUM STORE</div>
@@ -846,7 +889,7 @@
                 <button class="btn-shop-now" onclick="event.stopPropagation(); scrollToCatalog()">Shop Now <i class="ph-bold ph-arrow-down"></i></button>
             </div>
 
-            <!-- Fresh Picks for You... & Recommended Filter Pill (Photos 28 & 29 Match) -->
+            <!-- Fresh Picks for You... & Recommended Filter Pill -->
             <div class="rec-pill-bar" id="catalog-anchor">
                 <strong><i class="ph-fill ph-sparkle" style="color:#eab308;"></i> Fresh Picks for You...</strong>
                 <button class="btn-recommended-trigger" onclick="openSortDialog()">
@@ -857,7 +900,7 @@
             <div class="products-grid" id="products-container"></div>
         </main>
 
-        <!-- VIEW 2: CATEGORY VIEW (Photo 20 Match) -->
+        <!-- VIEW 2: CATEGORY VIEW -->
         <section id="categories-view">
             <div style="margin-bottom: 12px;">
                 <h3 style="font-size:19px; font-weight:800;">Shop by Category</h3>
@@ -898,7 +941,7 @@
             </div>
         </section>
 
-        <!-- VIEW 3: SETTINGS VIEW (Photo 37 Match) -->
+        <!-- VIEW 3: SETTINGS VIEW -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
@@ -907,7 +950,7 @@
                 <h3>Account & Settings</h3>
             </div>
 
-            <!-- Profile Verified Card (Photo 37 Match) -->
+            <!-- Profile Verified Card -->
             <div class="profile-verified-card">
                 <div class="prof-avatar-circle">
                     {{ (user.name[:2] if user and user.name else 'SS').upper() }}
@@ -921,7 +964,7 @@
                 </div>
             </div>
 
-            <!-- MY ORDERS & SHOPPING (Photo 37) -->
+            <!-- MY ORDERS & SHOPPING -->
             <p class="settings-section-title">MY ORDERS & SHOPPING</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openOrdersModal()">
@@ -972,7 +1015,7 @@
                 </div>
             </div>
 
-            <!-- ACCOUNT SETTINGS (Photos 21, 23 & 37) -->
+            <!-- ACCOUNT SETTINGS -->
             <p class="settings-section-title">ACCOUNT SETTINGS</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openEditProfileModal()">
@@ -1026,7 +1069,7 @@
                 </div>
             </div>
 
-            <!-- PREFERENCES (Photos 21 & 22) -->
+            <!-- PREFERENCES -->
             <p class="settings-section-title">PREFERENCES</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="toggleLanguage()">
@@ -1063,7 +1106,7 @@
                 </div>
             </div>
 
-            <!-- SUPPORT & LEGAL (Photos 24 & 25) -->
+            <!-- SUPPORT & LEGAL -->
             <p class="settings-section-title">SUPPORT & LEGAL</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openHelpSupportModal()">
@@ -1100,7 +1143,7 @@
                 </div>
             </div>
 
-            <!-- DANGER ZONE (Photos 24 & 25) -->
+            <!-- DANGER ZONE -->
             <p class="settings-section-title" style="color:#dc2626;">DANGER ZONE</p>
             <div class="settings-card-group" style="border-color:#fecaca;">
                 <div class="settings-row-item" onclick="location.href='/logout'" style="background:#fff8f8;">
@@ -1116,7 +1159,7 @@
             </div>
         </section>
 
-        <!-- FLOATING BOTTOM CART BAR (Photo 27 Match) -->
+        <!-- FLOATING BOTTOM CART BAR -->
         <div id="float-cart" class="cart-float-bar" onclick="openCartDrawer()">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="background:rgba(255,255,255,0.2); width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;" id="cart-item-count">0</div>
@@ -1150,8 +1193,8 @@
             </div>
         </nav>
 
-        <!-- RECOMMENDED & BUDGET SORTING DIALOG (Photos 28 & 29 Match) -->
-        <div class="center-modal-overlay" id="sort-dialog-modal">
+        <!-- RECOMMENDED & BUDGET SORTING DIALOG -->
+        <div class="center-modal-overlay" id="sort-dialog-modal" onclick="closeOnOverlay(event, 'sort-dialog-modal')">
             <div class="sort-dialog-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <h4 style="font-size:16px; font-weight:800;">Filter & Sort By</h4>
@@ -1183,8 +1226,8 @@
             </div>
         </div>
 
-        <!-- PRODUCT DETAIL BOTTOM SHEET (Photos 18 & 19 Match) -->
-        <div class="prod-modal-overlay" id="product-detail-modal">
+        <!-- PRODUCT DETAIL BOTTOM SHEET -->
+        <div class="prod-modal-overlay" id="product-detail-modal" onclick="closeOnOverlay(event, 'product-detail-modal')">
             <div class="prod-modal-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <i class="ph-bold ph-arrow-left" style="font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
@@ -1251,7 +1294,7 @@
         </div>
 
         <!-- CHECKOUT DRAWER (₹120 Threshold) -->
-        <div class="drawer-overlay" id="cart-drawer">
+        <div class="drawer-overlay" id="cart-drawer" onclick="closeOnOverlay(event, 'cart-drawer')">
             <div class="drawer-box">
                 <div class="checkout-head">
                     <div style="display:flex; align-items:center; gap:10px;">
@@ -1318,15 +1361,229 @@
             </div>
         </div>
 
-        <!-- COOKIE SETTINGS HUB MODAL (Photos 30, 31 & 32 Match) -->
-        <div class="center-modal-overlay" id="cookie-settings-modal">
+        <!-- INTERACTIVE MY ORDERS MODAL (NO ALERT) -->
+        <div class="center-modal-overlay" id="orders-modal" onclick="closeOnOverlay(event, 'orders-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;"><i class="ph-bold ph-package" style="color:var(--brand-green); margin-right:6px;"></i> My Past Orders</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeOrdersModal()"></i>
+                </div>
+                <div id="orders-list-content"></div>
+            </div>
+        </div>
+
+        <!-- INTERACTIVE WISHLIST MODAL (NO ALERT) -->
+        <div class="center-modal-overlay" id="wishlist-modal" onclick="closeOnOverlay(event, 'wishlist-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;"><i class="ph-bold ph-heart" style="color:var(--brand-red); margin-right:6px;"></i> My Saved Wishlist</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeWishlistModal()"></i>
+                </div>
+                <div id="wishlist-items-container"></div>
+            </div>
+        </div>
+
+        <!-- VERIFIED PROFILE VIEW -->
+        <div class="center-modal-overlay" id="verified-profile-modal" onclick="closeOnOverlay(event, 'verified-profile-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Verified Member Profile</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeVerifiedProfileModal()"></i>
+                </div>
+
+                <div style="background:var(--brand-light); border-radius:18px; padding:18px; text-align:center; margin-bottom:14px;">
+                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px;">
+                        {{ (user.name[:2] if user and user.name else 'SS').upper() }}
+                    </div>
+                    <h3 style="font-size:17px; font-weight:800;" id="view-prof-name">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
+                    <p style="font-size:12.5px; color:var(--text-sub); margin:2px 0 8px;" id="view-prof-phone">+91 {{ user.phone if user and user.phone else '9602697303' }}</p>
+                    <span style="font-size:10.5px; font-weight:800; background:var(--brand-green); color:#fff; padding:3px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;">
+                        <i class="ph-bold ph-seal-check"></i> 100% KYC Verified Member
+                    </span>
+                </div>
+
+                <div style="border-top:1px solid var(--border-clr); padding-top:12px; font-size:12.5px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="color:var(--text-sub);">Registered Email:</span>
+                        <strong id="view-prof-email">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="color:var(--text-sub);">Delivery Zone:</span>
+                        <strong>Hisar, Haryana Sector Hub</strong>
+                    </div>
+                </div>
+
+                <button onclick="closeVerifiedProfileModal()" style="width:100%; height:42px; background:#111827; color:#fff; border:none; border-radius:12px; font-weight:800; margin-top:14px; cursor:pointer;">
+                    Close Verification Details
+                </button>
+            </div>
+        </div>
+
+        <!-- EDIT PROFILE MODAL -->
+        <div class="center-modal-overlay" id="edit-profile-modal" onclick="closeOnOverlay(event, 'edit-profile-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Edit Profile Information</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeEditProfileModal()"></i>
+                </div>
+
+                <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Current Name:</span>
+                        <strong id="disp-prev-name">Sumit Singh</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Current Phone:</span>
+                        <strong id="disp-prev-phone">9602697303</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="color:var(--text-sub);">Current Email:</span>
+                        <strong id="disp-prev-email">sumitsingh34398@gmail.com</strong>
+                    </div>
+                </div>
+
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
+                <input type="text" id="prof-name-input" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
+                <input type="text" id="prof-phone-input" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
+                <input type="email" id="prof-email-input" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                
+                <button onclick="saveProfileData()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Save Profile Changes
+                </button>
+            </div>
+        </div>
+
+        <!-- LOCATION MODAL -->
+        <div class="center-modal-overlay" id="location-modal" onclick="closeOnOverlay(event, 'location-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Choose Delivery Location</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeLocationModal()"></i>
+                </div>
+
+                <button id="gps-action-btn" onclick="fetchExactLiveGPS()" style="width:100%; height:44px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:12px; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:14px;">
+                    <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
+                </button>
+
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
+                
+                <div class="settings-row-item" id="slot-1" onclick="selectAddressSlot(1)" style="border:1.5px solid var(--brand-green); border-radius:12px; margin-bottom:8px;">
+                    <div>
+                        <strong style="font-size:12.5px; display:block;">Home Address (Slot 1)</strong>
+                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
+                </div>
+
+                <div class="settings-row-item" id="slot-2" onclick="selectAddressSlot(2)" style="border:1.5px solid var(--border-clr); border-radius:12px; margin-bottom:12px;">
+                    <div>
+                        <strong style="font-size:12.5px; display:block;">Office / Campus (Slot 2)</strong>
+                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
+                    </div>
+                    <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
+                </div>
+
+                <input type="text" id="custom-addr-input" placeholder="Type new flat, road or landmark..." style="width:100%; height:42px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; outline:none; margin-bottom:10px;">
+                <button onclick="saveCustomAddress()" style="width:100%; height:42px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Save & Set Location
+                </button>
+            </div>
+        </div>
+
+        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
+        <div class="center-modal-overlay" id="refund-modal" onclick="closeOnOverlay(event, 'refund-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="font-size:17px; font-weight:800;">Instant 100% Refund Claim</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRefundModal()"></i>
+                </div>
+                <p style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:12px;">
+                    Upload photo of broken seal or wrong item. Amount will be credited to UPI/Wallet in 5 mins.
+                </p>
+
+                <div onclick="document.getElementById('proof-photo-file').click()" style="border:2px dashed #bbf7d0; border-radius:14px; padding:20px; text-align:center; background:#f0fdf4; margin-bottom:12px; cursor:pointer;">
+                    <i class="ph-bold ph-camera" style="font-size:30px; color:var(--brand-green);"></i>
+                    <p style="font-size:12px; font-weight:700; margin-top:4px;" id="proof-photo-label">Click to capture / upload item photo</p>
+                </div>
+                <input type="file" id="proof-photo-file" accept="image/*" style="display:none;" onchange="handleProofUploaded(this)">
+
+                <input type="text" placeholder="Reason (e.g. Leaking milk packet)..." style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px;">
+                <button onclick="submitRefundClaim()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Submit Claim for Review
+                </button>
+            </div>
+        </div>
+
+        <!-- ORDER PLACED MODAL -->
+        <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
+            <div class="center-modal-box" style="text-align:center;">
+                <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <h3 style="font-size:20px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
+                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dark Store Packing in Progress 📦</p>
+
+                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:var(--text-sub);">Assigned Pilot:</span>
+                        <strong>Rajesh Kumar</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="color:var(--text-sub);">Rider Phone:</span>
+                        <strong>+91 96026 97303</strong>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button onclick="dismissOrderSuccess()" style="height:44px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
+                        Continue Shopping
+                    </button>
+                    <button onclick="openRiderTrackerFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <i class="ph-fill ph-navigation-arrow"></i> Track Rider
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIDER TRACKER MODAL -->
+        <div class="center-modal-overlay" id="rider-tracker-modal" onclick="closeOnOverlay(event, 'rider-tracker-modal')">
+            <div class="center-modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h3 style="font-size:17px; font-weight:800;">Delivery Partner Status</h3>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRiderTrackerModal()"></i>
+                </div>
+
+                <div style="background:var(--brand-light); border-radius:16px; padding:14px; display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div style="width:48px; height:48px; background:var(--brand-green); color:#fff; font-size:22px; border-radius:14px; display:flex; align-items:center; justify-content:center;">
+                        <i class="ph-fill ph-moped"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <h4 style="font-size:14px; font-weight:800;">Rajesh Kumar</h4>
+                        <p style="font-size:11.5px; color:var(--text-sub);">Hero Splendor • HR20-AB-1234</p>
+                        <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:1px 6px; border-radius:4px;">★ 4.9 Verified Pilot</span>
+                    </div>
+                    <a href="tel:9602697303" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
+                </div>
+
+                <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
+                    <p style="font-size:12.5px; font-weight:800; color:var(--brand-green);">Order Dispatched from Dark Store (Hisar Hub)</p>
+                    <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">ETA: 8-10 Minutes to your doorstep</p>
+                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">Rampura Beri Area</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- COOKIE SETTINGS HUB MODAL -->
+        <div class="center-modal-overlay" id="cookie-settings-modal" onclick="closeOnOverlay(event, 'cookie-settings-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h3 style="font-size:18px; font-weight:800;">Cookie Settings.</h3>
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeCookieSettingsModal()"></i>
                 </div>
                 <p style="font-size:12px; color:var(--text-sub); line-height:1.5; margin-bottom:16px;">
-                    Manage your optional cookie and browser storage preferences below. Essential technologies remain active for core shopping and security.
+                    Manage your optional cookie preferences below. Essential technologies remain active for core shopping and security.
                 </p>
 
                 <div class="cookie-switch-row">
@@ -1387,8 +1644,8 @@
             </div>
         </div>
 
-        <!-- HELP & SUPPORT 14-POINT GUIDE MODAL (Photos 33, 34 & 35 Match) -->
-        <div class="center-modal-overlay" id="help-support-modal">
+        <!-- HELP & SUPPORT GUIDE MODAL -->
+        <div class="center-modal-overlay" id="help-support-modal" onclick="closeOnOverlay(event, 'help-support-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h3 style="font-size:18px; font-weight:800;">Help & Support</h3>
@@ -1414,8 +1671,8 @@
             </div>
         </div>
 
-        <!-- ACCOUNT SECURITY MODAL (Photo 36 Match) -->
-        <div class="center-modal-overlay" id="account-security-modal">
+        <!-- ACCOUNT SECURITY MODAL -->
+        <div class="center-modal-overlay" id="account-security-modal" onclick="closeOnOverlay(event, 'account-security-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                     <h3 style="font-size:17px; font-weight:800;">Account Security</h3>
@@ -1467,198 +1724,6 @@
                         <i class="ph-bold ph-caret-right" style="color:#a1aca6;"></i>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- ORDER PLACED MODAL -->
-        <div class="center-modal-overlay" id="order-success-modal">
-            <div class="center-modal-box" style="text-align:center;">
-                <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
-                    <i class="ph-bold ph-check"></i>
-                </div>
-                <h3 style="font-size:20px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
-                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dark Store Packing in Progress 📦</p>
-
-                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                        <span style="color:var(--text-sub);">Assigned Pilot:</span>
-                        <strong>Rajesh Kumar</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between;">
-                        <span style="color:var(--text-sub);">Rider Phone:</span>
-                        <strong>+91 96026 97303</strong>
-                    </div>
-                </div>
-
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <button onclick="dismissOrderSuccess()" style="height:44px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
-                        Continue Shopping
-                    </button>
-                    <button onclick="openRiderTrackerFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <i class="ph-fill ph-navigation-arrow"></i> Track Rider
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIDER TRACKER MODAL -->
-        <div class="center-modal-overlay" id="rider-tracker-modal">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Delivery Partner Status</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRiderTrackerModal()"></i>
-                </div>
-
-                <div style="background:var(--brand-light); border-radius:16px; padding:14px; display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-                    <div style="width:48px; height:48px; background:var(--brand-green); color:#fff; font-size:22px; border-radius:14px; display:flex; align-items:center; justify-content:center;">
-                        <i class="ph-fill ph-moped"></i>
-                    </div>
-                    <div style="flex:1;">
-                        <h4 style="font-size:14px; font-weight:800;">Rajesh Kumar</h4>
-                        <p style="font-size:11.5px; color:var(--text-sub);">Hero Splendor • HR20-AB-1234</p>
-                        <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:1px 6px; border-radius:4px;">★ 4.9 Verified Pilot</span>
-                    </div>
-                    <a href="tel:9602697303" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
-                </div>
-
-                <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
-                    <p style="font-size:12.5px; font-weight:800; color:var(--brand-green);">Order Dispatched from Dark Store (Hisar Hub)</p>
-                    <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">ETA: 8-10 Minutes to your doorstep</p>
-                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">Rampura Beri Area</span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOP-RIGHT VERIFIED PROFILE VIEW -->
-        <div class="center-modal-overlay" id="verified-profile-modal">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Verified Member Profile</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeVerifiedProfileModal()"></i>
-                </div>
-
-                <div style="background:var(--brand-light); border-radius:18px; padding:18px; text-align:center; margin-bottom:14px;">
-                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px;">
-                        {{ (user.name[:2] if user and user.name else 'SS').upper() }}
-                    </div>
-                    <h3 style="font-size:17px; font-weight:800;" id="view-prof-name">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
-                    <p style="font-size:12.5px; color:var(--text-sub); margin:2px 0 8px;" id="view-prof-phone">+91 {{ user.phone if user and user.phone else '9602697303' }}</p>
-                    <span style="font-size:10.5px; font-weight:800; background:var(--brand-green); color:#fff; padding:3px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;">
-                        <i class="ph-bold ph-seal-check"></i> 100% KYC Verified Member
-                    </span>
-                </div>
-
-                <div style="border-top:1px solid var(--border-clr); padding-top:12px; font-size:12.5px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                        <span style="color:var(--text-sub);">Registered Email:</span>
-                        <strong id="view-prof-email">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                        <span style="color:var(--text-sub);">Delivery Zone:</span>
-                        <strong>Hisar, Haryana Sector Hub</strong>
-                    </div>
-                </div>
-
-                <button onclick="closeVerifiedProfileModal()" style="width:100%; height:42px; background:#111827; color:#fff; border:none; border-radius:12px; font-weight:800; margin-top:14px; cursor:pointer;">
-                    Close Verification Details
-                </button>
-            </div>
-        </div>
-
-        <!-- EDIT PROFILE MODAL -->
-        <div class="center-modal-overlay" id="edit-profile-modal">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Edit Profile Information</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeEditProfileModal()"></i>
-                </div>
-
-                <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                        <span style="color:var(--text-sub);">Current Name:</span>
-                        <strong id="disp-prev-name">Sumit Singh</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                        <span style="color:var(--text-sub);">Current Phone:</span>
-                        <strong id="disp-prev-phone">9602697303</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between;">
-                        <span style="color:var(--text-sub);">Current Email:</span>
-                        <strong id="disp-prev-email">sumitsingh34398@gmail.com</strong>
-                    </div>
-                </div>
-
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
-                <input type="text" id="prof-name-input" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
-                <input type="text" id="prof-phone-input" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
-                <input type="email" id="prof-email-input" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
-                
-                <button onclick="saveProfileData()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
-                    Save Profile Changes
-                </button>
-            </div>
-        </div>
-
-        <!-- LOCATION MODAL -->
-        <div class="center-modal-overlay" id="location-modal">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Choose Delivery Location</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeLocationModal()"></i>
-                </div>
-
-                <button id="gps-action-btn" onclick="fetchExactLiveGPS()" style="width:100%; height:44px; background:var(--brand-light); color:var(--brand-green); border:1.5px dashed var(--brand-green); border-radius:12px; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:14px;">
-                    <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
-                </button>
-
-                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
-                
-                <div class="settings-row-item" id="slot-1" onclick="selectAddressSlot(1)" style="border:1.5px solid var(--brand-green); border-radius:12px; margin-bottom:8px;">
-                    <div>
-                        <strong style="font-size:12.5px; display:block;">Home Address (Slot 1)</strong>
-                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
-                    </div>
-                    <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
-                </div>
-
-                <div class="settings-row-item" id="slot-2" onclick="selectAddressSlot(2)" style="border:1.5px solid var(--border-clr); border-radius:12px; margin-bottom:12px;">
-                    <div>
-                        <strong style="font-size:12.5px; display:block;">Office / Campus (Slot 2)</strong>
-                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
-                    </div>
-                    <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
-                </div>
-
-                <input type="text" id="custom-addr-input" placeholder="Type new flat, road or landmark..." style="width:100%; height:42px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; outline:none; margin-bottom:10px;">
-                <button onclick="saveCustomAddress()" style="width:100%; height:42px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
-                    Save & Set Location
-                </button>
-            </div>
-        </div>
-
-        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
-        <div class="center-modal-overlay" id="refund-modal">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h3 style="font-size:17px; font-weight:800;">Instant 100% Refund Claim</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRefundModal()"></i>
-                </div>
-                <p style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:12px;">
-                    Upload photo of broken seal or wrong item. Amount will be credited to UPI/Wallet in 5 mins.
-                </p>
-
-                <div onclick="document.getElementById('proof-photo-file').click()" style="border:2px dashed #bbf7d0; border-radius:14px; padding:20px; text-align:center; background:#f0fdf4; margin-bottom:12px; cursor:pointer;">
-                    <i class="ph-bold ph-camera" style="font-size:30px; color:var(--brand-green);"></i>
-                    <p style="font-size:12px; font-weight:700; margin-top:4px;" id="proof-photo-label">Click to capture / upload item photo</p>
-                </div>
-                <input type="file" id="proof-photo-file" accept="image/*" style="display:none;" onchange="handleProofUploaded(this)">
-
-                <input type="text" placeholder="Reason (e.g. Leaking milk packet)..." style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px;">
-                <button onclick="submitRefundClaim()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
-                    Submit Claim for Review
-                </button>
             </div>
         </div>
 
@@ -1741,6 +1806,11 @@
 
         let cart = {};
         let wishlist = {};
+        let pastOrders = [
+            { id: "#RX-9081", date: "Today, 4:15 PM", items: "Amul Taaza Milk (2x), Parle-G Gold", total: 154, status: "Delivered", address: "Hisar Sector 14, Haryana" },
+            { id: "#RX-8842", date: "Yesterday", items: "Aashirvaad Atta 5kg, Fortune Oil", total: 330, status: "Delivered", address: "GJU Area, Hisar" }
+        ];
+
         let activeCategory = 'all';
         let activeSort = 'rec';
         let currentModalProduct = null;
@@ -1749,7 +1819,7 @@
         let selectedPaymentMode = "PhonePe";
         let currentLang = 'en';
 
-        // Render Catalog Grid
+        // Render Catalog Grid with Outside Wishlist Heart
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -1766,16 +1836,18 @@
                 const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
                 const isItemInCart = cart[p.id] && cart[p.id].qty > 0;
                 const qty = isItemInCart ? cart[p.id].qty : 0;
+                const isWishlisted = !!wishlist[p.id];
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = (e) => {
-                    if (e.target.closest('.btn-add') || e.target.closest('.qty-controller')) return;
+                    if (e.target.closest('.btn-add') || e.target.closest('.qty-controller') || e.target.closest('.card-wishlist-heart')) return;
                     openProductDetailModal(p.id);
                 };
 
                 card.innerHTML = `
                     ${discount > 0 ? `<span class="badge-discount">${discount}% OFF</span>` : ''}
+                    <i class="${isWishlisted ? 'ph-fill ph-heart active' : 'ph-bold ph-heart'} card-wishlist-heart" id="wish-heart-${p.id}" onclick="toggleCardWishlist(${p.id}, event)"></i>
                     <div class="prod-img-box">
                         <img src="${p.img}" class="prod-img" alt="${p.name}">
                     </div>
@@ -1799,7 +1871,7 @@
             });
         }
 
-        // Live Search & Sort Combined Engine
+        // Live Search & Sort Combined
         function filterProducts() {
             const query = document.getElementById('search-box').value.toLowerCase().trim();
             let result = catalogDB.filter(p => {
@@ -1808,7 +1880,6 @@
                 return matchQuery && matchCategory;
             });
 
-            // Sorting & Budget application
             if (activeSort === 'low') {
                 result.sort((a,b) => a.price - b.price);
             } else if (activeSort === 'high') {
@@ -1848,6 +1919,26 @@
             filterProducts();
         }
 
+        // Outside Heart Click Handler
+        function toggleCardWishlist(id, e) {
+            e.stopPropagation();
+            const prod = catalogDB.find(p => p.id === id);
+            if (!prod) return;
+
+            const icon = document.getElementById(`wish-heart-${id}`);
+            if (wishlist[id]) {
+                delete wishlist[id];
+                if (icon) {
+                    icon.className = "ph-bold ph-heart card-wishlist-heart";
+                }
+            } else {
+                wishlist[id] = prod;
+                if (icon) {
+                    icon.className = "ph-fill ph-heart card-wishlist-heart active";
+                }
+            }
+        }
+
         // Cart Actions
         function addItem(id) {
             const prod = catalogDB.find(p => p.id === id);
@@ -1878,7 +1969,7 @@
             }
         }
 
-        // ₹120 Free Delivery Threshold Logic
+        // ₹120 Free Delivery Threshold Sync
         function syncCheckoutData() {
             let totalCount = 0;
             let itemsTotal = 0;
@@ -1956,7 +2047,7 @@
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Photos 18 & 19 Product Detail Sheet
+        // Product Detail Bottom Sheet (Photos 18 & 19)
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -1995,14 +2086,18 @@
             if(!currentModalProduct) return;
             const id = currentModalProduct.id;
             const wishIcon = document.getElementById('modal-wish-icon');
+            const cardWishIcon = document.getElementById(`wish-heart-${id}`);
+
             if(wishlist[id]) {
                 delete wishlist[id];
                 wishIcon.className = "ph-bold ph-heart";
                 wishIcon.style.color = "#94a3b8";
+                if(cardWishIcon) cardWishIcon.className = "ph-bold ph-heart card-wishlist-heart";
             } else {
                 wishlist[id] = currentModalProduct;
                 wishIcon.className = "ph-fill ph-heart";
                 wishIcon.style.color = "#e11d48";
+                if(cardWishIcon) cardWishIcon.className = "ph-fill ph-heart card-wishlist-heart active";
             }
         }
 
@@ -2070,11 +2165,10 @@
                 document.getElementById('view-prof-email').innerText = email;
             }
 
-            alert("Profile successfully saved!");
             closeEditProfileModal();
         }
 
-        // Live GPS Geolocation
+        // Live Geolocation API & Address Management
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -2110,13 +2204,12 @@
                         closeLocationModal();
                     },
                     (err) => {
-                        alert("Location error: Please enable GPS permission in your browser.");
                         btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
                     },
                     { enableHighAccuracy: true, timeout: 10000 }
                 );
             } else {
-                alert("Geolocation not supported.");
+                btn.innerHTML = `<i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location`;
             }
         }
 
@@ -2133,7 +2226,7 @@
             });
         }
 
-        // Rider Tracker Modal
+        // Live Rider Tracker Modal
         function openRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'flex'; }
         function closeRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'none'; }
         function openRiderTrackerFromSuccess() {
@@ -2141,14 +2234,21 @@
             openRiderTrackerModal();
         }
 
-        // Order Success
+        // Order Placement Flow
         function triggerOrderSuccess() {
             let totalCount = 0;
             for(let id in cart) totalCount += cart[id].qty;
-            if(totalCount === 0) {
-                alert("Cart is empty! Please add groceries.");
-                return;
-            }
+            if(totalCount === 0) return;
+
+            const newOrder = {
+                id: "#RX-" + Math.floor(1000 + Math.random() * 9000),
+                date: "Just now",
+                items: Object.values(cart).map(i => `${i.name} (${i.qty}x)`).join(", "),
+                total: document.getElementById('bill-grand-total').innerText,
+                status: "Packing (10 Mins)",
+                address: document.getElementById('active-location-display').innerText
+            };
+            pastOrders.unshift(newOrder);
 
             closeCartDrawer();
             try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
@@ -2172,11 +2272,73 @@
             }
         }
         function submitRefundClaim() {
-            alert('Refund claim generated! QA has approved 100% refund to your source payment.');
             closeRefundModal();
         }
 
-        // Cookie Hub Management
+        // Interactive My Orders Modal (Zero Alerts)
+        function openOrdersModal() {
+            const list = document.getElementById('orders-list-content');
+            list.innerHTML = '';
+            pastOrders.forEach(o => {
+                const item = document.createElement('div');
+                item.style.cssText = 'background: #f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:10px; font-size:12px;';
+                item.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <strong style="color:var(--brand-green); font-size:13px;">${o.id}</strong>
+                        <span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:10px; font-weight:800; font-size:10.5px;">${o.status}</span>
+                    </div>
+                    <p style="color:var(--text-main); font-weight:700; margin:4px 0;">${o.items}</p>
+                    <div style="display:flex; justify-content:space-between; color:var(--text-sub); font-size:11px; margin-top:6px;">
+                        <span>${o.date} • ${o.address}</span>
+                        <strong style="color:var(--text-main); font-size:13px;">${typeof o.total === 'number' ? '₹' + o.total : o.total}</strong>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            document.getElementById('orders-modal').style.display = 'flex';
+        }
+        function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
+
+        // Interactive Wishlist Modal (Zero Alerts)
+        function openWishlistModal() {
+            const box = document.getElementById('wishlist-items-container');
+            box.innerHTML = '';
+            const ids = Object.keys(wishlist);
+
+            if (ids.length === 0) {
+                box.innerHTML = `
+                    <div style="text-align:center; padding:30px 10px; color:var(--text-sub);">
+                        <i class="ph ph-heart-break" style="font-size:36px; color:#94a3b8; margin-bottom:8px;"></i>
+                        <p style="font-size:13px; font-weight:700;">Your wishlist is empty!</p>
+                        <span style="font-size:11px;">Tap the heart icon on any grocery item to save it.</span>
+                    </div>
+                `;
+            } else {
+                ids.forEach(id => {
+                    const item = wishlist[id];
+                    const row = document.createElement('div');
+                    row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border-clr); font-size:12.5px;';
+                    row.innerHTML = `
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <img src="${item.img}" style="width:40px; height:40px; object-fit:contain; border-radius:8px;">
+                            <div>
+                                <h5 style="font-weight:800;">${item.name}</h5>
+                                <span style="color:var(--brand-green); font-weight:800;">₹${item.price}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button onclick="addItem(${item.id}); openCartDrawer(); closeWishlistModal();" style="background:var(--brand-green); color:#fff; border:none; padding:6px 12px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer;">Add</button>
+                            <button onclick="toggleCardWishlist(${item.id}, event); openWishlistModal();" style="background:#fee2e2; color:#dc2626; border:none; padding:6px 10px; border-radius:8px; cursor:pointer;"><i class="ph-bold ph-trash"></i></button>
+                        </div>
+                    `;
+                    box.appendChild(row);
+                });
+            }
+            document.getElementById('wishlist-modal').style.display = 'flex';
+        }
+        function closeWishlistModal() { document.getElementById('wishlist-modal').style.display = 'none'; }
+
+        // Cookie Settings Modals
         function openCookieManagerModal() { document.getElementById('cookie-settings-modal').style.display = 'flex'; }
         function closeCookieSettingsModal() { document.getElementById('cookie-settings-modal').style.display = 'none'; }
         function saveCookiePreferences() {
@@ -2203,14 +2365,8 @@
         function closeHelpSupportModal() { document.getElementById('help-support-modal').style.display = 'none'; }
         function openAccountSecurityModal() { document.getElementById('account-security-modal').style.display = 'flex'; }
         function closeAccountSecurityModal() { document.getElementById('account-security-modal').style.display = 'none'; }
-
-        function openOrdersModal() { alert("You have 2 past delivered orders in your history."); }
-        function openWishlistModal() {
-            const count = Object.keys(wishlist).length;
-            alert(count > 0 ? `You have ${count} saved items in wishlist!` : "Wishlist is empty. Tap the heart icon on any product to save it.");
-        }
-        function openPaymentMethodsModal() { alert(`Default Payment: ${selectedPaymentMode}. You can switch options in Checkout.`); }
-        function openNotificationsModal() { alert("Notifications:\n1. 10-Minute Superfast delivery live.\n2. FREE delivery unlocked on orders above ₹120."); }
+        function openPaymentMethodsModal() { openCartDrawer(); }
+        function openNotificationsModal() { alert("Notification:\n• 10-Minute Superfast delivery active in Hisar\n• Unlocked free delivery above ₹120"); }
 
         // Theme Toggle
         function toggleTheme() {
@@ -2223,6 +2379,13 @@
         function toggleLanguage() {
             currentLang = (currentLang === 'en') ? 'hi' : 'en';
             document.getElementById('current-lang-badge').innerText = (currentLang === 'en') ? 'English' : 'हिन्दी';
+        }
+
+        // Overlay Click to Dismiss (Outside Tap)
+        function closeOnOverlay(e, modalId) {
+            if (e.target.id === modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
         }
 
         // Tab Navigation Router
