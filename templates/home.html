@@ -255,7 +255,7 @@
         }
         .btn-shop-now:active { transform: scale(0.95); }
 
-        /* Fresh Picks & Recommended Filter Pill */
+        /* Fresh Picks Bar */
         .rec-pill-bar {
             margin: 0 18px 10px;
             display: flex;
@@ -946,7 +946,7 @@
         }
         body.dark-theme .otp-number-digits { background: #0f172a; color: #4ade80; }
 
-        /* Delivered Success Banner (Replaces OTP Box after Delivery) */
+        /* Delivered Success Banner */
         .order-delivered-banner {
             background: #ecfdf5;
             border: 1.5px solid #a7f3d0;
@@ -971,7 +971,7 @@
             margin-top: 3px;
         }
 
-        /* 4-Step Dynamic Order Tracker */
+        /* Strict 4-Step Dynamic Order Tracker */
         .order-track-stepper {
             display: flex;
             justify-content: space-between;
@@ -1518,7 +1518,7 @@
             </div>
         </div>
 
-        <!-- CHECKOUT DRAWER (MANDATORY NAME & PHONE INPUTS) -->
+        <!-- CHECKOUT DRAWER -->
         <div class="drawer-overlay" id="cart-drawer" onclick="closeOnOverlay(event, 'cart-drawer')">
             <div class="drawer-box">
                 <div class="checkout-head">
@@ -1531,7 +1531,7 @@
 
                 <div id="cart-items-wrapper"></div>
 
-                <!-- Customer Details Form (Mandatory) -->
+                <!-- Customer Details Form -->
                 <div class="checkout-card" id="checkout-cust-card">
                     <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; display:block; margin-bottom:8px;">Customer Details (Required)</span>
                     <input type="text" id="chk-cust-name" value="{{ user.name if user and user.name else '' }}" placeholder="Enter Full Name *" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; font-weight:700; margin-bottom:8px; outline:none;">
@@ -1574,7 +1574,7 @@
                     <p style="font-size:12.5px; font-weight:700; word-break: break-word;" id="checkout-address-line">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</p>
                 </div>
 
-                <!-- LUXURY PAYMENT OPTION CARDS -->
+                <!-- PAYMENT OPTION CARDS -->
                 <div class="checkout-card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">SELECT PAYMENT OPTION</span>
@@ -1656,7 +1656,7 @@
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeOrderTrackingModal()"></i>
                 </div>
 
-                <!-- Doorstep 4-Digit Verification OTP (Visible before delivery) -->
+                <!-- Doorstep 4-Digit Verification OTP (Auto-hides on delivery) -->
                 <div class="doorstep-otp-container" id="track-otp-box">
                     <p style="font-size:12px; font-weight:800; color:var(--brand-green); text-transform:uppercase; letter-spacing:0.5px;">
                         <i class="ph-bold ph-shield-check"></i> Doorstep Delivery Verification OTP
@@ -1665,13 +1665,13 @@
                     <p style="font-size:11px; color:var(--text-sub);">Give this 4-digit code to the pilot when packet arrives</p>
                 </div>
 
-                <!-- Delivered Success Banner (Visible AFTER delivery) -->
+                <!-- Delivered Success Banner (Shown ONLY after delivery) -->
                 <div class="order-delivered-banner" id="track-delivered-banner">
                     <h4><i class="ph-fill ph-check-circle" style="color:var(--brand-green); font-size:20px;"></i> Order Delivered Successfully!</h4>
                     <p>Delivered by Roxen Pilot. Thank you for shopping fresh!</p>
                 </div>
 
-                <!-- 4-Stage Live Dynamic Progress Stepper -->
+                <!-- Strict 4-Stage Live Dynamic Progress Stepper -->
                 <div class="order-track-stepper">
                     <div class="track-step-node" id="st-placed">
                         <div class="node-icon-circle"><i class="ph-bold ph-check"></i></div>
@@ -1833,7 +1833,7 @@
             </div>
         </div>
 
-        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
+        <!-- REFUND MODAL -->
         <div class="center-modal-overlay" id="refund-modal" onclick="closeOnOverlay(event, 'refund-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -1857,7 +1857,7 @@
             </div>
         </div>
 
-        <!-- ORDER PLACED CELEBRATION POPUP (CLEAN DUAL BUTTONS) -->
+        <!-- ORDER SUCCESS POPUP -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
             <div class="center-modal-box" style="text-align:center;">
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
@@ -1881,7 +1881,7 @@
 
     </div>
 
-    <!-- SCRIPT DATA & REAL BACKEND LOGIC -->
+    <!-- SCRIPT DATA & APP LOGIC -->
     <script>
         const catalogDB = [
             // Dairy (18 Unique Items)
@@ -2432,7 +2432,6 @@
 
             if (totalCount === 0) return;
 
-            // Mandatory Checkout Details Validation
             const custName = document.getElementById('chk-cust-name').value.trim();
             const custPhone = document.getElementById('chk-cust-phone').value.trim();
 
@@ -2577,7 +2576,7 @@
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
         // ========================================================
-        // 🔄 DYNAMIC LIVE ORDER TRACKER (AUTO-HIDES OTP WHEN DELIVERED)
+        // 🔄 STRICT LIVE ORDER TRACKER & 4-DIGIT OTP
         // ========================================================
         function openOrderDetailsModal(orderIndex) {
             const o = cachedOrders[orderIndex];
@@ -2616,7 +2615,7 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'flex';
         }
 
-        // Live Stepper & OTP Visiblity Controller
+        // Strict Stepper & OTP Visibility Controller
         function updateStepperUI(rawStatus) {
             const status = (rawStatus || 'Placed').toLowerCase();
             const nodes = ['st-placed', 'st-packed', 'st-out', 'st-delivered'];
@@ -2626,12 +2625,17 @@
             const isOut = status.includes('out') || status.includes('way') || isDelivered;
             const isPacked = status.includes('pack') || isOut;
 
+            // STRICT RULE: Placed is ALWAYS green when order exists
             document.getElementById('st-placed').classList.add('active');
+            
+            // Packing & On Way turn green ONLY when rider updates status
             if (isPacked) document.getElementById('st-packed').classList.add('active');
             if (isOut) document.getElementById('st-out').classList.add('active');
+            
+            // Delivered turns green ONLY when OTP is verified
             if (isDelivered) document.getElementById('st-delivered').classList.add('active');
 
-            // HIDE OTP BOX WHEN DELIVERED
+            // HIDE OTP BOX WHEN DELIVERED, SHOW SUCCESS BANNER
             const otpBox = document.getElementById('track-otp-box');
             const deliveredBanner = document.getElementById('track-delivered-banner');
 
@@ -2649,7 +2653,7 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'none';
         }
 
-        // Auto Poll Order Status Every 3 Seconds while Customer is Watching
+        // Auto Poll Order Status Every 3 Seconds
         setInterval(() => {
             if (liveTrackingOrderCode && document.getElementById('order-detail-tracking-modal').style.display === 'flex') {
                 fetch('/api/my-orders')
@@ -2665,7 +2669,6 @@
             }
         }, 3000);
 
-        // Wishlist
         function openWishlistModal() {
             const box = document.getElementById('wishlist-items-container');
             box.innerHTML = '';
