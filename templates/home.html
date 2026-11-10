@@ -886,7 +886,7 @@
             transform: scale(1);
         }
 
-        /* Blinkit-Grade Order Cards in My Orders */
+        /* Order Cards in My Orders */
         .luxury-order-card {
             background: #ffffff;
             border: 1.5px solid var(--border-clr);
@@ -946,7 +946,7 @@
         }
         body.dark-theme .otp-number-digits { background: #0f172a; color: #4ade80; }
 
-        /* 4-Step Order Tracker */
+        /* 4-Step Dynamic Order Tracker */
         .order-track-stepper {
             display: flex;
             justify-content: space-between;
@@ -1015,9 +1015,43 @@
         }
         .sort-option-row:hover { background: var(--brand-light); color: var(--brand-green); }
         .sort-option-row.active { color: var(--brand-green); }
+
+        /* Floating Balloon Animation on Order Success */
+        .celebration-balloons-box {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+            display: none;
+        }
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 45px;
+            height: 55px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 3.5s ease-in forwards;
+        }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            width: 2px;
+            height: 14px;
+            background: rgba(0,0,0,0.3);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- BALLOONS ANIMATION CONTAINER -->
+    <div class="celebration-balloons-box" id="balloons-container"></div>
 
     <div class="app-wrapper">
         
@@ -1061,7 +1095,7 @@
             </div>
         </header>
 
-        <!-- VIEW 1: HOME STORE VIEW (Cleaned Banner) -->
+        <!-- VIEW 1: HOME STORE VIEW -->
         <main id="home-view">
             <div class="hero-banner">
                 <div class="tag-box"><i class="ph-bold ph-shopping-bag"></i> YOUR EVERYDAY PREMIUM STORE</div>
@@ -1131,7 +1165,7 @@
                 <h3>Account & Settings</h3>
             </div>
 
-            <!-- Profile Verified Card (Connected to Real Session User) -->
+            <!-- Profile Verified Card -->
             <div class="profile-verified-card">
                 <div class="prof-avatar-circle" id="settings-prof-avatar">
                     {{ (user.name[:2] if user and user.name else 'SS').upper() }}
@@ -1426,7 +1460,7 @@
             </div>
         </div>
 
-        <!-- CHECKOUT DRAWER (₹120 Threshold) -->
+        <!-- CHECKOUT DRAWER (MANDATORY NAME & PHONE INPUTS) -->
         <div class="drawer-overlay" id="cart-drawer" onclick="closeOnOverlay(event, 'cart-drawer')">
             <div class="drawer-box">
                 <div class="checkout-head">
@@ -1438,6 +1472,13 @@
                 </div>
 
                 <div id="cart-items-wrapper"></div>
+
+                <!-- Customer Details Form (Mandatory) -->
+                <div class="checkout-card" id="checkout-cust-card">
+                    <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; display:block; margin-bottom:8px;">Customer Details (Required)</span>
+                    <input type="text" id="chk-cust-name" value="{{ user.name if user and user.name else '' }}" placeholder="Enter Full Name *" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; font-weight:700; margin-bottom:8px; outline:none;">
+                    <input type="tel" id="chk-cust-phone" value="{{ user.phone if user and user.phone else '' }}" placeholder="Enter 10-Digit Mobile Number *" maxlength="10" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; font-weight:700; outline:none;">
+                </div>
 
                 <div class="checkout-card">
                     <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
@@ -1538,7 +1579,7 @@
             </div>
         </div>
 
-        <!-- BLINKIT-GRADE MY ORDERS LIST MODAL (PHOTOS PREVIEW) -->
+        <!-- MY ORDERS MODAL -->
         <div class="center-modal-overlay" id="orders-modal" onclick="closeOnOverlay(event, 'orders-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1549,7 +1590,7 @@
             </div>
         </div>
 
-        <!-- LUXURY ORDER TRACKING & 4-DIGIT DOORSTEP OTP RECEIPT MODAL -->
+        <!-- ORDER DETAILS & LIVE AUTO-SYNC TRACKER MODAL -->
         <div class="center-modal-overlay" id="order-detail-tracking-modal" onclick="closeOnOverlay(event, 'order-detail-tracking-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1566,17 +1607,17 @@
                     <p style="font-size:11px; color:var(--text-sub);">Give this 4-digit code to the pilot when packet arrives</p>
                 </div>
 
-                <!-- 4-Stage Live Progress Tracker -->
+                <!-- 4-Stage Live Dynamic Progress Stepper -->
                 <div class="order-track-stepper">
-                    <div class="track-step-node active" id="st-placed">
+                    <div class="track-step-node" id="st-placed">
                         <div class="node-icon-circle"><i class="ph-bold ph-check"></i></div>
                         <span>Placed</span>
                     </div>
-                    <div class="track-step-node active" id="st-packed">
+                    <div class="track-step-node" id="st-packed">
                         <div class="node-icon-circle"><i class="ph-bold ph-package"></i></div>
                         <span>Packing</span>
                     </div>
-                    <div class="track-step-node active" id="st-out">
+                    <div class="track-step-node" id="st-out">
                         <div class="node-icon-circle"><i class="ph-bold ph-moped"></i></div>
                         <span>On Way</span>
                     </div>
@@ -1605,26 +1646,10 @@
                         <span style="color:var(--brand-green);" id="track-grand-total">₹0</span>
                     </div>
                 </div>
-
-                <!-- Delivery Partner Contact Card -->
-                <div style="background:var(--brand-light); border-radius:14px; padding:12px; display:flex; align-items:center; justify-content:space-between;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div style="width:38px; height:38px; background:var(--brand-green); color:#fff; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">
-                            <i class="ph-fill ph-moped"></i>
-                        </div>
-                        <div>
-                            <h5 style="font-size:13px; font-weight:800;">Rajesh Kumar (Pilot)</h5>
-                            <p style="font-size:10.5px; color:var(--text-sub);">Hero Splendor • HR20-AB-1234</p>
-                        </div>
-                    </div>
-                    <a href="tel:9602697303" style="width:34px; height:34px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;">
-                        <i class="ph-bold ph-phone"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
-        <!-- WISHLIST MODAL (TOUCH OPENS PRODUCT DETAIL) -->
+        <!-- WISHLIST MODAL -->
         <div class="center-modal-overlay" id="wishlist-modal" onclick="closeOnOverlay(event, 'wishlist-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1635,7 +1660,7 @@
             </div>
         </div>
 
-        <!-- VERIFIED PROFILE VIEW (Dynamic Real User Session) -->
+        <!-- VERIFIED PROFILE VIEW -->
         <div class="center-modal-overlay" id="verified-profile-modal" onclick="closeOnOverlay(event, 'verified-profile-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1671,7 +1696,7 @@
             </div>
         </div>
 
-        <!-- EDIT PROFILE MODAL (Permanently Updates Backend) -->
+        <!-- EDIT PROFILE MODAL -->
         <div class="center-modal-overlay" id="edit-profile-modal" onclick="closeOnOverlay(event, 'edit-profile-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1744,7 +1769,7 @@
             </div>
         </div>
 
-        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
+        <!-- RETURN / REFUND MODAL -->
         <div class="center-modal-overlay" id="refund-modal" onclick="closeOnOverlay(event, 'refund-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -1768,31 +1793,22 @@
             </div>
         </div>
 
-        <!-- ORDER PLACED MODAL (DUAL ACTIONS WITH DIRECT MY ORDERS LINK) -->
+        <!-- ORDER PLACED CELEBRATION POPUP (Cleaned: No Static Pilot Box) -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
             <div class="center-modal-box" style="text-align:center;">
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
                     <i class="ph-bold ph-check"></i>
                 </div>
-                <h3 style="font-size:20px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
-                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dispatched to Delivery Partner 📦</p>
-
-                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                        <span style="color:var(--text-sub);">Assigned Pilot:</span>
-                        <strong id="success-pilot-name">Rajesh Kumar</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between;">
-                        <span style="color:var(--text-sub);">Rider Phone:</span>
-                        <strong id="success-pilot-phone">+91 96026 97303</strong>
-                    </div>
-                </div>
+                <h3 style="font-size:21px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
+                <p style="font-size:12.5px; color:var(--text-sub); margin:4px 0 20px;">
+                    Your fresh groceries are being packed at the nearest Dark Store 📦
+                </p>
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <button onclick="dismissOrderSuccess()" style="height:44px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
+                    <button onclick="dismissOrderSuccess()" style="height:46px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
                         Continue Shopping
                     </button>
-                    <button onclick="continueToMyOrdersFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                    <button onclick="continueToMyOrdersFromSuccess()" style="height:46px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
                         <i class="ph-fill ph-package"></i> View My Orders
                     </button>
                 </div>
@@ -1803,7 +1819,6 @@
 
     <!-- SCRIPT DATA & REAL BACKEND LOGIC -->
     <script>
-        // 60 Unique Non-Duplicate Products
         const catalogDB = [
             // Dairy (18 Unique Items)
             { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
@@ -1886,6 +1901,7 @@
         let selectedPaymentMode = "PhonePe";
         let currentLang = 'en';
         let cachedOrders = [];
+        let liveTrackingOrderId = null;
 
         function renderProducts(items) {
             const container = document.getElementById('products-container');
@@ -2105,7 +2121,6 @@
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Product Detail Bottom Sheet
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -2196,11 +2211,9 @@
 
         function closeProductModal() { document.getElementById('product-detail-modal').style.display = 'none'; }
 
-        // Verified Profile Modal
         function openVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'flex'; }
         function closeVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'none'; }
 
-        // Edit Profile Modal
         function openEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'flex'; }
         function closeEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
         
@@ -2216,7 +2229,7 @@
             }
 
             btn.disabled = true;
-            btn.innerHTML = `<i class="ph-bold ph-spinner ph-spin"></i> Saving to Database...`;
+            btn.innerHTML = `<i class="ph-bold ph-spinner ph-spin"></i> Saving...`;
 
             fetch('/api/update-profile', {
                 method: 'POST',
@@ -2231,11 +2244,13 @@
                     document.getElementById('disp-prev-name').innerText = name;
                     document.getElementById('settings-prof-name').innerText = name;
                     document.getElementById('view-prof-name').innerText = name;
+                    document.getElementById('chk-cust-name').value = name;
                     document.getElementById('settings-prof-avatar').innerText = name.substring(0,2).toUpperCase();
 
                     document.getElementById('disp-prev-phone').innerText = phone;
                     document.getElementById('settings-prof-phone').innerText = `+91 ${phone}`;
                     document.getElementById('view-prof-phone').innerText = `+91 ${phone}`;
+                    document.getElementById('chk-cust-phone').value = phone;
 
                     document.getElementById('disp-prev-email').innerText = email;
                     document.getElementById('view-prof-email').innerText = email;
@@ -2248,11 +2263,9 @@
             .catch(() => {
                 btn.disabled = false;
                 btn.innerText = "Save Profile Changes Permanently";
-                alert("Connection failed while saving profile.");
             });
         }
 
-        // Live Geolocation API
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -2307,7 +2320,38 @@
             });
         }
 
-        // Real Order Creation (Backend Connected)
+        // ========================================================
+        // 🎈 CELEBRATION BALLOONS & CONFETTI EXPLOSION
+        // ========================================================
+        function launchCelebrationBalloons() {
+            const box = document.getElementById('balloons-container');
+            box.innerHTML = '';
+            box.style.display = 'block';
+
+            const colors = ['#e11d48', '#0c831f', '#f59e0b', '#2563eb', '#9333ea', '#ec4899'];
+            for(let i = 0; i < 24; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.style.left = `${Math.random() * 92}vw`;
+                b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                b.style.animationDelay = `${(Math.random() * 0.8).toFixed(2)}s`;
+                b.style.animationDuration = `${(3 + Math.random() * 1.5).toFixed(2)}s`;
+                box.appendChild(b);
+            }
+
+            // Canvas Confetti 3 bursts
+            try {
+                confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                setTimeout(() => confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } }), 300);
+                setTimeout(() => confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1 } }), 500);
+            } catch(e){}
+
+            setTimeout(() => { box.style.display = 'none'; }, 4500);
+        }
+
+        // ========================================================
+        // 🚀 CREATE REAL ORDER WITH MANDATORY NAME & PHONE VALIDATION
+        // ========================================================
         function triggerOrderSuccess() {
             let totalCount = 0;
             const itemsList = [];
@@ -2325,6 +2369,18 @@
 
             if (totalCount === 0) return;
 
+            // Mandatory Checkout Details Validation
+            const custName = document.getElementById('chk-cust-name').value.trim();
+            const custPhone = document.getElementById('chk-cust-phone').value.trim();
+
+            if (!custName || custPhone.length < 10) {
+                const card = document.getElementById('checkout-cust-card');
+                card.style.borderColor = '#ef4444';
+                card.scrollIntoView({ behavior: 'smooth' });
+                alert("Please fill your Full Name and a valid 10-digit Phone Number to place order.");
+                return;
+            }
+
             let itemsTotal = 0;
             for(let id in cart) itemsTotal += (cart[id].qty * cart[id].price);
             const deliveryFee = itemsTotal >= 120 ? 0 : 25;
@@ -2340,17 +2396,16 @@
                     payment_method: selectedPaymentMode,
                     items_total: itemsTotal,
                     delivery_fee: deliveryFee,
-                    grand_total: grandTotal
+                    grand_total: grandTotal,
+                    name: custName,
+                    phone: custPhone
                 })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
                     closeCartDrawer();
-                    try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
-                    
-                    document.getElementById('success-pilot-name').innerText = data.pilot_name;
-                    document.getElementById('success-pilot-phone').innerText = data.pilot_phone;
+                    launchCelebrationBalloons();
 
                     document.getElementById('order-success-modal').style.display = 'flex';
                     cart = {};
@@ -2387,7 +2442,7 @@
         function submitRefundClaim() { closeRefundModal(); }
 
         // ========================================================
-        // 📦 BLINKIT-GRADE MY ORDERS LIST (WITH REAL ITEM PHOTOS)
+        // 📦 MY ORDERS LIST (WITH PHOTO THUMBNAILS & DETAILS)
         // ========================================================
         function openOrdersModal() {
             const list = document.getElementById('orders-list-content');
@@ -2458,11 +2513,13 @@
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
         // ========================================================
-        // 🔑 4-DIGIT DOORSTEP OTP & ORDER DETAILS MODAL
+        // 🔄 DYNAMIC LIVE ORDER TRACKER & 4-DIGIT OTP
         // ========================================================
         function openOrderDetailsModal(orderIndex) {
             const o = cachedOrders[orderIndex];
             if (!o) return;
+
+            liveTrackingOrderId = o.order_code;
 
             document.getElementById('track-order-code').innerText = o.order_code;
             document.getElementById('track-delivery-otp').innerText = o.delivery_otp || '4821';
@@ -2470,14 +2527,8 @@
             document.getElementById('track-payment-mode').innerText = o.payment_method || 'PhonePe UPI';
             document.getElementById('track-grand-total').innerText = `₹${o.grand_total}`;
 
-            // Track Stepper state
-            const status = (o.status || 'Placed').toLowerCase();
-            document.getElementById('st-placed').classList.add('active');
-            document.getElementById('st-packed').classList.toggle('active', status.includes('pack') || status.includes('out') || status.includes('deliver'));
-            document.getElementById('st-out').classList.toggle('active', status.includes('out') || status.includes('deliver'));
-            document.getElementById('st-delivered').classList.toggle('active', status.includes('deliver'));
+            updateStepperUI(o.status);
 
-            // Render detailed items list with images
             const itemsBox = document.getElementById('track-items-list');
             itemsBox.innerHTML = '';
             if (Array.isArray(o.items)) {
@@ -2501,11 +2552,44 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'flex';
         }
 
+        // Live Stepper Status Highlighter
+        function updateStepperUI(rawStatus) {
+            const status = (rawStatus || 'Placed').toLowerCase();
+            const nodes = ['st-placed', 'st-packed', 'st-out', 'st-delivered'];
+            nodes.forEach(n => document.getElementById(n).classList.remove('active'));
+
+            document.getElementById('st-placed').classList.add('active');
+            if (status.includes('pack') || status.includes('out') || status.includes('deliver')) {
+                document.getElementById('st-packed').classList.add('active');
+            }
+            if (status.includes('out') || status.includes('deliver')) {
+                document.getElementById('st-out').classList.add('active');
+            }
+            if (status.includes('deliver')) {
+                document.getElementById('st-delivered').classList.add('active');
+            }
+        }
+
         function closeOrderTrackingModal() {
+            liveTrackingOrderId = null;
             document.getElementById('order-detail-tracking-modal').style.display = 'none';
         }
 
-        // Interactive Wishlist Modal (Touch opens full details sheet)
+        // Auto Poll Order Status Every 5 Seconds while Tracking is Open
+        setInterval(() => {
+            if (liveTrackingOrderId && document.getElementById('order-detail-tracking-modal').style.display === 'flex') {
+                fetch('/api/my-orders')
+                .then(r => r.json())
+                .then(d => {
+                    if (d.orders) {
+                        const current = d.orders.find(x => x.order_code === liveTrackingOrderId);
+                        if (current) updateStepperUI(current.status);
+                    }
+                }).catch(() => {});
+            }
+        }, 5000);
+
+        // Interactive Wishlist Modal
         function openWishlistModal() {
             const box = document.getElementById('wishlist-items-container');
             box.innerHTML = '';
@@ -2562,6 +2646,7 @@
         function closeOnOverlay(e, modalId) {
             if (e.target.id === modalId) {
                 document.getElementById(modalId).style.display = 'none';
+                if(modalId === 'order-detail-tracking-modal') liveTrackingOrderId = null;
             }
         }
 
