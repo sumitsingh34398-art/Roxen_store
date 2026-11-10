@@ -211,7 +211,7 @@
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.12);
         }
 
-        /* Hero Banner (Cleaned - No Partner Popup on Touch) */
+        /* Hero Banner */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
@@ -453,7 +453,7 @@
         /* Settings View */
         #settings-view { display: none; padding: 18px; background: var(--bg-page); }
 
-        /* Dynamic Profile Card */
+        /* Real User Verified Profile Card (Photo 34 & 38 Sync) */
         .profile-verified-card {
             background: var(--brand-light);
             border: 1.5px solid #c8edd3;
@@ -988,7 +988,7 @@
             </div>
         </header>
 
-        <!-- VIEW 1: HOME STORE VIEW (Photo 35 Cleaned) -->
+        <!-- VIEW 1: HOME STORE VIEW (Cleaned Banner - Photo 35) -->
         <main id="home-view">
             <div class="hero-banner">
                 <div class="tag-box"><i class="ph-bold ph-shopping-bag"></i> YOUR EVERYDAY PREMIUM STORE</div>
@@ -1049,7 +1049,7 @@
             </div>
         </section>
 
-        <!-- VIEW 3: SETTINGS VIEW (Dynamic Real User Session Data - Photo 34 Match) -->
+        <!-- VIEW 3: SETTINGS VIEW (Dynamic Real User Session - Photo 34 & 38) -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
@@ -1334,7 +1334,7 @@
             </div>
         </div>
 
-        <!-- PRODUCT DETAIL BOTTOM SHEET -->
+        <!-- PRODUCT DETAIL BOTTOM SHEET (Pack Size, Quantity, Total, Buy Now - Photo 37 Sync) -->
         <div class="prod-modal-overlay" id="product-detail-modal" onclick="closeOnOverlay(event, 'product-detail-modal')">
             <div class="prod-modal-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1450,7 +1450,7 @@
                     <p style="font-size:12.5px; font-weight:700; word-break: break-word;" id="checkout-address-line">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</p>
                 </div>
 
-                <!-- LUXURY PAYMENT OPTION CARDS -->
+                <!-- LUXURY PAYMENT SELECTOR CARDS -->
                 <div class="checkout-card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">SELECT PAYMENT OPTION</span>
@@ -1513,7 +1513,7 @@
             </div>
         </div>
 
-        <!-- MY ORDERS MODAL -->
+        <!-- MY ORDERS MODAL (ZERO ALERTS, WITH REAL DATABASE ORDERS) -->
         <div class="center-modal-overlay" id="orders-modal" onclick="closeOnOverlay(event, 'orders-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1524,7 +1524,7 @@
             </div>
         </div>
 
-        <!-- WISHLIST MODAL -->
+        <!-- WISHLIST MODAL (TOUCH OPENS PRODUCT DETAIL) -->
         <div class="center-modal-overlay" id="wishlist-modal" onclick="closeOnOverlay(event, 'wishlist-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1535,7 +1535,7 @@
             </div>
         </div>
 
-        <!-- VERIFIED PROFILE VIEW (Dynamic Real User Session) -->
+        <!-- VERIFIED PROFILE VIEW (Dynamic Real User Session - Photo 36 Match) -->
         <div class="center-modal-overlay" id="verified-profile-modal" onclick="closeOnOverlay(event, 'verified-profile-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1571,7 +1571,7 @@
             </div>
         </div>
 
-        <!-- EDIT PROFILE MODAL -->
+        <!-- EDIT PROFILE MODAL (Permanently Updates Backend) -->
         <div class="center-modal-overlay" id="edit-profile-modal" onclick="closeOnOverlay(event, 'edit-profile-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1595,14 +1595,14 @@
                 </div>
 
                 <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
-                <input type="text" id="prof-name-input" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <input type="text" id="prof-name-input" value="{{ user.name if user and user.name else '' }}" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
-                <input type="text" id="prof-phone-input" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                <input type="text" id="prof-phone-input" value="{{ user.phone if user and user.phone else '' }}" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
-                <input type="email" id="prof-email-input" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                <input type="email" id="prof-email-input" value="{{ user.email if user and user.email else '' }}" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
                 
-                <button onclick="saveProfileData()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
-                    Save Profile Changes
+                <button onclick="saveProfileDataBackend()" id="btn-save-profile" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
+                    Save Profile Changes Permanently
                 </button>
             </div>
         </div>
@@ -1668,7 +1668,7 @@
             </div>
         </div>
 
-        <!-- ORDER PLACED MODAL (DUAL ACTIONS WITH DISPATCH NOTIFICATION LINK) -->
+        <!-- ORDER PLACED MODAL (DUAL ACTIONS: CONTINUE SHOPPING OR VIEW ORDERS) -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
             <div class="center-modal-box" style="text-align:center;">
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
@@ -1692,37 +1692,9 @@
                     <button onclick="dismissOrderSuccess()" style="height:44px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
                         Continue Shopping
                     </button>
-                    <button onclick="openRiderTrackerFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <i class="ph-fill ph-navigation-arrow"></i> Track Rider
+                    <button onclick="continueToMyOrdersFromSuccess()" style="height:44px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <i class="ph-fill ph-package"></i> View My Orders
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIDER TRACKER MODAL -->
-        <div class="center-modal-overlay" id="rider-tracker-modal" onclick="closeOnOverlay(event, 'rider-tracker-modal')">
-            <div class="center-modal-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:17px; font-weight:800;">Delivery Partner Status</h3>
-                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRiderTrackerModal()"></i>
-                </div>
-
-                <div style="background:var(--brand-light); border-radius:16px; padding:14px; display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-                    <div style="width:48px; height:48px; background:var(--brand-green); color:#fff; font-size:22px; border-radius:14px; display:flex; align-items:center; justify-content:center;">
-                        <i class="ph-fill ph-moped"></i>
-                    </div>
-                    <div style="flex:1;">
-                        <h4 style="font-size:14px; font-weight:800;" id="modal-pilot-name">Rajesh Kumar</h4>
-                        <p style="font-size:11.5px; color:var(--text-sub);" id="modal-pilot-vehicle">Hero Splendor • HR20-AB-1234</p>
-                        <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:1px 6px; border-radius:4px;">★ 4.9 Verified Pilot</span>
-                    </div>
-                    <a href="tel:9602697303" id="modal-pilot-call-btn" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
-                </div>
-
-                <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
-                    <p style="font-size:12.5px; font-weight:800; color:var(--brand-green);">Order Dispatched from Dark Store (Hisar Hub)</p>
-                    <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">ETA: 8-10 Minutes to your doorstep</p>
-                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</span></p>
                 </div>
             </div>
         </div>
@@ -2066,7 +2038,7 @@
         }
 
         function toggleCardWishlist(id, e) {
-            e.stopPropagation();
+            if(e) e.stopPropagation();
             const prod = catalogDB.find(p => p.id === id);
             if (!prod) return;
 
@@ -2178,7 +2150,6 @@
             }
         }
 
-        // Luxury Payment Selection
         function setLuxuryPayment(el, mode) {
             document.querySelectorAll('.luxury-pay-card').forEach(card => card.classList.remove('selected'));
             el.classList.add('selected');
@@ -2284,31 +2255,56 @@
         function openVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'flex'; }
         function closeVerifiedProfileModal() { document.getElementById('verified-profile-modal').style.display = 'none'; }
 
-        // Edit Profile Modal
+        // Edit Profile Modal with Permanent Backend Update
         function openEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'flex'; }
         function closeEditProfileModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
-        function saveProfileData() {
+        
+        function saveProfileDataBackend() {
             const name = document.getElementById('prof-name-input').value.trim();
             const phone = document.getElementById('prof-phone-input').value.trim();
             const email = document.getElementById('prof-email-input').value.trim();
+            const btn = document.getElementById('btn-save-profile');
 
-            if(name) {
-                document.getElementById('disp-prev-name').innerText = name;
-                document.getElementById('settings-prof-name').innerText = name;
-                document.getElementById('view-prof-name').innerText = name;
-                document.getElementById('settings-prof-avatar').innerText = name.substring(0,2).toUpperCase();
-            }
-            if(phone) {
-                document.getElementById('disp-prev-phone').innerText = phone;
-                document.getElementById('settings-prof-phone').innerText = `+91 ${phone}`;
-                document.getElementById('view-prof-phone').innerText = `+91 ${phone}`;
-            }
-            if(email) {
-                document.getElementById('disp-prev-email').innerText = email;
-                document.getElementById('view-prof-email').innerText = email;
+            if(!name || !phone) {
+                alert("Please provide both name and phone number.");
+                return;
             }
 
-            closeEditProfileModal();
+            btn.disabled = true;
+            btn.innerHTML = `<i class="ph-bold ph-spinner ph-spin"></i> Saving to Database...`;
+
+            fetch('/api/update-profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, phone: phone, email: email })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerText = "Save Profile Changes Permanently";
+                if(data.success) {
+                    document.getElementById('disp-prev-name').innerText = name;
+                    document.getElementById('settings-prof-name').innerText = name;
+                    document.getElementById('view-prof-name').innerText = name;
+                    document.getElementById('settings-prof-avatar').innerText = name.substring(0,2).toUpperCase();
+
+                    document.getElementById('disp-prev-phone').innerText = phone;
+                    document.getElementById('settings-prof-phone').innerText = `+91 ${phone}`;
+                    document.getElementById('view-prof-phone').innerText = `+91 ${phone}`;
+
+                    document.getElementById('disp-prev-email').innerText = email;
+                    document.getElementById('view-prof-email').innerText = email;
+
+                    closeEditProfileModal();
+                } else {
+                    alert(data.error || "Profile update failed.");
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerText = "Save Profile Changes Permanently";
+                alert("Connection failed while saving profile.");
+            });
         }
 
         // Live Geolocation API & Address Management
@@ -2359,22 +2355,11 @@
         function updateActiveLocation(addr) {
             document.getElementById('active-location-display').innerText = addr;
             document.getElementById('checkout-address-line').innerText = addr;
-            if(document.getElementById('rider-dest-address')) {
-                document.getElementById('rider-dest-address').innerText = addr;
-            }
             fetch('/api/update-location', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address: addr })
             });
-        }
-
-        function openRiderTrackerFromSuccess() {
-            document.getElementById('order-success-modal').style.display = 'none';
-            document.getElementById('rider-tracker-modal').style.display = 'flex';
-        }
-        function closeRiderTrackerModal() {
-            document.getElementById('rider-tracker-modal').style.display = 'none';
         }
 
         // Real Order Creation (Backend Connected)
@@ -2420,9 +2405,6 @@
                     
                     document.getElementById('success-pilot-name').innerText = data.pilot_name;
                     document.getElementById('success-pilot-phone').innerText = data.pilot_phone;
-                    document.getElementById('modal-pilot-name').innerText = data.pilot_name;
-                    document.getElementById('modal-pilot-vehicle').innerText = data.pilot_vehicle;
-                    document.getElementById('modal-pilot-call-btn').href = `tel:${data.pilot_phone.replace(/[^0-9]/g, '')}`;
 
                     document.getElementById('order-success-modal').style.display = 'flex';
                     cart = {};
@@ -2442,6 +2424,12 @@
             showTab('home');
         }
 
+        function continueToMyOrdersFromSuccess() {
+            document.getElementById('order-success-modal').style.display = 'none';
+            showTab('settings');
+            openOrdersModal();
+        }
+
         // Return / Refund Photo Proof Flow
         function openRefundModal() { document.getElementById('refund-modal').style.display = 'flex'; }
         function closeRefundModal() { document.getElementById('refund-modal').style.display = 'none'; }
@@ -2452,7 +2440,7 @@
         }
         function submitRefundClaim() { closeRefundModal(); }
 
-        // Fetch Real Past Orders From Database
+        // Fetch Real Past Orders From Database (Zero Raw Browser Alerts)
         function openOrdersModal() {
             const list = document.getElementById('orders-list-content');
             list.innerHTML = `<p style="text-align:center; padding:16px; color:var(--text-sub);"><i class="ph-bold ph-spinner ph-spin"></i> Loading orders from database...</p>`;
@@ -2491,12 +2479,12 @@
                 });
             })
             .catch(() => {
-                list.innerHTML = `<p style="text-align:center; padding:16px; color:#dc2626;">Failed to load orders.</p>`;
+                list.innerHTML = `<p style="text-align:center; padding:16px; color:#dc2626;">Failed to load orders. Database checking...</p>`;
             });
         }
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
-        // Interactive Wishlist Modal
+        // Interactive Wishlist Modal (Clicking product opens full details sheet)
         function openWishlistModal() {
             const box = document.getElementById('wishlist-items-container');
             box.innerHTML = '';
@@ -2514,18 +2502,20 @@
                 ids.forEach(id => {
                     const item = wishlist[id];
                     const row = document.createElement('div');
-                    row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border-clr); font-size:12.5px;';
+                    row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border-clr); font-size:12.5px; cursor:pointer;';
+                    row.onclick = () => { closeWishlistModal(); openProductDetailModal(item.id); };
+                    
                     row.innerHTML = `
                         <div style="display:flex; gap:10px; align-items:center;">
-                            <img src="${item.img}" style="width:40px; height:40px; object-fit:contain; border-radius:8px;">
+                            <img src="${item.img}" style="width:44px; height:44px; object-fit:contain; border-radius:8px;">
                             <div>
                                 <h5 style="font-weight:800;">${item.name}</h5>
                                 <span style="color:var(--brand-green); font-weight:800;">₹${item.price}</span>
                             </div>
                         </div>
-                        <div style="display:flex; gap:8px;">
+                        <div style="display:flex; gap:8px;" onclick="event.stopPropagation();">
                             <button onclick="addItem(${item.id}); openCartDrawer(); closeWishlistModal();" style="background:var(--brand-green); color:#fff; border:none; padding:6px 12px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer;">Add</button>
-                            <button onclick="toggleCardWishlist(${item.id}, event); openWishlistModal();" style="background:#fee2e2; color:#dc2626; border:none; padding:6px 10px; border-radius:8px; cursor:pointer;"><i class="ph-bold ph-trash"></i></button>
+                            <button onclick="toggleCardWishlist(${item.id}); openWishlistModal();" style="background:#fee2e2; color:#dc2626; border:none; padding:6px 10px; border-radius:8px; cursor:pointer;"><i class="ph-bold ph-trash"></i></button>
                         </div>
                     `;
                     box.appendChild(row);
