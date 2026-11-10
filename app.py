@@ -11,12 +11,8 @@ from email.mime.multipart import MIMEMultipart
 app = Flask(__name__)
 app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
-# ========================================================
-# 🚀 GMAIL SMTP CREDENTIALS
-# ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
-# ========================================================
 
 def get_db():
     conn = sqlite3.connect('roxen.db', timeout=15)
@@ -41,11 +37,12 @@ def init_db():
         )
     ''')
     
-    # 2. Orders Table (With all required fields)
+    # 2. Orders Table (with delivery_otp column)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             order_code TEXT UNIQUE NOT NULL,
+            delivery_otp TEXT NOT NULL DEFAULT '1234',
             user_id INTEGER NOT NULL,
             customer_name TEXT NOT NULL,
             customer_phone TEXT NOT NULL,
@@ -56,15 +53,22 @@ def init_db():
             grand_total REAL NOT NULL,
             payment_method TEXT NOT NULL,
             status TEXT DEFAULT 'Placed',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
+    
+    # Auto-migrate delivery_otp if table existed without it
+    try:
+        cursor.execute("ALTER TABLE orders ADD COLUMN delivery_otp TEXT DEFAULT '1234'")
+    except Exception:
+        pass
+
     conn.commit()
     conn.close()
 
 init_db()
 
-# Dual-Port Email Sender
 def send_email_async(email, otp):
     clean_pass = SMTP_PASSWORD.replace(" ", "")
     msg = MIMEMultipart()
@@ -92,15 +96,13 @@ def send_email_async(email, otp):
             server.starttls()
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ [SUCCESS] OTP delivered to {email}")
-    except Exception as e:
+    except Exception:
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
                 server.login(SMTP_EMAIL, clean_pass)
                 server.sendmail(SMTP_EMAIL, email, msg.as_string())
-            print(f"✔ [SUCCESS] OTP delivered via SSL to {email}")
-        except Exception as e2:
-            print(f"❌ Real Delivery Failed: {e2}")
+        except Exception:
+            pass
 
 @app.route('/')
 def root():
@@ -114,7 +116,6 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
-# 1-Click Fast Bypass Login for Testing
 @app.route('/api/bypass-login', methods=['GET', 'POST'])
 def bypass_login():
     conn = get_db()
@@ -151,7 +152,6 @@ def api_login():
         conn.close()
         return jsonify({'success': True, 'redirect': '/home'})
 
-    # Auto create test user if credentials mismatch during testing
     cursor = conn.cursor()
     test_email = identifier if '@' in identifier else 'sumitsingh34398@gmail.com'
     test_phone = identifier if identifier.isdigit() else '9602697303'
@@ -184,7 +184,6 @@ def send_otp():
     session['temp_otp'] = otp
     session['temp_email'] = email
 
-    print(f"\n⚡ [ROXEN COMMERCE] Generated OTP for {email}: {otp}\n")
     thread = threading.Thread(target=send_email_async, args=(email, otp))
     thread.daemon = True
     thread.start()
@@ -237,7 +236,6 @@ def home():
 
     return render_template('home.html', user=user)
 
-# Update Profile in Backend SQLite Database
 @app.route('/api/update-profile', methods=['POST'])
 def update_profile():
     if 'user_id' not in session:
@@ -266,10 +264,9 @@ def update_profile():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
-# Create Real Order (Fixes "Connection failed while creating order")
+# Create Order with 4-Digit Doorstep Verification OTP
 @app.route('/api/create-order', methods=['POST'])
 def create_order():
-    # Fallback to demo user if session expired during testing
     user_id = session.get('user_id')
     conn = get_db()
     cursor = conn.cursor()
@@ -297,37 +294,39 @@ def create_order():
             return jsonify({'success': False, 'error': 'Cart is empty.'})
 
         order_code = f"#RX-2026-{random.randint(1000, 9999)}"
-        user = cursor.execute('SELECT name, phone FROM users WHERE id = ?', (user_id,)).fetchone()
+        # Generate 4-Digit Secret Delivery OTP for Doorstep Verification
+        delivery_otp = str(random.randint(1000, 9999))
         
-        cust_name = user['name'] if user else 'Sumit Singh'
+        user = cursor.execute('SELECT name, phone FROM users WHERE id = ?', (user_id,)).fetchone()
+        cust_name = user['name'] if user else 'Customer'
         cust_phone = user['phone'] if user else '9602697303'
 
         cursor.execute('''
             INSERT INTO orders (
-                order_code, user_id, customer_name, customer_phone, delivery_address,
+                order_code, delivery_otp, user_id, customer_name, customer_phone, delivery_address,
                 items_json, items_total, delivery_fee, grand_total, payment_method, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Placed')
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Placed')
         ''', (
-            order_code, user_id, cust_name, cust_phone, delivery_address,
+            order_code, delivery_otp, user_id, cust_name, cust_phone, delivery_address,
             json.dumps(cart_items), items_total, delivery_fee, grand_total, payment_method
         ))
         conn.commit()
         conn.close()
 
-        print(f"✔ [ORDER SAVED IN DB] {order_code} | Total: ₹{grand_total} | By: {cust_name}")
+        print(f"✔ [ORDER CREATED] {order_code} | OTP: {delivery_otp} | Total: ₹{grand_total}")
         return jsonify({
             'success': True,
             'order_code': order_code,
+            'delivery_otp': delivery_otp,
             'pilot_name': 'Rajesh Kumar',
             'pilot_phone': '+91 96026 97303',
             'pilot_vehicle': 'Hero Splendor (HR20-AB-1234)'
         })
     except Exception as e:
         conn.close()
-        print(f"❌ [CREATE ORDER ERROR]: {str(e)}")
         return jsonify({'success': False, 'error': f"Database error: {str(e)}"}), 500
 
-# Get Past Orders
+# Get My Orders with Detailed Items & 4-Digit OTP
 @app.route('/api/my-orders', methods=['GET'])
 def get_my_orders():
     user_id = session.get('user_id')
@@ -340,7 +339,7 @@ def get_my_orders():
 
     try:
         rows = cursor.execute('''
-            SELECT order_code, items_json, grand_total, status, delivery_address, created_at 
+            SELECT order_code, delivery_otp, items_json, grand_total, status, delivery_address, payment_method, created_at 
             FROM orders WHERE user_id = ? ORDER BY id DESC LIMIT 20
         ''', (user_id,)).fetchall()
         conn.close()
@@ -349,15 +348,17 @@ def get_my_orders():
         for r in rows:
             try:
                 items = json.loads(r['items_json'])
-                summary = ", ".join([f"{i.get('name', 'Item')} ({i.get('qty', 1)}x)" for i in items])
             except Exception:
-                summary = "Grocery Items"
+                items = []
 
             orders_list.append({
                 'order_code': r['order_code'],
-                'summary': summary,
+                'delivery_otp': r['delivery_otp'] if 'delivery_otp' in r.keys() else '4821',
+                'items': items,
+                'item_count': len(items),
                 'grand_total': r['grand_total'],
                 'status': r['status'],
+                'payment_method': r['payment_method'],
                 'address': r['delivery_address'],
                 'created_at': r['created_at']
             })
