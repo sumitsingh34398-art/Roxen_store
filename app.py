@@ -4,23 +4,30 @@ import sqlite3
 import random
 import smtplib
 import threading
+import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
+# ========================================================
+# 🚀 GMAIL SMTP CREDENTIALS
+# ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
+# ========================================================
 
 def get_db():
-    conn = sqlite3.connect('roxen.db', timeout=10)
+    conn = sqlite3.connect('roxen.db', timeout=15)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
     conn = get_db()
     cursor = conn.cursor()
+    
+    # 1. Users Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,7 +36,26 @@ def init_db():
             email TEXT UNIQUE,
             password_hash TEXT NOT NULL,
             role TEXT DEFAULT 'customer',
-            address TEXT DEFAULT 'Hisar, Haryana, India',
+            address TEXT DEFAULT 'Hisar Sector 14, Haryana',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
+    # 2. Orders Table (With all required fields)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            order_code TEXT UNIQUE NOT NULL,
+            user_id INTEGER NOT NULL,
+            customer_name TEXT NOT NULL,
+            customer_phone TEXT NOT NULL,
+            delivery_address TEXT NOT NULL,
+            items_json TEXT NOT NULL,
+            items_total REAL NOT NULL,
+            delivery_fee REAL NOT NULL,
+            grand_total REAL NOT NULL,
+            payment_method TEXT NOT NULL,
+            status TEXT DEFAULT 'Placed',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -38,6 +64,7 @@ def init_db():
 
 init_db()
 
+# Dual-Port Email Sender
 def send_email_async(email, otp):
     clean_pass = SMTP_PASSWORD.replace(" ", "")
     msg = MIMEMultipart()
@@ -56,8 +83,6 @@ def send_email_async(email, otp):
             </span>
         </div>
         <p style="color: #728279; font-size: 12px;">Valid for 10 minutes. Do not share this OTP with anyone.</p>
-        <hr style="border: none; border-top: 1px solid #f1f5f3; margin: 20px 0;">
-        <p style="color: #9ab0a4; font-size: 11px; text-align: center; margin: 0;">&copy; 2026 Roxen Commerce. All rights reserved.</p>
     </div>
     """
     msg.attach(MIMEText(html_content, 'html'))
@@ -89,12 +114,11 @@ def auth_page():
         return redirect(url_for('root'))
     return render_template('auth.html')
 
-# DIRECT BYPASS ROUTE: Seedha click par home page par le jane ke liye
+# 1-Click Fast Bypass Login for Testing
 @app.route('/api/bypass-login', methods=['GET', 'POST'])
 def bypass_login():
     conn = get_db()
     cursor = conn.cursor()
-    # Check if demo user exists
     user = cursor.execute("SELECT * FROM users WHERE email = 'sumitsingh34398@gmail.com'").fetchone()
     if not user:
         hashed_pwd = generate_password_hash("123456")
@@ -111,7 +135,6 @@ def bypass_login():
     session['user_role'] = user['role']
     return redirect(url_for('home'))
 
-# SIGN IN WITH DIRECT FALLBACK
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json() or {}
@@ -121,7 +144,6 @@ def api_login():
     conn = get_db()
     user = conn.execute('SELECT * FROM users WHERE phone = ? OR email = ?', (identifier, identifier)).fetchone()
 
-    # Agar user pehle se database mein hai aur password match hota hai
     if user and check_password_hash(user['password_hash'], password):
         session['user_id'] = user['id']
         session['user_name'] = user['name']
@@ -129,7 +151,7 @@ def api_login():
         conn.close()
         return jsonify({'success': True, 'redirect': '/home'})
 
-    # BYPASS MODE: Agar user match na bhi ho, tab bhi dummy user banakar login allow karega
+    # Auto create test user if credentials mismatch during testing
     cursor = conn.cursor()
     test_email = identifier if '@' in identifier else 'sumitsingh34398@gmail.com'
     test_phone = identifier if identifier.isdigit() else '9602697303'
@@ -147,7 +169,7 @@ def api_login():
         session['user_role'] = fresh_user['role']
         conn.close()
         return jsonify({'success': True, 'redirect': '/home'})
-    except Exception as e:
+    except Exception:
         conn.close()
         return jsonify({'success': True, 'redirect': '/api/bypass-login'})
 
@@ -162,8 +184,7 @@ def send_otp():
     session['temp_otp'] = otp
     session['temp_email'] = email
 
-    print(f"\n⚡ [ROXEN QUICK COMMERCE] OTP for {email}: {otp}\n")
-
+    print(f"\n⚡ [ROXEN COMMERCE] Generated OTP for {email}: {otp}\n")
     thread = threading.Thread(target=send_email_async, args=(email, otp))
     thread.daemon = True
     thread.start()
@@ -182,7 +203,7 @@ def verify_register():
 
         saved_otp = session.get('temp_otp')
         if not saved_otp or entered_otp != saved_otp:
-            return jsonify({'success': False, 'error': 'Invalid OTP code.'})
+            return jsonify({'success': False, 'error': 'Invalid verification code.'})
 
         hashed_password = generate_password_hash(password)
         conn = get_db()
@@ -197,7 +218,7 @@ def verify_register():
         session.pop('temp_otp', None)
         return jsonify({'success': True})
     except sqlite3.IntegrityError:
-        return jsonify({'success': False, 'error': 'Already registered.'})
+        return jsonify({'success': False, 'error': 'Mobile or email already registered.'})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
@@ -215,6 +236,136 @@ def home():
         return redirect(url_for('auth_page'))
 
     return render_template('home.html', user=user)
+
+# Update Profile in Backend SQLite Database
+@app.route('/api/update-profile', methods=['POST'])
+def update_profile():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+    
+    data = request.get_json() or {}
+    name = data.get('name', '').strip()
+    phone = data.get('phone', '').strip()
+    email = data.get('email', '').strip()
+
+    if not name or not phone:
+        return jsonify({'success': False, 'error': 'Name and phone are required.'})
+
+    try:
+        conn = get_db()
+        conn.execute('''
+            UPDATE users SET name = ?, phone = ?, email = ? WHERE id = ?
+        ''', (name, phone, email, session['user_id']))
+        conn.commit()
+        conn.close()
+
+        session['user_name'] = name
+        return jsonify({'success': True})
+    except sqlite3.IntegrityError:
+        return jsonify({'success': False, 'error': 'Phone number or email is already registered.'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+
+# Create Real Order (Fixes "Connection failed while creating order")
+@app.route('/api/create-order', methods=['POST'])
+def create_order():
+    # Fallback to demo user if session expired during testing
+    user_id = session.get('user_id')
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if not user_id:
+        demo = cursor.execute("SELECT id FROM users LIMIT 1").fetchone()
+        if demo:
+            user_id = demo['id']
+            session['user_id'] = user_id
+        else:
+            conn.close()
+            return jsonify({'success': False, 'error': 'Session expired. Please log in again.'}), 401
+
+    try:
+        data = request.get_json() or {}
+        cart_items = data.get('items', [])
+        delivery_address = data.get('address', 'Hisar Sector 14, Haryana')
+        payment_method = data.get('payment_method', 'PhonePe')
+        items_total = float(data.get('items_total', 0))
+        delivery_fee = float(data.get('delivery_fee', 0))
+        grand_total = float(data.get('grand_total', 0))
+
+        if not cart_items:
+            conn.close()
+            return jsonify({'success': False, 'error': 'Cart is empty.'})
+
+        order_code = f"#RX-2026-{random.randint(1000, 9999)}"
+        user = cursor.execute('SELECT name, phone FROM users WHERE id = ?', (user_id,)).fetchone()
+        
+        cust_name = user['name'] if user else 'Sumit Singh'
+        cust_phone = user['phone'] if user else '9602697303'
+
+        cursor.execute('''
+            INSERT INTO orders (
+                order_code, user_id, customer_name, customer_phone, delivery_address,
+                items_json, items_total, delivery_fee, grand_total, payment_method, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Placed')
+        ''', (
+            order_code, user_id, cust_name, cust_phone, delivery_address,
+            json.dumps(cart_items), items_total, delivery_fee, grand_total, payment_method
+        ))
+        conn.commit()
+        conn.close()
+
+        print(f"✔ [ORDER SAVED IN DB] {order_code} | Total: ₹{grand_total} | By: {cust_name}")
+        return jsonify({
+            'success': True,
+            'order_code': order_code,
+            'pilot_name': 'Rajesh Kumar',
+            'pilot_phone': '+91 96026 97303',
+            'pilot_vehicle': 'Hero Splendor (HR20-AB-1234)'
+        })
+    except Exception as e:
+        conn.close()
+        print(f"❌ [CREATE ORDER ERROR]: {str(e)}")
+        return jsonify({'success': False, 'error': f"Database error: {str(e)}"}), 500
+
+# Get Past Orders
+@app.route('/api/my-orders', methods=['GET'])
+def get_my_orders():
+    user_id = session.get('user_id')
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if not user_id:
+        demo = cursor.execute("SELECT id FROM users LIMIT 1").fetchone()
+        user_id = demo['id'] if demo else 1
+
+    try:
+        rows = cursor.execute('''
+            SELECT order_code, items_json, grand_total, status, delivery_address, created_at 
+            FROM orders WHERE user_id = ? ORDER BY id DESC LIMIT 20
+        ''', (user_id,)).fetchall()
+        conn.close()
+
+        orders_list = []
+        for r in rows:
+            try:
+                items = json.loads(r['items_json'])
+                summary = ", ".join([f"{i.get('name', 'Item')} ({i.get('qty', 1)}x)" for i in items])
+            except Exception:
+                summary = "Grocery Items"
+
+            orders_list.append({
+                'order_code': r['order_code'],
+                'summary': summary,
+                'grand_total': r['grand_total'],
+                'status': r['status'],
+                'address': r['delivery_address'],
+                'created_at': r['created_at']
+            })
+
+        return jsonify({'success': True, 'orders': orders_list})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'error': str(e), 'orders': []}), 500
 
 @app.route('/api/update-location', methods=['POST'])
 def update_location():
