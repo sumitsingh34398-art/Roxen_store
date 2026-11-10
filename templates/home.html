@@ -946,6 +946,31 @@
         }
         body.dark-theme .otp-number-digits { background: #0f172a; color: #4ade80; }
 
+        /* Delivered Success Banner (Replaces OTP Box after Delivery) */
+        .order-delivered-banner {
+            background: #ecfdf5;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            margin: 14px 0 18px;
+            display: none;
+        }
+        .order-delivered-banner h4 {
+            color: #065f46;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .order-delivered-banner p {
+            font-size: 12px;
+            color: #047857;
+            margin-top: 3px;
+        }
+
         /* 4-Step Dynamic Order Tracker */
         .order-track-stepper {
             display: flex;
@@ -1046,12 +1071,45 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
         }
+
+        /* Cookie Persistent Floating Banner */
+        .cookie-floating-bar {
+            position: fixed;
+            bottom: 84px;
+            left: 16px;
+            right: 16px;
+            max-width: 500px;
+            margin: auto;
+            background: #111827;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 1050;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: slideUpCookie 0.3s ease-out;
+        }
+        @keyframes slideUpCookie {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- BALLOONS ANIMATION CONTAINER -->
+    <!-- FLOATING CELEBRATION BALLOONS -->
     <div class="celebration-balloons-box" id="balloons-container"></div>
+
+    <!-- PERSISTENT COOKIE BANNER -->
+    <div class="cookie-floating-bar" id="cookie-floating-prompt">
+        <span style="font-size:11.5px; line-height:1.4;">We use functional cookies to provide instant 10-minute delivery.</span>
+        <button onclick="acceptAllCookiesFloating()" style="background:var(--brand-green); color:#fff; border:none; padding:6px 14px; border-radius:10px; font-weight:800; font-size:11px; cursor:pointer; white-space:nowrap;">
+            Allow All
+        </button>
+    </div>
 
     <div class="app-wrapper">
         
@@ -1156,7 +1214,7 @@
             </div>
         </section>
 
-        <!-- VIEW 3: SETTINGS VIEW (Dynamic Real User Session) -->
+        <!-- VIEW 3: SETTINGS VIEW -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
@@ -1165,7 +1223,7 @@
                 <h3>Account & Settings</h3>
             </div>
 
-            <!-- Profile Verified Card -->
+            <!-- Profile Verified Card (Real Session Data) -->
             <div class="profile-verified-card">
                 <div class="prof-avatar-circle" id="settings-prof-avatar">
                     {{ (user.name[:2] if user and user.name else 'SS').upper() }}
@@ -1590,7 +1648,7 @@
             </div>
         </div>
 
-        <!-- ORDER DETAILS & LIVE AUTO-SYNC TRACKER MODAL -->
+        <!-- ORDER DETAILS & LIVE DYNAMIC TRACKER MODAL -->
         <div class="center-modal-overlay" id="order-detail-tracking-modal" onclick="closeOnOverlay(event, 'order-detail-tracking-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1598,13 +1656,19 @@
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeOrderTrackingModal()"></i>
                 </div>
 
-                <!-- Doorstep Secret 4-Digit Verification OTP -->
-                <div class="doorstep-otp-container">
+                <!-- Doorstep 4-Digit Verification OTP (Visible before delivery) -->
+                <div class="doorstep-otp-container" id="track-otp-box">
                     <p style="font-size:12px; font-weight:800; color:var(--brand-green); text-transform:uppercase; letter-spacing:0.5px;">
                         <i class="ph-bold ph-shield-check"></i> Doorstep Delivery Verification OTP
                     </p>
                     <div class="otp-number-digits" id="track-delivery-otp">4821</div>
                     <p style="font-size:11px; color:var(--text-sub);">Give this 4-digit code to the pilot when packet arrives</p>
+                </div>
+
+                <!-- Delivered Success Banner (Visible AFTER delivery) -->
+                <div class="order-delivered-banner" id="track-delivered-banner">
+                    <h4><i class="ph-fill ph-check-circle" style="color:var(--brand-green); font-size:20px;"></i> Order Delivered Successfully!</h4>
+                    <p>Delivered by Roxen Pilot. Thank you for shopping fresh!</p>
                 </div>
 
                 <!-- 4-Stage Live Dynamic Progress Stepper -->
@@ -1769,7 +1833,7 @@
             </div>
         </div>
 
-        <!-- RETURN / REFUND MODAL -->
+        <!-- RETURN / REFUND PHOTO PROOF MODAL -->
         <div class="center-modal-overlay" id="refund-modal" onclick="closeOnOverlay(event, 'refund-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -1793,7 +1857,7 @@
             </div>
         </div>
 
-        <!-- ORDER PLACED CELEBRATION POPUP (Cleaned: No Static Pilot Box) -->
+        <!-- ORDER PLACED CELEBRATION POPUP (CLEAN DUAL BUTTONS) -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
             <div class="center-modal-box" style="text-align:center;">
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
@@ -1901,7 +1965,7 @@
         let selectedPaymentMode = "PhonePe";
         let currentLang = 'en';
         let cachedOrders = [];
-        let liveTrackingOrderId = null;
+        let liveTrackingOrderCode = null;
 
         function renderProducts(items) {
             const container = document.getElementById('products-container');
@@ -2339,9 +2403,8 @@
                 box.appendChild(b);
             }
 
-            // Canvas Confetti 3 bursts
             try {
-                confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                confetti({ particleCount: 75, spread: 60, origin: { y: 0.6 } });
                 setTimeout(() => confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } }), 300);
                 setTimeout(() => confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1 } }), 500);
             } catch(e){}
@@ -2431,7 +2494,6 @@
             openOrdersModal();
         }
 
-        // Return / Refund Photo Proof Flow
         function openRefundModal() { document.getElementById('refund-modal').style.display = 'flex'; }
         function closeRefundModal() { document.getElementById('refund-modal').style.display = 'none'; }
         function handleProofUploaded(input) {
@@ -2480,13 +2542,15 @@
                         });
                     }
 
+                    const isDelivered = (o.status === 'Delivered');
+
                     card.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div>
                                 <strong style="color:var(--text-main); font-size:14px;">${o.order_code}</strong>
                                 <p style="font-size:11px; color:var(--text-sub); margin-top:2px;">${o.created_at}</p>
                             </div>
-                            <span style="background:#dcfce7; color:#15803d; padding:3px 10px; border-radius:12px; font-weight:800; font-size:11px;">
+                            <span style="background:${isDelivered ? '#dcfce7' : '#fef3c7'}; color:${isDelivered ? '#15803d' : '#b45309'}; padding:3px 10px; border-radius:12px; font-weight:800; font-size:11px;">
                                 ${o.status}
                             </span>
                         </div>
@@ -2499,7 +2563,7 @@
                                 <strong style="font-size:13.5px; color:var(--text-main);"> ₹${o.grand_total}</strong>
                             </div>
                             <span style="color:var(--brand-green); font-size:12px; font-weight:800; display:flex; align-items:center; gap:3px;">
-                                View OTP & Track <i class="ph-bold ph-caret-right"></i>
+                                ${isDelivered ? 'View Receipt' : 'View OTP & Track'} <i class="ph-bold ph-caret-right"></i>
                             </span>
                         </div>
                     `;
@@ -2513,13 +2577,13 @@
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
         // ========================================================
-        // 🔄 DYNAMIC LIVE ORDER TRACKER & 4-DIGIT OTP
+        // 🔄 DYNAMIC LIVE ORDER TRACKER (AUTO-HIDES OTP WHEN DELIVERED)
         // ========================================================
         function openOrderDetailsModal(orderIndex) {
             const o = cachedOrders[orderIndex];
             if (!o) return;
 
-            liveTrackingOrderId = o.order_code;
+            liveTrackingOrderCode = o.order_code;
 
             document.getElementById('track-order-code').innerText = o.order_code;
             document.getElementById('track-delivery-otp').innerText = o.delivery_otp || '4821';
@@ -2552,44 +2616,56 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'flex';
         }
 
-        // Live Stepper Status Highlighter
+        // Live Stepper & OTP Visiblity Controller
         function updateStepperUI(rawStatus) {
             const status = (rawStatus || 'Placed').toLowerCase();
             const nodes = ['st-placed', 'st-packed', 'st-out', 'st-delivered'];
             nodes.forEach(n => document.getElementById(n).classList.remove('active'));
 
+            const isDelivered = status.includes('deliver');
+            const isOut = status.includes('out') || status.includes('way') || isDelivered;
+            const isPacked = status.includes('pack') || isOut;
+
             document.getElementById('st-placed').classList.add('active');
-            if (status.includes('pack') || status.includes('out') || status.includes('deliver')) {
-                document.getElementById('st-packed').classList.add('active');
-            }
-            if (status.includes('out') || status.includes('deliver')) {
-                document.getElementById('st-out').classList.add('active');
-            }
-            if (status.includes('deliver')) {
-                document.getElementById('st-delivered').classList.add('active');
+            if (isPacked) document.getElementById('st-packed').classList.add('active');
+            if (isOut) document.getElementById('st-out').classList.add('active');
+            if (isDelivered) document.getElementById('st-delivered').classList.add('active');
+
+            // HIDE OTP BOX WHEN DELIVERED
+            const otpBox = document.getElementById('track-otp-box');
+            const deliveredBanner = document.getElementById('track-delivered-banner');
+
+            if (isDelivered) {
+                otpBox.style.display = 'none';
+                deliveredBanner.style.display = 'block';
+            } else {
+                otpBox.style.display = 'block';
+                deliveredBanner.style.display = 'none';
             }
         }
 
         function closeOrderTrackingModal() {
-            liveTrackingOrderId = null;
+            liveTrackingOrderCode = null;
             document.getElementById('order-detail-tracking-modal').style.display = 'none';
         }
 
-        // Auto Poll Order Status Every 5 Seconds while Tracking is Open
+        // Auto Poll Order Status Every 3 Seconds while Customer is Watching
         setInterval(() => {
-            if (liveTrackingOrderId && document.getElementById('order-detail-tracking-modal').style.display === 'flex') {
+            if (liveTrackingOrderCode && document.getElementById('order-detail-tracking-modal').style.display === 'flex') {
                 fetch('/api/my-orders')
                 .then(r => r.json())
                 .then(d => {
                     if (d.orders) {
-                        const current = d.orders.find(x => x.order_code === liveTrackingOrderId);
-                        if (current) updateStepperUI(current.status);
+                        const current = d.orders.find(x => x.order_code === liveTrackingOrderCode);
+                        if (current) {
+                            updateStepperUI(current.status);
+                        }
                     }
                 }).catch(() => {});
             }
-        }, 5000);
+        }, 3000);
 
-        // Interactive Wishlist Modal
+        // Wishlist
         function openWishlistModal() {
             const box = document.getElementById('wishlist-items-container');
             box.innerHTML = '';
@@ -2643,10 +2719,15 @@
             document.getElementById('current-lang-badge').innerText = (currentLang === 'en') ? 'English' : 'हिन्दी';
         }
 
+        function acceptAllCookiesFloating() {
+            document.getElementById('cookie-floating-prompt').style.display = 'none';
+            localStorage.setItem('roxen_cookies', 'true');
+        }
+
         function closeOnOverlay(e, modalId) {
             if (e.target.id === modalId) {
                 document.getElementById(modalId).style.display = 'none';
-                if(modalId === 'order-detail-tracking-modal') liveTrackingOrderId = null;
+                if(modalId === 'order-detail-tracking-modal') liveTrackingOrderCode = null;
             }
         }
 
@@ -2677,6 +2758,9 @@
         window.onload = function() {
             renderProducts(catalogDB);
             syncCheckoutData();
+            if(localStorage.getItem('roxen_cookies') === 'true') {
+                document.getElementById('cookie-floating-prompt').style.display = 'none';
+            }
         };
     </script>
 </body>
