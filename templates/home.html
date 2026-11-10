@@ -110,6 +110,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            min-width: 0;
+            flex: 1;
         }
 
         .brand-logo-text {
@@ -120,6 +122,7 @@
             align-items: center;
             cursor: pointer;
             transition: transform 0.2s;
+            flex-shrink: 0;
         }
         .brand-logo-text:active { transform: scale(0.96); }
         .logo-part-red { color: var(--brand-red); }
@@ -132,6 +135,7 @@
             padding: 2px 6px;
             border-radius: 10px;
             transition: background 0.2s;
+            min-width: 0;
         }
         .location-pill:hover { background: var(--brand-light); }
 
@@ -150,11 +154,12 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            max-width: 200px;
+            max-width: 240px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .location-sub strong { color: var(--text-main); }
 
         .profile-icon-btn {
             width: 38px;
@@ -169,6 +174,7 @@
             cursor: pointer;
             font-size: 19px;
             transition: all 0.2s;
+            flex-shrink: 0;
         }
         .profile-icon-btn:hover {
             transform: scale(1.08);
@@ -205,16 +211,15 @@
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.12);
         }
 
-        /* Hero Banner */
+        /* Hero Banner (Cleaned - No Partner Popup on Touch) */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
             border-radius: 22px;
             padding: 22px 18px;
             border: 1px solid #c2e8cb;
-            transition: transform 0.2s;
+            position: relative;
         }
-        .hero-banner:hover { transform: scale(1.008); }
         .hero-banner .tag-box {
             font-size: 10px;
             font-weight: 800;
@@ -246,9 +251,11 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            transition: transform 0.15s;
         }
+        .btn-shop-now:active { transform: scale(0.95); }
 
-        /* Fresh Picks Bar */
+        /* Fresh Picks & Recommended Filter Pill */
         .rec-pill-bar {
             margin: 0 18px 10px;
             display: flex;
@@ -446,6 +453,7 @@
         /* Settings View */
         #settings-view { display: none; padding: 18px; background: var(--bg-page); }
 
+        /* Dynamic Profile Card */
         .profile-verified-card {
             background: var(--brand-light);
             border: 1.5px solid #c8edd3;
@@ -467,6 +475,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-transform: uppercase;
         }
         .verified-pill {
             background: #dcfce7;
@@ -579,11 +588,12 @@
             box-shadow: 0 0 0 2px var(--glow-color);
         }
 
-        /* Generic Modals */
+        /* Modals & Overlays */
         .center-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
             z-index: 1200;
             display: none;
             align-items: center;
@@ -599,6 +609,12 @@
             max-height: 85vh;
             overflow-y: auto;
             position: relative;
+            animation: zoomPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes zoomPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         /* Product Detail Bottom Sheet */
@@ -606,6 +622,7 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
             z-index: 1100;
             display: none;
             align-items: flex-end;
@@ -703,6 +720,7 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             display: none;
             justify-content: flex-end;
@@ -757,9 +775,7 @@
             margin-top: 8px;
         }
 
-        /* ========================================================
-           💎 LUXURY APPLE-STYLE PAYMENT CHECKBOX & RADIO CARDS
-           ======================================================== */
+        /* Luxury Payment Selectors */
         .luxury-payment-container {
             display: flex;
             flex-direction: column;
@@ -778,7 +794,6 @@
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            overflow: hidden;
         }
 
         .luxury-pay-card:hover {
@@ -848,7 +863,6 @@
         .badge-recommended { background: #dcfce7; color: #166534; }
         .badge-fast { background: #e0f2fe; color: #0369a1; }
 
-        /* Luxury Apple Style Radio Checkbox Indicator */
         .luxury-radio-indicator {
             width: 22px;
             height: 22px;
@@ -872,7 +886,7 @@
             font-size: 13px;
             opacity: 0;
             transform: scale(0.5);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s;
         }
 
         .luxury-pay-card.selected .luxury-radio-indicator i {
@@ -880,7 +894,6 @@
             transform: scale(1);
         }
 
-        /* Recommended Sorting Dialog */
         .sort-dialog-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -901,7 +914,6 @@
         .sort-option-row:hover { background: var(--brand-light); color: var(--brand-green); }
         .sort-option-row.active { color: var(--brand-green); }
 
-        /* Cookie Switch UI */
         .cookie-switch-row {
             display: flex;
             align-items: center;
@@ -939,7 +951,7 @@
         <!-- RUNNING FESTIVAL OFFER HEADLINE TICKER -->
         <div class="festival-ticker-wrap">
             <div class="festival-ticker">
-                ⚡ FESTIVAL MEGA SAVINGS LIVE • Diwali & Chhath Puja Special: FLAT 50% OFF On Sweets, Dry Fruits & Dairy Essentials • Instant 10-Minute Delivery Guaranteed To Your Doorstep! •
+                ⚡ FESTIVAL MEGA SAVINGS LIVE • Special 50% OFF On Sweets, Dry Fruits & Dairy Essentials • Instant 10-Minute Delivery Guaranteed To Your Doorstep! •
             </div>
         </div>
 
@@ -957,7 +969,7 @@
                             <i class="ph-fill ph-lightning" style="color:#eab308;"></i> 10-12 Mins
                         </div>
                         <div class="location-sub">
-                            <span>To: <strong id="active-location-display">{{ user.address if user and user.address else 'GPS: (28.5180, 75.6427) - Rampura Beri' }}</strong></span>
+                            <span>To: <strong id="active-location-display">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</strong></span>
                             <i class="ph-bold ph-caret-down"></i>
                         </div>
                     </div>
@@ -976,13 +988,13 @@
             </div>
         </header>
 
-        <!-- VIEW 1: HOME STORE VIEW -->
+        <!-- VIEW 1: HOME STORE VIEW (Photo 35 Cleaned) -->
         <main id="home-view">
-            <div class="hero-banner" onclick="openRiderTrackerModal()">
+            <div class="hero-banner">
                 <div class="tag-box"><i class="ph-bold ph-shopping-bag"></i> YOUR EVERYDAY PREMIUM STORE</div>
                 <h1>Daily Needs.<br>Delivered to Your Door.</h1>
                 <p>From fresh kitchen staples to snacks and daily essentials — everything your home needs is just a tap away.</p>
-                <button class="btn-shop-now" onclick="event.stopPropagation(); scrollToCatalog()">Shop Now <i class="ph-bold ph-arrow-down"></i></button>
+                <button class="btn-shop-now" onclick="scrollToCatalog()">Shop Now <i class="ph-bold ph-arrow-down"></i></button>
             </div>
 
             <!-- Fresh Picks for You... & Recommended Filter Pill -->
@@ -1037,7 +1049,7 @@
             </div>
         </section>
 
-        <!-- VIEW 3: SETTINGS VIEW -->
+        <!-- VIEW 3: SETTINGS VIEW (Dynamic Real User Session Data - Photo 34 Match) -->
         <section id="settings-view">
             <div class="settings-header-title">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
@@ -1046,9 +1058,9 @@
                 <h3>Account & Settings</h3>
             </div>
 
-            <!-- Profile Verified Card -->
+            <!-- Profile Verified Card (Connected to Real Session User) -->
             <div class="profile-verified-card">
-                <div class="prof-avatar-circle">
+                <div class="prof-avatar-circle" id="settings-prof-avatar">
                     {{ (user.name[:2] if user and user.name else 'SS').upper() }}
                 </div>
                 <div style="flex:1;">
@@ -1400,10 +1412,8 @@
                     <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
 
-                <!-- Products in Cart with Photos -->
                 <div id="cart-items-wrapper"></div>
 
-                <!-- Bill Details Card -->
                 <div class="checkout-card">
                     <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
                         <i class="ph-fill ph-moped" style="font-size:20px;"></i>
@@ -1432,16 +1442,15 @@
                     </div>
                 </div>
 
-                <!-- Delivery Address Card -->
                 <div class="checkout-card">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                         <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Delivery Address</span>
                         <span style="color:var(--brand-green); font-size:12px; font-weight:800; cursor:pointer;" onclick="openLocationModal()">Change</span>
                     </div>
-                    <p style="font-size:12.5px; font-weight:700;" id="checkout-address-line">Hisar Sector 14, Haryana</p>
+                    <p style="font-size:12.5px; font-weight:700; word-break: break-word;" id="checkout-address-line">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</p>
                 </div>
 
-                <!-- 💎 LUXURY SELECT PAYMENT OPTION (Photo 33 Fix) -->
+                <!-- LUXURY PAYMENT OPTION CARDS -->
                 <div class="checkout-card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">SELECT PAYMENT OPTION</span>
@@ -1449,7 +1458,6 @@
                     </div>
 
                     <div class="luxury-payment-container">
-                        <!-- PhonePe UPI -->
                         <div class="luxury-pay-card selected" onclick="setLuxuryPayment(this, 'PhonePe')">
                             <div class="luxury-pay-left">
                                 <div class="luxury-icon-box luxury-icon-phonepe"><i class="ph-bold ph-wallet"></i></div>
@@ -1458,12 +1466,9 @@
                                     <p>Instant UPI payment with zero failure rate</p>
                                 </div>
                             </div>
-                            <div class="luxury-radio-indicator">
-                                <i class="ph-bold ph-check"></i>
-                            </div>
+                            <div class="luxury-radio-indicator"><i class="ph-bold ph-check"></i></div>
                         </div>
 
-                        <!-- Paytm Wallet / UPI -->
                         <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Paytm')">
                             <div class="luxury-pay-left">
                                 <div class="luxury-icon-box luxury-icon-paytm"><i class="ph-bold ph-credit-card"></i></div>
@@ -1472,12 +1477,9 @@
                                     <p>Pay balance or linked bank accounts</p>
                                 </div>
                             </div>
-                            <div class="luxury-radio-indicator">
-                                <i class="ph-bold ph-check"></i>
-                            </div>
+                            <div class="luxury-radio-indicator"><i class="ph-bold ph-check"></i></div>
                         </div>
 
-                        <!-- Google Pay -->
                         <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Google Pay')">
                             <div class="luxury-pay-left">
                                 <div class="luxury-icon-box luxury-icon-gpay"><i class="ph-bold ph-google-logo"></i></div>
@@ -1486,12 +1488,9 @@
                                     <p>Pay directly using GPay UPI app</p>
                                 </div>
                             </div>
-                            <div class="luxury-radio-indicator">
-                                <i class="ph-bold ph-check"></i>
-                            </div>
+                            <div class="luxury-radio-indicator"><i class="ph-bold ph-check"></i></div>
                         </div>
 
-                        <!-- Cash on Delivery -->
                         <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Cash on Delivery')">
                             <div class="luxury-pay-left">
                                 <div class="luxury-icon-box luxury-icon-cod"><i class="ph-bold ph-money"></i></div>
@@ -1500,9 +1499,7 @@
                                     <p>Pay cash or QR scan to pilot at doorstep</p>
                                 </div>
                             </div>
-                            <div class="luxury-radio-indicator">
-                                <i class="ph-bold ph-check"></i>
-                            </div>
+                            <div class="luxury-radio-indicator"><i class="ph-bold ph-check"></i></div>
                         </div>
                     </div>
                 </div>
@@ -1516,7 +1513,7 @@
             </div>
         </div>
 
-        <!-- INTERACTIVE MY ORDERS MODAL -->
+        <!-- MY ORDERS MODAL -->
         <div class="center-modal-overlay" id="orders-modal" onclick="closeOnOverlay(event, 'orders-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1527,7 +1524,7 @@
             </div>
         </div>
 
-        <!-- INTERACTIVE WISHLIST MODAL -->
+        <!-- WISHLIST MODAL -->
         <div class="center-modal-overlay" id="wishlist-modal" onclick="closeOnOverlay(event, 'wishlist-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1538,7 +1535,7 @@
             </div>
         </div>
 
-        <!-- VERIFIED PROFILE VIEW -->
+        <!-- VERIFIED PROFILE VIEW (Dynamic Real User Session) -->
         <div class="center-modal-overlay" id="verified-profile-modal" onclick="closeOnOverlay(event, 'verified-profile-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1547,12 +1544,12 @@
                 </div>
 
                 <div style="background:var(--brand-light); border-radius:18px; padding:18px; text-align:center; margin-bottom:14px;">
-                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; box-shadow:0 6px 16px rgba(12,131,31,0.25);">
+                    <div class="prof-avatar-circle" style="width:58px; height:58px; font-size:22px; margin:0 auto 10px; border-radius:16px;">
                         {{ (user.name[:2] if user and user.name else 'SS').upper() }}
                     </div>
                     <h3 style="font-size:17px; font-weight:800;" id="view-prof-name">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
                     <p style="font-size:12.5px; color:var(--text-sub); margin:2px 0 8px;" id="view-prof-phone">+91 {{ user.phone if user and user.phone else '9602697303' }}</p>
-                    <span style="font-size:10.5px; font-weight:800; background:var(--brand-green); color:#fff; padding:3px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;">
+                    <span class="verified-pill">
                         <i class="ph-bold ph-seal-check"></i> 100% KYC Verified Member
                     </span>
                 </div>
@@ -1585,15 +1582,15 @@
                 <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Current Name:</span>
-                        <strong id="disp-prev-name">Sumit Singh</strong>
+                        <strong id="disp-prev-name">{{ user.name if user and user.name else 'Sumit Singh' }}</strong>
                     </div>
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Current Phone:</span>
-                        <strong id="disp-prev-phone">9602697303</strong>
+                        <strong id="disp-prev-phone">{{ user.phone if user and user.phone else '9602697303' }}</strong>
                     </div>
                     <div style="display:flex; justify-content:space-between;">
                         <span style="color:var(--text-sub);">Current Email:</span>
-                        <strong id="disp-prev-email">sumitsingh34398@gmail.com</strong>
+                        <strong id="disp-prev-email">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</strong>
                     </div>
                 </div>
 
@@ -1625,17 +1622,17 @@
                 <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
                 
                 <div class="settings-row-item" id="slot-1" onclick="selectAddressSlot(1)" style="border:1.5px solid var(--brand-green); border-radius:12px; margin-bottom:8px;">
-                    <div>
+                    <div style="min-width:0; flex:1; margin-right:10px;">
                         <strong style="font-size:12.5px; display:block;">Home Address (Slot 1)</strong>
-                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
+                        <span style="font-size:11.5px; color:var(--text-sub); word-break:break-word;" id="val-addr-1">Floor 2, Guru Jambheshwar University Area, Hisar</span>
                     </div>
                     <i class="ph-bold ph-check-circle" style="color:var(--brand-green); font-size:18px;"></i>
                 </div>
 
                 <div class="settings-row-item" id="slot-2" onclick="selectAddressSlot(2)" style="border:1.5px solid var(--border-clr); border-radius:12px; margin-bottom:12px;">
-                    <div>
+                    <div style="min-width:0; flex:1; margin-right:10px;">
                         <strong style="font-size:12.5px; display:block;">Office / Campus (Slot 2)</strong>
-                        <span style="font-size:11.5px; color:var(--text-sub);" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
+                        <span style="font-size:11.5px; color:var(--text-sub); word-break:break-word;" id="val-addr-2">Guru Daksh Govt Polytechnic Campus, Hisar</span>
                     </div>
                     <i class="ph-bold ph-circle" style="color:#a1aca6; font-size:18px;"></i>
                 </div>
@@ -1671,14 +1668,14 @@
             </div>
         </div>
 
-        <!-- ORDER PLACED MODAL -->
+        <!-- ORDER PLACED MODAL (DUAL ACTIONS WITH DISPATCH NOTIFICATION LINK) -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
             <div class="center-modal-box" style="text-align:center;">
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
                     <i class="ph-bold ph-check"></i>
                 </div>
                 <h3 style="font-size:20px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
-                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dark Store Packing in Progress 📦</p>
+                <p style="font-size:12.5px; color:var(--text-sub); margin-top:2px;">Dispatched to Delivery Partner 📦</p>
 
                 <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
@@ -1725,7 +1722,7 @@
                 <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
                     <p style="font-size:12.5px; font-weight:800; color:var(--brand-green);">Order Dispatched from Dark Store (Hisar Hub)</p>
                     <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">ETA: 8-10 Minutes to your doorstep</p>
-                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">Rampura Beri Area</span></p>
+                    <p style="font-size:12px; font-weight:700;">Delivering to: <span id="rider-dest-address">{{ user.address if user and user.address else 'Hisar Sector 14, Haryana' }}</span></p>
                 </div>
             </div>
         </div>
@@ -2181,7 +2178,7 @@
             }
         }
 
-        // 💎 Luxury Apple-Style Payment Selection Handler
+        // Luxury Payment Selection
         function setLuxuryPayment(el, mode) {
             document.querySelectorAll('.luxury-pay-card').forEach(card => card.classList.remove('selected'));
             el.classList.add('selected');
@@ -2299,6 +2296,7 @@
                 document.getElementById('disp-prev-name').innerText = name;
                 document.getElementById('settings-prof-name').innerText = name;
                 document.getElementById('view-prof-name').innerText = name;
+                document.getElementById('settings-prof-avatar').innerText = name.substring(0,2).toUpperCase();
             }
             if(phone) {
                 document.getElementById('disp-prev-phone').innerText = phone;
@@ -2313,7 +2311,7 @@
             closeEditProfileModal();
         }
 
-        // Live Geolocation API
+        // Live Geolocation API & Address Management
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -2371,12 +2369,12 @@
             });
         }
 
-        // Live Rider Tracker Modal
-        function openRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'flex'; }
-        function closeRiderTrackerModal() { document.getElementById('rider-tracker-modal').style.display = 'none'; }
         function openRiderTrackerFromSuccess() {
             document.getElementById('order-success-modal').style.display = 'none';
-            openRiderTrackerModal();
+            document.getElementById('rider-tracker-modal').style.display = 'flex';
+        }
+        function closeRiderTrackerModal() {
+            document.getElementById('rider-tracker-modal').style.display = 'none';
         }
 
         // Real Order Creation (Backend Connected)
