@@ -298,7 +298,6 @@ def create_order():
     conn = get_db()
     cursor = conn.cursor()
 
-    # Self-healing fallback if session cookie timed out
     if not user_id:
         demo = cursor.execute("SELECT id FROM users LIMIT 1").fetchone()
         if demo:
@@ -317,16 +316,15 @@ def create_order():
         delivery_fee = float(data.get('delivery_fee', 0))
         grand_total = float(data.get('grand_total', 0))
 
+        cust_name = data.get('name', '').strip() or session.get('user_name', 'Customer')
+        cust_phone = data.get('phone', '').strip() or '9602697303'
+
         if not cart_items:
             conn.close()
             return jsonify({'success': False, 'error': 'Cart is empty.'})
 
         order_code = f"#RX-2026-{random.randint(1000, 9999)}"
         delivery_otp = str(random.randint(1000, 9999))
-        
-        user = cursor.execute('SELECT name, phone FROM users WHERE id = ?', (user_id,)).fetchone()
-        cust_name = user['name'] if user else 'Customer'
-        cust_phone = user['phone'] if user else '9602697303'
 
         cursor.execute('''
             INSERT INTO orders (
@@ -340,14 +338,11 @@ def create_order():
         conn.commit()
         conn.close()
 
-        print(f"✔ [ORDER PLACED] {order_code} | OTP: {delivery_otp} | Total: ₹{grand_total}")
+        print(f"✔ [ORDER PLACED] {order_code} | Customer: {cust_name} ({cust_phone}) | OTP: {delivery_otp}")
         return jsonify({
             'success': True,
             'order_code': order_code,
-            'delivery_otp': delivery_otp,
-            'pilot_name': 'Rajesh Kumar',
-            'pilot_phone': '+91 96026 97303',
-            'pilot_vehicle': 'Hero Splendor (HR20-AB-1234)'
+            'delivery_otp': delivery_otp
         })
     except Exception as e:
         conn.close()
@@ -403,6 +398,7 @@ def get_my_orders():
 def rider_app():
     return render_template('rider.html')
 
+# Fetch Live Orders For Riders (Shows Real Customer Name & Real Mobile Number)
 @app.route('/api/rider/orders', methods=['GET'])
 def rider_get_orders():
     conn = get_db()
@@ -440,6 +436,7 @@ def rider_get_orders():
 
     return jsonify({'success': True, 'orders': orders_list})
 
+# Rider Status Transition: Placed -> Picking / On Way -> Delivered (via OTP)
 @app.route('/api/rider/update-status', methods=['POST'])
 def rider_update_status():
     data = request.get_json() or {}
