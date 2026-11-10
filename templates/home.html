@@ -89,7 +89,7 @@
             100% { transform: translate(-100%, 0); }
         }
 
-        /* Top Sticky Navbar */
+        /* Top Bar */
         .top-navbar {
             position: sticky;
             top: 0;
@@ -112,7 +112,6 @@
             gap: 12px;
         }
 
-        /* Red Rox + Green en */
         .brand-logo-text {
             font-size: 25px;
             font-weight: 800;
@@ -206,7 +205,7 @@
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.12);
         }
 
-        /* Hero Banner matching Photo 27 */
+        /* Hero Banner */
         .hero-banner {
             margin: 14px 18px;
             background: linear-gradient(135deg, #e7f7ec 0%, #d5f2dd 100%);
@@ -249,7 +248,7 @@
             cursor: pointer;
         }
 
-        /* Fresh Picks & Recommended Filter Pill */
+        /* Fresh Picks Bar */
         .rec-pill-bar {
             margin: 0 18px 10px;
             display: flex;
@@ -319,7 +318,6 @@
             z-index: 2;
         }
 
-        /* Wishlist Heart Icon Bahar Bhi */
         .card-wishlist-heart {
             position: absolute;
             top: 10px;
@@ -448,7 +446,6 @@
         /* Settings View */
         #settings-view { display: none; padding: 18px; background: var(--bg-page); }
 
-        /* Profile Card */
         .profile-verified-card {
             background: var(--brand-light);
             border: 1.5px solid #c8edd3;
@@ -760,28 +757,127 @@
             margin-top: 8px;
         }
 
-        .payment-pill-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
+        /* ========================================================
+           💎 LUXURY APPLE-STYLE PAYMENT CHECKBOX & RADIO CARDS
+           ======================================================== */
+        .luxury-payment-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
         }
-        .payment-pill-card {
+
+        .luxury-pay-card {
+            background: var(--card-bg);
             border: 1.5px solid var(--border-clr);
-            border-radius: 12px;
-            padding: 8px 10px;
+            border-radius: 16px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 12px;
-            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .payment-pill-card.selected {
+
+        .luxury-pay-card:hover {
+            border-color: #bbf7d0;
+            transform: translateY(-1px);
+        }
+
+        .luxury-pay-card.selected {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
             border-color: var(--brand-green);
-            background: var(--brand-light);
-            color: var(--brand-green);
+            box-shadow: 0 6px 18px rgba(12, 131, 31, 0.14);
+            transform: scale(1.01);
+        }
+
+        body.dark-theme .luxury-pay-card.selected {
+            background: linear-gradient(135deg, #132e20 0%, #064e3b 100%);
+        }
+
+        .luxury-pay-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .luxury-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .luxury-icon-phonepe { color: #673ab7; }
+        .luxury-icon-paytm { color: #00b9f1; }
+        .luxury-icon-gpay { color: #ea4335; }
+        .luxury-icon-cod { color: var(--brand-green); }
+
+        .luxury-pay-info h5 {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .luxury-pay-info p {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 1px;
+            font-weight: 500;
+        }
+
+        .luxury-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .badge-recommended { background: #dcfce7; color: #166534; }
+        .badge-fast { background: #e0f2fe; color: #0369a1; }
+
+        /* Luxury Apple Style Radio Checkbox Indicator */
+        .luxury-radio-indicator {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            background: #ffffff;
+        }
+
+        .luxury-pay-card.selected .luxury-radio-indicator {
+            border-color: var(--brand-green);
+            background: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.25);
+        }
+
+        .luxury-radio-indicator i {
+            color: #ffffff;
+            font-size: 13px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .luxury-pay-card.selected .luxury-radio-indicator i {
+            opacity: 1;
+            transform: scale(1);
         }
 
         /* Recommended Sorting Dialog */
@@ -1293,7 +1389,7 @@
             </div>
         </div>
 
-        <!-- CHECKOUT DRAWER (₹120 Threshold) -->
+        <!-- CHECKOUT DRAWER (₹120 Free Delivery Threshold) -->
         <div class="drawer-overlay" id="cart-drawer" onclick="closeOnOverlay(event, 'cart-drawer')">
             <div class="drawer-box">
                 <div class="checkout-head">
@@ -1304,8 +1400,10 @@
                     <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
 
+                <!-- Products in Cart with Photos -->
                 <div id="cart-items-wrapper"></div>
 
+                <!-- Bill Details Card -->
                 <div class="checkout-card">
                     <div style="background:#f0f7ff; border:1px solid #d0e4ff; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; font-size:12px; color:#0369a1; font-weight:700; margin-bottom:12px;">
                         <i class="ph-fill ph-moped" style="font-size:20px;"></i>
@@ -1334,6 +1432,7 @@
                     </div>
                 </div>
 
+                <!-- Delivery Address Card -->
                 <div class="checkout-card">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                         <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Delivery Address</span>
@@ -1342,13 +1441,69 @@
                     <p style="font-size:12.5px; font-weight:700;" id="checkout-address-line">Hisar Sector 14, Haryana</p>
                 </div>
 
+                <!-- 💎 LUXURY SELECT PAYMENT OPTION (Photo 33 Fix) -->
                 <div class="checkout-card">
-                    <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Select Payment Option</span>
-                    <div class="payment-pill-list">
-                        <div class="payment-pill-card selected" onclick="setCheckoutPayment(this, 'PhonePe')">PhonePe UPI</div>
-                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Paytm')">Paytm Wallet</div>
-                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Google Pay')">Google Pay</div>
-                        <div class="payment-pill-card" onclick="setCheckoutPayment(this, 'Cash on Delivery')">Cash on Delivery</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">SELECT PAYMENT OPTION</span>
+                        <span style="font-size:10px; font-weight:800; color:var(--brand-green); background:var(--brand-light); padding:2px 6px; border-radius:5px;">100% SECURE</span>
+                    </div>
+
+                    <div class="luxury-payment-container">
+                        <!-- PhonePe UPI -->
+                        <div class="luxury-pay-card selected" onclick="setLuxuryPayment(this, 'PhonePe')">
+                            <div class="luxury-pay-left">
+                                <div class="luxury-icon-box luxury-icon-phonepe"><i class="ph-bold ph-wallet"></i></div>
+                                <div class="luxury-pay-info">
+                                    <h5>PhonePe UPI <span class="luxury-badge badge-recommended">Recommended</span></h5>
+                                    <p>Instant UPI payment with zero failure rate</p>
+                                </div>
+                            </div>
+                            <div class="luxury-radio-indicator">
+                                <i class="ph-bold ph-check"></i>
+                            </div>
+                        </div>
+
+                        <!-- Paytm Wallet / UPI -->
+                        <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Paytm')">
+                            <div class="luxury-pay-left">
+                                <div class="luxury-icon-box luxury-icon-paytm"><i class="ph-bold ph-credit-card"></i></div>
+                                <div class="luxury-pay-info">
+                                    <h5>Paytm Wallet & Postpaid <span class="luxury-badge badge-fast">Fast Pay</span></h5>
+                                    <p>Pay balance or linked bank accounts</p>
+                                </div>
+                            </div>
+                            <div class="luxury-radio-indicator">
+                                <i class="ph-bold ph-check"></i>
+                            </div>
+                        </div>
+
+                        <!-- Google Pay -->
+                        <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Google Pay')">
+                            <div class="luxury-pay-left">
+                                <div class="luxury-icon-box luxury-icon-gpay"><i class="ph-bold ph-google-logo"></i></div>
+                                <div class="luxury-pay-info">
+                                    <h5>Google Pay</h5>
+                                    <p>Pay directly using GPay UPI app</p>
+                                </div>
+                            </div>
+                            <div class="luxury-radio-indicator">
+                                <i class="ph-bold ph-check"></i>
+                            </div>
+                        </div>
+
+                        <!-- Cash on Delivery -->
+                        <div class="luxury-pay-card" onclick="setLuxuryPayment(this, 'Cash on Delivery')">
+                            <div class="luxury-pay-left">
+                                <div class="luxury-icon-box luxury-icon-cod"><i class="ph-bold ph-money"></i></div>
+                                <div class="luxury-pay-info">
+                                    <h5>Cash on Delivery (COD)</h5>
+                                    <p>Pay cash or QR scan to pilot at doorstep</p>
+                                </div>
+                            </div>
+                            <div class="luxury-radio-indicator">
+                                <i class="ph-bold ph-check"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1361,7 +1516,7 @@
             </div>
         </div>
 
-        <!-- INTERACTIVE MY ORDERS MODAL (NO ALERT) -->
+        <!-- INTERACTIVE MY ORDERS MODAL -->
         <div class="center-modal-overlay" id="orders-modal" onclick="closeOnOverlay(event, 'orders-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1372,7 +1527,7 @@
             </div>
         </div>
 
-        <!-- INTERACTIVE WISHLIST MODAL (NO ALERT) -->
+        <!-- INTERACTIVE WISHLIST MODAL -->
         <div class="center-modal-overlay" id="wishlist-modal" onclick="closeOnOverlay(event, 'wishlist-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1392,7 +1547,7 @@
                 </div>
 
                 <div style="background:var(--brand-light); border-radius:18px; padding:18px; text-align:center; margin-bottom:14px;">
-                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px;">
+                    <div style="width:58px; height:58px; background:var(--brand-green); color:#fff; font-size:22px; font-weight:800; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; box-shadow:0 6px 16px rgba(12,131,31,0.25);">
                         {{ (user.name[:2] if user and user.name else 'SS').upper() }}
                     </div>
                     <h3 style="font-size:17px; font-weight:800;" id="view-prof-name">{{ user.name if user and user.name else 'Sumit Singh' }}</h3>
@@ -1528,11 +1683,11 @@
                 <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin:16px 0; text-align:left; font-size:12px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Assigned Pilot:</span>
-                        <strong>Rajesh Kumar</strong>
+                        <strong id="success-pilot-name">Rajesh Kumar</strong>
                     </div>
                     <div style="display:flex; justify-content:space-between;">
                         <span style="color:var(--text-sub);">Rider Phone:</span>
-                        <strong>+91 96026 97303</strong>
+                        <strong id="success-pilot-phone">+91 96026 97303</strong>
                     </div>
                 </div>
 
@@ -1560,11 +1715,11 @@
                         <i class="ph-fill ph-moped"></i>
                     </div>
                     <div style="flex:1;">
-                        <h4 style="font-size:14px; font-weight:800;">Rajesh Kumar</h4>
-                        <p style="font-size:11.5px; color:var(--text-sub);">Hero Splendor • HR20-AB-1234</p>
+                        <h4 style="font-size:14px; font-weight:800;" id="modal-pilot-name">Rajesh Kumar</h4>
+                        <p style="font-size:11.5px; color:var(--text-sub);" id="modal-pilot-vehicle">Hero Splendor • HR20-AB-1234</p>
                         <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:1px 6px; border-radius:4px;">★ 4.9 Verified Pilot</span>
                     </div>
-                    <a href="tel:9602697303" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
+                    <a href="tel:9602697303" id="modal-pilot-call-btn" style="width:36px; height:36px; border-radius:50%; background:var(--brand-green); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="ph-bold ph-phone"></i></a>
                 </div>
 
                 <div style="border-left: 2px solid var(--brand-green); padding-left: 14px; margin-left: 10px;">
@@ -1731,7 +1886,7 @@
 
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        // 60 Unique Non-Duplicate Grocery Products
+        // 60 Unique Non-Duplicate Products
         const catalogDB = [
             // Dairy (18 Unique Items)
             { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
@@ -1806,11 +1961,6 @@
 
         let cart = {};
         let wishlist = {};
-        let pastOrders = [
-            { id: "#RX-9081", date: "Today, 4:15 PM", items: "Amul Taaza Milk (2x), Parle-G Gold", total: 154, status: "Delivered", address: "Hisar Sector 14, Haryana" },
-            { id: "#RX-8842", date: "Yesterday", items: "Aashirvaad Atta 5kg, Fortune Oil", total: 330, status: "Delivered", address: "GJU Area, Hisar" }
-        ];
-
         let activeCategory = 'all';
         let activeSort = 'rec';
         let currentModalProduct = null;
@@ -1819,7 +1969,7 @@
         let selectedPaymentMode = "PhonePe";
         let currentLang = 'en';
 
-        // Render Catalog Grid with Outside Wishlist Heart
+        // Render Catalog Grid with Outside Heart
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -1871,7 +2021,6 @@
             });
         }
 
-        // Live Search & Sort Combined
         function filterProducts() {
             const query = document.getElementById('search-box').value.toLowerCase().trim();
             let result = catalogDB.filter(p => {
@@ -1919,7 +2068,6 @@
             filterProducts();
         }
 
-        // Outside Heart Click Handler
         function toggleCardWishlist(id, e) {
             e.stopPropagation();
             const prod = catalogDB.find(p => p.id === id);
@@ -1928,14 +2076,10 @@
             const icon = document.getElementById(`wish-heart-${id}`);
             if (wishlist[id]) {
                 delete wishlist[id];
-                if (icon) {
-                    icon.className = "ph-bold ph-heart card-wishlist-heart";
-                }
+                if (icon) icon.className = "ph-bold ph-heart card-wishlist-heart";
             } else {
                 wishlist[id] = prod;
-                if (icon) {
-                    icon.className = "ph-fill ph-heart card-wishlist-heart active";
-                }
+                if (icon) icon.className = "ph-fill ph-heart card-wishlist-heart active";
             }
         }
 
@@ -2037,8 +2181,9 @@
             }
         }
 
-        function setCheckoutPayment(el, mode) {
-            document.querySelectorAll('.payment-pill-card').forEach(p => p.classList.remove('selected'));
+        // 💎 Luxury Apple-Style Payment Selection Handler
+        function setLuxuryPayment(el, mode) {
+            document.querySelectorAll('.luxury-pay-card').forEach(card => card.classList.remove('selected'));
             el.classList.add('selected');
             selectedPaymentMode = mode;
             document.getElementById('active-pay-badge').innerText = mode;
@@ -2047,7 +2192,7 @@
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
-        // Product Detail Bottom Sheet (Photos 18 & 19)
+        // Product Detail Bottom Sheet
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
             if(!p) return;
@@ -2062,7 +2207,7 @@
 
             document.getElementById('pack-label-1').innerText = p.unit;
             document.getElementById('pack-price-1').innerText = `₹${p.price}`;
-            document.getElementById('pack-label-2').innerText = 'Mega Pack';
+            document.getElementById('pack-label-2').innerText = 'Family Pack';
             document.getElementById('pack-price-2').innerText = `₹${Math.round(p.price * 2.8)}`;
 
             document.getElementById('chip-pack-1').classList.add('active');
@@ -2168,7 +2313,7 @@
             closeEditProfileModal();
         }
 
-        // Live Geolocation API & Address Management
+        // Live Geolocation API
         function openLocationModal() { document.getElementById('location-modal').style.display = 'flex'; }
         function closeLocationModal() { document.getElementById('location-modal').style.display = 'none'; }
 
@@ -2234,28 +2379,64 @@
             openRiderTrackerModal();
         }
 
-        // Order Placement Flow
+        // Real Order Creation (Backend Connected)
         function triggerOrderSuccess() {
             let totalCount = 0;
-            for(let id in cart) totalCount += cart[id].qty;
-            if(totalCount === 0) return;
+            const itemsList = [];
+            for (let id in cart) {
+                totalCount += cart[id].qty;
+                itemsList.push({
+                    id: cart[id].id,
+                    name: cart[id].name,
+                    price: cart[id].price,
+                    qty: cart[id].qty,
+                    unit: cart[id].unit
+                });
+            }
 
-            const newOrder = {
-                id: "#RX-" + Math.floor(1000 + Math.random() * 9000),
-                date: "Just now",
-                items: Object.values(cart).map(i => `${i.name} (${i.qty}x)`).join(", "),
-                total: document.getElementById('bill-grand-total').innerText,
-                status: "Packing (10 Mins)",
-                address: document.getElementById('active-location-display').innerText
-            };
-            pastOrders.unshift(newOrder);
+            if (totalCount === 0) return;
 
-            closeCartDrawer();
-            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
-            document.getElementById('order-success-modal').style.display = 'flex';
-            cart = {};
-            syncCheckoutData();
-            renderProducts(catalogDB);
+            let itemsTotal = 0;
+            for(let id in cart) itemsTotal += (cart[id].qty * cart[id].price);
+            const deliveryFee = itemsTotal >= 120 ? 0 : 25;
+            const grandTotal = itemsTotal + (itemsTotal > 0 ? 6 : 0) + deliveryFee;
+            const activeAddr = document.getElementById('active-location-display').innerText;
+
+            fetch('/api/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: itemsList,
+                    address: activeAddr,
+                    payment_method: selectedPaymentMode,
+                    items_total: itemsTotal,
+                    delivery_fee: deliveryFee,
+                    grand_total: grandTotal
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    closeCartDrawer();
+                    try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
+                    
+                    document.getElementById('success-pilot-name').innerText = data.pilot_name;
+                    document.getElementById('success-pilot-phone').innerText = data.pilot_phone;
+                    document.getElementById('modal-pilot-name').innerText = data.pilot_name;
+                    document.getElementById('modal-pilot-vehicle').innerText = data.pilot_vehicle;
+                    document.getElementById('modal-pilot-call-btn').href = `tel:${data.pilot_phone.replace(/[^0-9]/g, '')}`;
+
+                    document.getElementById('order-success-modal').style.display = 'flex';
+                    cart = {};
+                    syncCheckoutData();
+                    renderProducts(catalogDB);
+                } else {
+                    alert(data.error || "Order placement failed.");
+                }
+            })
+            .catch(() => {
+                alert("Connection failed while creating order.");
+            });
         }
 
         function dismissOrderSuccess() {
@@ -2271,35 +2452,53 @@
                 document.getElementById('proof-photo-label').innerText = `✔ ${input.files[0].name} Attached`;
             }
         }
-        function submitRefundClaim() {
-            closeRefundModal();
-        }
+        function submitRefundClaim() { closeRefundModal(); }
 
-        // Interactive My Orders Modal (Zero Alerts)
+        // Fetch Real Past Orders From Database
         function openOrdersModal() {
             const list = document.getElementById('orders-list-content');
-            list.innerHTML = '';
-            pastOrders.forEach(o => {
-                const item = document.createElement('div');
-                item.style.cssText = 'background: #f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:10px; font-size:12px;';
-                item.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                        <strong style="color:var(--brand-green); font-size:13px;">${o.id}</strong>
-                        <span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:10px; font-weight:800; font-size:10.5px;">${o.status}</span>
-                    </div>
-                    <p style="color:var(--text-main); font-weight:700; margin:4px 0;">${o.items}</p>
-                    <div style="display:flex; justify-content:space-between; color:var(--text-sub); font-size:11px; margin-top:6px;">
-                        <span>${o.date} • ${o.address}</span>
-                        <strong style="color:var(--text-main); font-size:13px;">${typeof o.total === 'number' ? '₹' + o.total : o.total}</strong>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
+            list.innerHTML = `<p style="text-align:center; padding:16px; color:var(--text-sub);"><i class="ph-bold ph-spinner ph-spin"></i> Loading orders from database...</p>`;
             document.getElementById('orders-modal').style.display = 'flex';
+
+            fetch('/api/my-orders')
+            .then(res => res.json())
+            .then(data => {
+                list.innerHTML = '';
+                if (!data.orders || data.orders.length === 0) {
+                    list.innerHTML = `
+                        <div style="text-align:center; padding:30px 10px; color:var(--text-sub);">
+                            <i class="ph ph-package" style="font-size:36px; color:#94a3b8; margin-bottom:8px;"></i>
+                            <p style="font-size:13px; font-weight:700;">No orders placed yet!</p>
+                            <span style="font-size:11px;">Your ordered groceries will appear here.</span>
+                        </div>
+                    `;
+                    return;
+                }
+
+                data.orders.forEach(o => {
+                    const item = document.createElement('div');
+                    item.style.cssText = 'background: #f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:10px; font-size:12px;';
+                    item.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <strong style="color:var(--brand-green); font-size:13px;">${o.order_code}</strong>
+                            <span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:10px; font-weight:800; font-size:10.5px;">${o.status}</span>
+                        </div>
+                        <p style="color:var(--text-main); font-weight:700; margin:4px 0;">${o.summary}</p>
+                        <div style="display:flex; justify-content:space-between; color:var(--text-sub); font-size:11px; margin-top:6px;">
+                            <span>${o.created_at} • ${o.address}</span>
+                            <strong style="color:var(--text-main); font-size:13px;">₹${o.grand_total}</strong>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+            })
+            .catch(() => {
+                list.innerHTML = `<p style="text-align:center; padding:16px; color:#dc2626;">Failed to load orders.</p>`;
+            });
         }
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
-        // Interactive Wishlist Modal (Zero Alerts)
+        // Interactive Wishlist Modal
         function openWishlistModal() {
             const box = document.getElementById('wishlist-items-container');
             box.innerHTML = '';
@@ -2338,7 +2537,7 @@
         }
         function closeWishlistModal() { document.getElementById('wishlist-modal').style.display = 'none'; }
 
-        // Cookie Settings Modals
+        // Cookie Settings Hub
         function openCookieManagerModal() { document.getElementById('cookie-settings-modal').style.display = 'flex'; }
         function closeCookieSettingsModal() { document.getElementById('cookie-settings-modal').style.display = 'none'; }
         function saveCookiePreferences() {
@@ -2366,7 +2565,7 @@
         function openAccountSecurityModal() { document.getElementById('account-security-modal').style.display = 'flex'; }
         function closeAccountSecurityModal() { document.getElementById('account-security-modal').style.display = 'none'; }
         function openPaymentMethodsModal() { openCartDrawer(); }
-        function openNotificationsModal() { alert("Notification:\n• 10-Minute Superfast delivery active in Hisar\n• Unlocked free delivery above ₹120"); }
+        function openNotificationsModal() { alert("Notification:\n• 10-Minute Superfast delivery live in Hisar\n• Unlocked free delivery above ₹120"); }
 
         // Theme Toggle
         function toggleTheme() {
@@ -2381,7 +2580,7 @@
             document.getElementById('current-lang-badge').innerText = (currentLang === 'en') ? 'English' : 'हिन्दी';
         }
 
-        // Overlay Click to Dismiss (Outside Tap)
+        // Click Outside to Dismiss Overlay
         function closeOnOverlay(e, modalId) {
             if (e.target.id === modalId) {
                 document.getElementById(modalId).style.display = 'none';
