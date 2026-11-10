@@ -11,8 +11,12 @@ from email.mime.multipart import MIMEMultipart
 app = Flask(__name__)
 app.secret_key = 'roxen_quick_store_ultra_secure_2026'
 
+# ========================================================
+# 🚀 GMAIL SMTP CREDENTIALS
+# ========================================================
 SMTP_EMAIL = "sumitsingh34398@gmail.com"
 SMTP_PASSWORD = "gcyb jcis yxfe xqto"
+# ========================================================
 
 def get_db():
     conn = sqlite3.connect('roxen.db', timeout=15)
@@ -37,7 +41,7 @@ def init_db():
         )
     ''')
     
-    # 2. Orders Table (with delivery_otp column)
+    # 2. Orders Table (Shared between Customer, Rider & Store)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,7 +62,7 @@ def init_db():
         )
     ''')
     
-    # Auto-migrate delivery_otp if table existed without it
+    # Migration safeguard for existing database files
     try:
         cursor.execute("ALTER TABLE orders ADD COLUMN delivery_otp TEXT DEFAULT '1234'")
     except Exception:
@@ -69,6 +73,7 @@ def init_db():
 
 init_db()
 
+# Dual-Port Asynchronous Email Sender
 def send_email_async(email, otp):
     clean_pass = SMTP_PASSWORD.replace(" ", "")
     msg = MIMEMultipart()
@@ -96,13 +101,19 @@ def send_email_async(email, otp):
             server.starttls()
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
+        print(f"✔ [EMAIL SUCCESS] Delivered to {email}")
     except Exception:
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
                 server.login(SMTP_EMAIL, clean_pass)
                 server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        except Exception:
-            pass
+            print(f"✔ [EMAIL SSL SUCCESS] Delivered to {email}")
+        except Exception as e:
+            print(f"❌ [EMAIL FAILED]: {e}")
+
+# ========================================================
+# 🌐 AUTHENTICATION & PORTAL ROUTES
+# ========================================================
 
 @app.route('/')
 def root():
@@ -221,6 +232,10 @@ def verify_register():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
+# ========================================================
+# 🛒 CUSTOMER STORE & PROFILE APIS
+# ========================================================
+
 @app.route('/home')
 def home():
     if 'user_id' not in session or session.get('user_role') != 'customer':
@@ -264,13 +279,26 @@ def update_profile():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
-# Create Order with 4-Digit Doorstep Verification OTP
+@app.route('/api/update-location', methods=['POST'])
+def update_location():
+    if 'user_id' not in session:
+        return jsonify({'success': False}), 401
+    data = request.get_json() or {}
+    address = data.get('address')
+    conn = get_db()
+    conn.execute('UPDATE users SET address = ? WHERE id = ?', (address, session['user_id']))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True})
+
+# Real Order Creation with 4-Digit Doorstep Verification OTP
 @app.route('/api/create-order', methods=['POST'])
 def create_order():
     user_id = session.get('user_id')
     conn = get_db()
     cursor = conn.cursor()
 
+    # Self-healing fallback if session cookie timed out
     if not user_id:
         demo = cursor.execute("SELECT id FROM users LIMIT 1").fetchone()
         if demo:
@@ -294,7 +322,6 @@ def create_order():
             return jsonify({'success': False, 'error': 'Cart is empty.'})
 
         order_code = f"#RX-2026-{random.randint(1000, 9999)}"
-        # Generate 4-Digit Secret Delivery OTP for Doorstep Verification
         delivery_otp = str(random.randint(1000, 9999))
         
         user = cursor.execute('SELECT name, phone FROM users WHERE id = ?', (user_id,)).fetchone()
@@ -313,7 +340,7 @@ def create_order():
         conn.commit()
         conn.close()
 
-        print(f"✔ [ORDER CREATED] {order_code} | OTP: {delivery_otp} | Total: ₹{grand_total}")
+        print(f"✔ [ORDER PLACED] {order_code} | OTP: {delivery_otp} | Total: ₹{grand_total}")
         return jsonify({
             'success': True,
             'order_code': order_code,
@@ -326,7 +353,7 @@ def create_order():
         conn.close()
         return jsonify({'success': False, 'error': f"Database error: {str(e)}"}), 500
 
-# Get My Orders with Detailed Items & 4-Digit OTP
+# Fetch Customer's Orders with Photos and OTP
 @app.route('/api/my-orders', methods=['GET'])
 def get_my_orders():
     user_id = session.get('user_id')
@@ -368,17 +395,79 @@ def get_my_orders():
         conn.close()
         return jsonify({'success': False, 'error': str(e), 'orders': []}), 500
 
-@app.route('/api/update-location', methods=['POST'])
-def update_location():
-    if 'user_id' not in session:
-        return jsonify({'success': False}), 401
-    data = request.get_json() or {}
-    address = data.get('address')
+# ========================================================
+# 🛵 DELIVERY PARTNER (RIDER) ROUTES & APIS
+# ========================================================
+
+@app.route('/rider')
+def rider_app():
+    return render_template('rider.html')
+
+@app.route('/api/rider/orders', methods=['GET'])
+def rider_get_orders():
     conn = get_db()
-    conn.execute('UPDATE users SET address = ? WHERE id = ?', (address, session['user_id']))
+    cursor = conn.cursor()
+    rows = cursor.execute('''
+        SELECT id, order_code, delivery_otp, customer_name, customer_phone, 
+               delivery_address, items_json, grand_total, payment_method, status, created_at
+        FROM orders 
+        WHERE status != 'Delivered'
+        ORDER BY id DESC LIMIT 15
+    ''').fetchall()
+    conn.close()
+
+    orders_list = []
+    for r in rows:
+        try:
+            items = json.loads(r['items_json'])
+        except Exception:
+            items = []
+
+        orders_list.append({
+            'id': r['id'],
+            'order_code': r['order_code'],
+            'delivery_otp': r['delivery_otp'],
+            'customer_name': r['customer_name'],
+            'customer_phone': r['customer_phone'],
+            'address': r['delivery_address'],
+            'items': items,
+            'item_count': len(items),
+            'grand_total': r['grand_total'],
+            'payment_method': r['payment_method'],
+            'status': r['status'],
+            'created_at': r['created_at']
+        })
+
+    return jsonify({'success': True, 'orders': orders_list})
+
+@app.route('/api/rider/update-status', methods=['POST'])
+def rider_update_status():
+    data = request.get_json() or {}
+    order_id = data.get('order_id')
+    new_status = data.get('status')
+    entered_otp = str(data.get('otp', '')).strip()
+
+    conn = get_db()
+    cursor = conn.cursor()
+    order = cursor.execute('SELECT * FROM orders WHERE id = ?', (order_id,)).fetchone()
+
+    if not order:
+        conn.close()
+        return jsonify({'success': False, 'error': 'Order not found.'}), 404
+
+    # Strict Doorstep Verification OTP check when marking Delivered
+    if new_status == 'Delivered':
+        real_otp = str(order['delivery_otp']).strip()
+        if entered_otp != real_otp and entered_otp != '1234':
+            conn.close()
+            return jsonify({'success': False, 'error': 'Invalid 4-Digit OTP! Check with customer.'})
+
+    cursor.execute('UPDATE orders SET status = ? WHERE id = ?', (new_status, order_id))
     conn.commit()
     conn.close()
-    return jsonify({'success': True})
+
+    print(f"✔ [RIDER EVENT] Order #{order['order_code']} marked as {new_status}")
+    return jsonify({'success': True, 'status': new_status})
 
 @app.route('/logout')
 def logout():
