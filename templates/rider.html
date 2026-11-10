@@ -29,7 +29,6 @@
             --text-main: #18231e;
             --text-sub: #64736c;
             --border-clr: #e2e8e5;
-            --glow-color: rgba(12, 131, 31, 0.2);
         }
 
         body {
@@ -433,7 +432,7 @@
             </div>
         </header>
 
-        <!-- LIVE DYNAMIC EARNINGS DASHBOARD -->
+        <!-- LIVE DYNAMIC EARNINGS DASHBOARD (+₹50 & +1 Order Increments) -->
         <div class="earnings-dashboard-card">
             <div>
                 <div class="earn-val" id="disp-today-pay">₹640</div>
@@ -491,7 +490,7 @@
         let activeVerifyOrderId = null;
         let currentPilotId = "RX-PILOT-981";
 
-        // Persistent Earnings State
+        // Persistent Earnings State (LocalStorage Sync)
         let currentPay = parseInt(localStorage.getItem('roxen_pilot_pay')) || 640;
         let deliveredCount = parseInt(localStorage.getItem('roxen_pilot_count')) || 14;
 
@@ -500,7 +499,6 @@
             document.getElementById('disp-delivered-count').innerText = `${deliveredCount}`;
         }
 
-        // Fast Pilot Login
         function loginPilotPartner() {
             const input = document.getElementById('pilot-id-input').value.trim();
             if(!input) {
