@@ -62,7 +62,6 @@ def init_db():
         )
     ''')
     
-    # Migration safeguard for existing database files
     try:
         cursor.execute("ALTER TABLE orders ADD COLUMN delivery_otp TEXT DEFAULT '1234'")
     except Exception:
@@ -101,15 +100,13 @@ def send_email_async(email, otp):
             server.starttls()
             server.login(SMTP_EMAIL, clean_pass)
             server.sendmail(SMTP_EMAIL, email, msg.as_string())
-        print(f"✔ [EMAIL SUCCESS] Delivered to {email}")
     except Exception:
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=10) as server:
                 server.login(SMTP_EMAIL, clean_pass)
                 server.sendmail(SMTP_EMAIL, email, msg.as_string())
-            print(f"✔ [EMAIL SSL SUCCESS] Delivered to {email}")
-        except Exception as e:
-            print(f"❌ [EMAIL FAILED]: {e}")
+        except Exception:
+            pass
 
 # ========================================================
 # 🌐 AUTHENTICATION & PORTAL ROUTES
@@ -291,7 +288,6 @@ def update_location():
     conn.close()
     return jsonify({'success': True})
 
-# Real Order Creation with 4-Digit Doorstep Verification OTP
 @app.route('/api/create-order', methods=['POST'])
 def create_order():
     user_id = session.get('user_id')
@@ -338,7 +334,6 @@ def create_order():
         conn.commit()
         conn.close()
 
-        print(f"✔ [ORDER PLACED] {order_code} | Customer: {cust_name} ({cust_phone}) | OTP: {delivery_otp}")
         return jsonify({
             'success': True,
             'order_code': order_code,
@@ -348,7 +343,6 @@ def create_order():
         conn.close()
         return jsonify({'success': False, 'error': f"Database error: {str(e)}"}), 500
 
-# Fetch Customer's Orders with Photos and OTP
 @app.route('/api/my-orders', methods=['GET'])
 def get_my_orders():
     user_id = session.get('user_id')
@@ -398,7 +392,6 @@ def get_my_orders():
 def rider_app():
     return render_template('rider.html')
 
-# Fetch Live Orders For Riders (Shows Real Customer Name & Real Mobile Number)
 @app.route('/api/rider/orders', methods=['GET'])
 def rider_get_orders():
     conn = get_db()
@@ -436,7 +429,6 @@ def rider_get_orders():
 
     return jsonify({'success': True, 'orders': orders_list})
 
-# Rider Status Transition: Placed -> Picking / On Way -> Delivered (via OTP)
 @app.route('/api/rider/update-status', methods=['POST'])
 def rider_update_status():
     data = request.get_json() or {}
@@ -452,7 +444,6 @@ def rider_update_status():
         conn.close()
         return jsonify({'success': False, 'error': 'Order not found.'}), 404
 
-    # Strict Doorstep Verification OTP check when marking Delivered
     if new_status == 'Delivered':
         real_otp = str(order['delivery_otp']).strip()
         if entered_otp != real_otp and entered_otp != '1234':
@@ -463,7 +454,6 @@ def rider_update_status():
     conn.commit()
     conn.close()
 
-    print(f"✔ [RIDER EVENT] Order #{order['order_code']} marked as {new_status}")
     return jsonify({'success': True, 'status': new_status})
 
 @app.route('/logout')
