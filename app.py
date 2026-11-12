@@ -41,7 +41,7 @@ def init_db():
         )
     ''')
     
-    # 2. Orders Table (With Rider Name & Phone Columns)
+    # 2. Orders Table (With Rider Name & Phone Columns for Live Sync)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +64,7 @@ def init_db():
         )
     ''')
     
-    # Auto-migration safeguard for columns
+    # Auto-migration safeguard for columns if database already exists
     for col, col_type in [("delivery_otp", "TEXT DEFAULT '1234'"), ("rider_name", "TEXT DEFAULT ''"), ("rider_phone", "TEXT DEFAULT ''")]:
         try:
             cursor.execute(f"ALTER TABLE orders ADD COLUMN {col} {col_type}")
@@ -404,7 +404,7 @@ def rider_get_orders():
     cursor = conn.cursor()
     rows = cursor.execute('''
         SELECT id, order_code, delivery_otp, customer_name, customer_phone, 
-               delivery_address, items_json, grand_total, payment_method, status, created_at
+               delivery_address, items_json, grand_total, payment_method, status, rider_name, rider_phone, created_at
         FROM orders 
         WHERE status != 'Delivered'
         ORDER BY id DESC LIMIT 15
@@ -430,6 +430,8 @@ def rider_get_orders():
             'grand_total': r['grand_total'],
             'payment_method': r['payment_method'],
             'status': r['status'],
+            'rider_name': r['rider_name'] if 'rider_name' in r.keys() else '',
+            'rider_phone': r['rider_phone'] if 'rider_phone' in r.keys() else '',
             'created_at': r['created_at']
         })
 
