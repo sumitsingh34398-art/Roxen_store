@@ -65,8 +65,8 @@
         .sidebar-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 22px;
+            gap: 2px;
+            font-size: 24px;
             font-weight: 800;
             margin-bottom: 32px;
             padding-left: 6px;
@@ -231,6 +231,7 @@
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            margin-bottom: 16px;
         }
 
         .panel-box-header {
@@ -305,6 +306,17 @@
             font-weight: 800;
             font-size: 11px;
             cursor: pointer;
+        }
+        .btn-warning-sm {
+            background: #fef3c7;
+            color: #d97706;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            margin-right: 4px;
         }
 
         .modal-overlay-lux {
@@ -411,7 +423,7 @@
                                 <span class="stat-label">Total Sales (Today)</span>
                                 <i class="ph-bold ph-shopping-bag" style="font-size:22px; color:#10b981;"></i>
                             </div>
-                            <div class="stat-value" id="stat-total-sales">₹0.00</div>
+                            <div class="stat-value" id="stat-total-sales">₹58</div>
                             <div class="stat-sub-trend"><i class="ph-bold ph-trend-up"></i> +15.6% vs yesterday</div>
                         </div>
 
@@ -420,7 +432,7 @@
                                 <span class="stat-label">Today Orders Queue</span>
                                 <i class="ph-bold ph-package" style="font-size:22px; color:var(--brand-green);"></i>
                             </div>
-                            <div class="stat-value" id="stat-orders-count">0</div>
+                            <div class="stat-value" id="stat-orders-count">1</div>
                             <div class="stat-sub-trend" style="color:var(--brand-green);"><i class="ph-bold ph-lightning"></i> 10-Min SLA Active</div>
                         </div>
 
@@ -497,18 +509,19 @@
                     </div>
                 </section>
 
-                <!-- TAB 3: PRODUCTS CATALOG -->
+                <!-- TAB 3: PRODUCTS CATALOG & GOOGLE IMAGE LINK ADDER -->
                 <section class="admin-panel-section" id="tab-products">
                     <div class="panel-box-container">
                         <div class="panel-box-header">
-                            <h3>DarkStore Inventory Catalog (60 Items)</h3>
-                            <span style="font-size:12px; font-weight:800; color:var(--brand-green);">Optimal Stock Status</span>
+                            <h3>DarkStore Inventory Catalog</h3>
+                            <button class="btn-lux-primary" onclick="openAddProductModal()"><i class="ph-bold ph-plus"></i> Add New Product (Image Link)</button>
                         </div>
                         <div class="admin-table-wrap">
                             <table class="lux-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
                                         <th>Unit</th>
@@ -516,29 +529,14 @@
                                         <th>Stock Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="admin-products-tbody">
                                     <tr>
                                         <td>#1</td>
+                                        <td><img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" style="width:36px; height:36px; object-fit:contain;"></td>
                                         <td>Amul Taaza Toned Fresh Milk</td>
                                         <td>Dairy</td>
                                         <td>500 ml</td>
                                         <td style="color:var(--brand-green); font-weight:800;">₹27</td>
-                                        <td><span class="status-pill st-delivered">In Stock</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#19</td>
-                                        <td>Parle-G Gold Glucose Biscuits</td>
-                                        <td>Snacks</td>
-                                        <td>1 kg</td>
-                                        <td style="color:var(--brand-green); font-weight:800;">₹100</td>
-                                        <td><span class="status-pill st-delivered">In Stock</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#34</td>
-                                        <td>Bisleri Packaged Drinking Water</td>
-                                        <td>Drinks</td>
-                                        <td>1 L</td>
-                                        <td style="color:var(--brand-green); font-weight:800;">₹20</td>
                                         <td><span class="status-pill st-delivered">In Stock</span></td>
                                     </tr>
                                 </tbody>
@@ -547,7 +545,7 @@
                     </div>
                 </section>
 
-                <!-- TAB 4: CUSTOMERS DATABASE -->
+                <!-- TAB 4: CUSTOMERS DATABASE WITH DELETE OPTION -->
                 <section class="admin-panel-section" id="tab-customers">
                     <div class="panel-box-container">
                         <div class="panel-box-header">
@@ -563,6 +561,7 @@
                                         <th>Mobile Phone</th>
                                         <th>Email Address</th>
                                         <th>Registered Address</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-customers-tbody">
@@ -572,6 +571,7 @@
                                         <td>+91 9602697303</td>
                                         <td>sumitsingh34398@gmail.com</td>
                                         <td>Hisar Sector 14, Haryana</td>
+                                        <td><button class="btn-danger-sm" onclick="deleteCustomerRow(this)">Delete Account</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -590,6 +590,7 @@
                             <table class="lux-table">
                                 <thead>
                                     <tr>
+                                        <th>Partner ID</th>
                                         <th>Partner Name</th>
                                         <th>Phone Number</th>
                                         <th>Email ID</th>
@@ -600,13 +601,15 @@
                                 </thead>
                                 <tbody id="admin-riders-tbody">
                                     <tr>
-                                        <td><strong>Rajesh Kumar</strong></td>
-                                        <td>+91 9812345678</td>
-                                        <td>rajesh.pilot@roxen.com</td>
+                                        <td>#PID-901</td>
+                                        <td><strong>Sumit Singh</strong></td>
+                                        <td>+91 9602697303</td>
+                                        <td>sumitsingh34398@gmail.com</td>
                                         <td>Hero Splendor • HR20</td>
                                         <td><span class="status-pill st-delivered">Online</span></td>
                                         <td>
-                                            <button class="btn-danger-sm" onclick="blacklistRider(this)">Blacklist</button>
+                                            <button class="btn-warning-sm" onclick="blacklistRider(this)">Blacklist</button>
+                                            <button class="btn-danger-sm" onclick="deleteRider(this)">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -615,14 +618,49 @@
                     </div>
                 </section>
 
-                <!-- TAB 6: SETTINGS -->
+                <!-- TAB 6: STORE SETTINGS & SECURE PIN PROTECTION & REFUND CLAIMS -->
                 <section class="admin-panel-section" id="tab-settings">
                     <div class="panel-box-container">
                         <div class="panel-box-header">
-                            <h3>DarkStore Store Settings</h3>
+                            <h3>DarkStore Store Settings & Admin Security PIN</h3>
                         </div>
                         <p style="font-size:13px; color:var(--text-sub); margin-bottom:12px;">Store location: Hisar Sector 14 Dark Hub • 10-Minute SLA Enabled.</p>
-                        <button class="btn-lux-primary" onclick="alert('Store configuration updated successfully!')">Save Changes</button>
+                        
+                        <div style="max-width:320px; margin-bottom:16px;">
+                            <label style="font-size:11px; font-weight:800; color:var(--text-sub);">SET 4-DIGIT ADMIN SECURE PIN</label>
+                            <input type="password" id="admin-pin-input" class="form-input-lux" maxlength="4" value="3439" style="margin-top:4px;">
+                        </div>
+                        <button class="btn-lux-primary" onclick="alert('Admin PIN updated securely!')">Save Store Settings</button>
+                    </div>
+
+                    <!-- REFUND & RETURN CLAIMS TRACKER -->
+                    <div class="panel-box-container" style="margin-top:20px;">
+                        <div class="panel-box-header">
+                            <h3>Customer Refund & Return Claims</h3>
+                            <span style="font-size:12px; font-weight:800; color:var(--brand-red);">1 Pending Review</span>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="lux-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Reason / Issue</th>
+                                        <th>Proof Photo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#RX-9268</td>
+                                        <td>Sumit Singh</td>
+                                        <td>Damaged milk packet seal</td>
+                                        <td><span style="color:var(--brand-green); font-weight:700; cursor:pointer;" onclick="alert('Viewing uploaded image proof...')">📷 View Photo</span></td>
+                                        <td><button class="btn-lux-primary" style="padding:4px 10px; font-size:11px;" onclick="alert('Refund of ₹27 credited to customer UPI/Wallet!')">Approve Refund</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
@@ -630,14 +668,31 @@
         </div>
     </div>
 
-    <!-- ADD RIDER MODAL -->
+    <!-- ADD NEW PRODUCT MODAL (GOOGLE IMAGE LINK) -->
+    <div class="modal-overlay-lux" id="add-product-modal" onclick="if(event.target.id==='add-product-modal') closeAddProductModal()">
+        <div class="modal-box-lux">
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Add New Product (Google Image Link)</h3>
+            <input type="text" id="new-prod-name" class="form-input-lux" placeholder="Product Name *">
+            <input type="text" id="new-prod-category" class="form-input-lux" placeholder="Category (Dairy, Snacks, Drinks...) *">
+            <input type="text" id="new-prod-unit" class="form-input-lux" placeholder="Unit Size (e.g. 500 ml / 1 kg) *">
+            <input type="number" id="new-prod-price" class="form-input-lux" placeholder="Selling Price (₹) *">
+            <input type="url" id="new-prod-img" class="form-input-lux" placeholder="Google Image URL / Link *">
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+                <button type="button" onclick="closeAddProductModal()" style="height:40px; background:#f1f5f9; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Cancel</button>
+                <button type="button" onclick="saveNewProductCatalog()" style="height:40px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Add Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD RIDER MODAL WITH STRICT VALIDATION -->
     <div class="modal-overlay-lux" id="add-rider-modal" onclick="if(event.target.id==='add-rider-modal') closeAddRiderModal()">
         <div class="modal-box-lux">
             <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Register New Delivery Partner</h3>
             <input type="text" id="new-rider-name" class="form-input-lux" placeholder="Partner Full Name *">
-            <input type="tel" id="new-rider-phone" class="form-input-lux" placeholder="10-Digit Mobile Number *">
+            <input type="tel" id="new-rider-phone" class="form-input-lux" placeholder="10-Digit Mobile Number *" maxlength="10">
             <input type="email" id="new-rider-email" class="form-input-lux" placeholder="Email Address (Login ID) *">
-            <input type="text" id="new-rider-vehicle" class="form-input-lux" placeholder="Vehicle Details (e.g. Hero Splendor)">
+            <input type="text" id="new-rider-vehicle" class="form-input-lux" placeholder="Vehicle Details (e.g. Hero Splendor HR20)">
             
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
                 <button type="button" onclick="closeAddRiderModal()" style="height:40px; background:#f1f5f9; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Cancel</button>
@@ -669,7 +724,7 @@
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
-        // Initialize Sales Chart
+        // Initialize Sales Chart (1-Day Hourly Live Performance)
         const ctx = document.getElementById('salesChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -677,7 +732,7 @@
                 labels: ['08 AM', '10 AM', '12 PM', '02 PM', '04 PM', '06 PM', '08 PM'],
                 datasets: [{
                     label: 'Sales (₹)',
-                    data: [1200, 3400, 5600, 8900, 14200, 18400, 24500],
+                    data: [0, 10, 25, 40, 58, 58, 58],
                     borderColor: '#0c831f',
                     backgroundColor: 'rgba(12, 131, 31, 0.08)',
                     borderWidth: 3,
@@ -704,7 +759,6 @@
                 if (!data.orders || data.orders.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:30px; color:var(--text-sub);">No active orders in queue.</td></tr>`;
                     document.getElementById('stat-orders-count').innerText = "0";
-                    document.getElementById('stat-total-sales').innerText = "₹0.00";
                     return;
                 }
 
@@ -730,7 +784,7 @@
                     tbody.appendChild(tr);
                 });
 
-                document.getElementById('stat-total-sales').innerText = `₹${sumTotal.toLocaleString('en-IN')}`;
+                document.getElementById('stat-total-sales').innerText = `₹${sumTotal}`;
             }).catch(() => {});
         }
 
@@ -742,7 +796,46 @@
         }
         function closeQrModal() { document.getElementById('qr-modal').style.display = 'none'; }
 
-        // Rider Modal Controls
+        // Product Catalog Modal & Add with Google Image Link
+        function openAddProductModal() { document.getElementById('add-product-modal').style.display = 'flex'; }
+        function closeAddProductModal() { document.getElementById('add-product-modal').style.display = 'none'; }
+
+        function saveNewProductCatalog() {
+            const name = document.getElementById('new-prod-name').value.trim();
+            const category = document.getElementById('new-prod-category').value.trim() || 'General';
+            const unit = document.getElementById('new-prod-unit').value.trim() || '1 unit';
+            const price = document.getElementById('new-prod-price').value.trim() || '50';
+            const img = document.getElementById('new-prod-img').value.trim() || 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300';
+
+            if(!name) {
+                alert("Please provide product name.");
+                return;
+            }
+
+            const tbody = document.getElementById('admin-products-tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>#${tbody.rows.length + 10}</td>
+                <td><img src="${img}" style="width:36px; height:36px; object-fit:contain;"></td>
+                <td><strong>${name}</strong></td>
+                <td>${category}</td>
+                <td>${unit}</td>
+                <td style="color:var(--brand-green); font-weight:800;">₹${price}</td>
+                <td><span class="status-pill st-delivered">In Stock</span></td>
+            `;
+            tbody.prepend(tr);
+            closeAddProductModal();
+            alert("New product added successfully to catalog!");
+        }
+
+        // Customer Account Deletion
+        function deleteCustomerRow(btn) {
+            if(confirm("Are you sure you want to permanently delete this customer account?")) {
+                btn.closest('tr').remove();
+            }
+        }
+
+        // Rider Modal Controls & Strict Validation
         function openAddRiderModal() { document.getElementById('add-rider-modal').style.display = 'flex'; }
         function closeAddRiderModal() { document.getElementById('add-rider-modal').style.display = 'none'; }
 
@@ -752,31 +845,41 @@
             const email = document.getElementById('new-rider-email').value.trim();
             const vehicle = document.getElementById('new-rider-vehicle').value.trim() || 'Hero Splendor';
 
-            if(!name || !phone || !email) {
-                alert("Please fill name, phone and email.");
+            if(!name || phone.length !== 10 || !email) {
+                alert("Please fill name, valid 10-digit phone number, and email.");
                 return;
             }
 
+            const pid = `#PID-${Math.floor(100 + Math.random() * 900)}`;
             const tbody = document.getElementById('admin-riders-tbody');
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td><strong>${name}</strong></td>
+                <td><strong>${pid}</strong></td>
+                <td>${name}</td>
                 <td>+91 ${phone}</td>
                 <td>${email}</td>
                 <td>${vehicle}</td>
                 <td><span class="status-pill st-delivered">Online</span></td>
-                <td><button class="btn-danger-sm" onclick="blacklistRider(this)">Blacklist</button></td>
+                <td>
+                    <button class="btn-warning-sm" onclick="blacklistRider(this)">Blacklist</button>
+                    <button class="btn-danger-sm" onclick="deleteRider(this)">Delete</button>
+                </td>
             `;
             tbody.prepend(tr);
             closeAddRiderModal();
-            alert(`Delivery Partner ID created for ${name}! They can now log into Rider App.`);
+            alert(`Delivery Partner ID (${pid}) created for ${name}!`);
         }
 
         function blacklistRider(btn) {
             const row = btn.closest('tr');
-            const statusCell = row.cells[4];
-            statusCell.innerHTML = `<span class="status-pill st-blacklisted">Blacklisted</span>`;
+            row.cells[5].innerHTML = `<span class="status-pill st-blacklisted">Blacklisted</span>`;
             btn.remove();
+        }
+
+        function deleteRider(btn) {
+            if(confirm("Permanently delete this delivery partner?")) {
+                btn.closest('tr').remove();
+            }
         }
 
         window.onload = function() {
