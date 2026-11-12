@@ -59,6 +59,26 @@
             }
         }
 
+        /* Festival Running Headline Ticker */
+        .festival-ticker-wrap {
+            background: linear-gradient(90deg, #e11d48 0%, #0c831f 100%);
+            color: #ffffff;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 6px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .festival-ticker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 24s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
         /* Admin Header */
         .admin-header {
             background: #111827;
@@ -136,7 +156,7 @@
             margin: 16px 0 12px;
         }
 
-        /* Orders Table */
+        /* Tables */
         .admin-table-container {
             width: 100%;
             overflow-x: auto;
@@ -190,6 +210,13 @@
 
     <div class="admin-app-wrapper">
         
+        <!-- RUNNING TICKER HEADLINE -->
+        <div class="festival-ticker-wrap">
+            <div class="festival-ticker">
+                ⚡ ROXEN DARK STORE CONTROL CENTER • Live Area Store Rating: 4.9 ★ (1,420 Customer Reviews) • 10-Minute Instant Dispatch SLA Active • All Delivery Pilots Operating Normally •
+            </div>
+        </div>
+
         <!-- ADMIN HEADER -->
         <header class="admin-header">
             <div class="admin-brand">
@@ -203,23 +230,23 @@
             </div>
         </header>
 
-        <!-- METRICS DASHBOARD -->
+        <!-- METRICS DASHBOARD (Area Rating & Live Orders) -->
         <div class="admin-metrics-grid">
             <div class="metric-card">
-                <div class="metric-lbl">Total Revenue</div>
-                <div class="metric-val" id="metric-revenue">₹14,820</div>
+                <div class="metric-lbl">Area Store Rating</div>
+                <div class="metric-val" style="color:#d97706;">4.9 ★ <span style="font-size:12px; font-weight:700; color:var(--text-sub);">(1.4k+ Reviews)</span></div>
             </div>
             <div class="metric-card">
-                <div class="metric-lbl">Live Orders</div>
-                <div class="metric-val" id="metric-orders-count">8</div>
+                <div class="metric-lbl">Live Orders Queue</div>
+                <div class="metric-val" id="metric-orders-count">0</div>
             </div>
             <div class="metric-card">
-                <div class="metric-lbl">Active Pilots</div>
+                <div class="metric-lbl">Active Pilots Fleet</div>
                 <div class="metric-val">4 Online</div>
             </div>
             <div class="metric-card">
-                <div class="metric-lbl">SLA Delivery Time</div>
-                <div class="metric-val" style="color:#2563eb;">10.4 Mins</div>
+                <div class="metric-lbl">SLA Delivery Speed</div>
+                <div class="metric-val" style="color:#2563eb;">10.2 Mins</div>
             </div>
         </div>
 
@@ -366,6 +393,7 @@
                 
                 if(!data.orders || data.orders.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-sub);">No active orders in dark store queue.</td></tr>`;
+                    document.getElementById('metric-orders-count').innerText = "0";
                     return;
                 }
 
