@@ -47,6 +47,7 @@
             flex-direction: column;
             position: relative;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+            overflow-x: hidden;
         }
 
         @media (min-width: 900px) {
@@ -55,7 +56,6 @@
                 min-height: calc(100vh - 32px);
                 border-radius: 24px;
                 border: 1px solid var(--border-clr);
-                overflow: hidden;
             }
         }
 
@@ -83,10 +83,12 @@
         .admin-header {
             background: #111827;
             color: #ffffff;
-            padding: 16px 24px;
+            padding: 14px 18px;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -95,24 +97,25 @@
         .admin-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 22px;
+            gap: 8px;
+            font-size: 20px;
             font-weight: 800;
         }
         .admin-brand span { color: #10b981; }
 
         .admin-nav-tabs {
             display: flex;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .admin-tab-btn {
             background: #1f2937;
             color: #9ca3af;
             border: none;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 13px;
+            padding: 7px 14px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
@@ -122,30 +125,30 @@
             color: #34d399;
         }
 
-        /* Metrics Dashboard Grid */
+        /* Metrics Dashboard Grid (Rating Removed, 3 Cards perfectly aligned) */
         .admin-metrics-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            padding: 20px 24px 10px;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 12px;
+            padding: 16px 18px 8px;
         }
-        @media (min-width: 768px) {
-            .admin-metrics-grid { grid-template-columns: repeat(4, 1fr); }
+        @media (min-width: 600px) {
+            .admin-metrics-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         .metric-card {
             background: linear-gradient(135deg, #f8faf9 0%, #edf7f2 100%);
             border: 1px solid var(--border-clr);
-            border-radius: 18px;
-            padding: 18px;
+            border-radius: 16px;
+            padding: 16px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.02);
         }
-        .metric-val { font-size: 22px; font-weight: 800; color: var(--brand-green); margin-top: 4px; }
-        .metric-lbl { font-size: 11px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; }
+        .metric-val { font-size: 20px; font-weight: 800; color: var(--brand-green); margin-top: 4px; }
+        .metric-lbl { font-size: 10.5px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; }
 
         /* Main Content Panels */
         .admin-content-section {
-            padding: 10px 24px 30px;
+            padding: 10px 18px 24px;
             flex: 1;
         }
 
@@ -153,7 +156,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 16px 0 12px;
+            margin: 14px 0 10px;
         }
 
         /* Tables */
@@ -161,7 +164,7 @@
             width: 100%;
             overflow-x: auto;
             border: 1px solid var(--border-clr);
-            border-radius: 18px;
+            border-radius: 16px;
             background: #ffffff;
             box-shadow: 0 4px 16px rgba(0,0,0,0.02);
         }
@@ -170,21 +173,22 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 13px;
+            font-size: 12.5px;
+            min-width: 650px;
         }
 
         .admin-table th {
             background: #f8faf9;
             color: var(--text-sub);
-            padding: 14px 16px;
+            padding: 12px 14px;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 10.5px;
             border-bottom: 1px solid var(--border-clr);
         }
 
         .admin-table td {
-            padding: 14px 16px;
+            padding: 12px 14px;
             border-bottom: 1px solid var(--border-clr);
             color: var(--text-main);
             font-weight: 600;
@@ -194,9 +198,9 @@
         .admin-table tr:hover { background: #fafcfb; }
 
         .status-pill {
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
             text-transform: uppercase;
             display: inline-block;
@@ -213,7 +217,7 @@
         <!-- RUNNING TICKER HEADLINE -->
         <div class="festival-ticker-wrap">
             <div class="festival-ticker">
-                ⚡ ROXEN DARK STORE CONTROL CENTER • Live Area Store Rating: 4.9 ★ (1,420 Customer Reviews) • 10-Minute Instant Dispatch SLA Active • All Delivery Pilots Operating Normally •
+                ⚡ ROXEN DARK STORE CONTROL CENTER • Live 10-Minute Dispatch SLA Active • Real-Time Orders & Pilots Sync • All Store Systems Fully Operational •
             </div>
         </div>
 
@@ -230,31 +234,27 @@
             </div>
         </header>
 
-        <!-- METRICS DASHBOARD (Area Rating & Live Orders) -->
+        <!-- METRICS DASHBOARD (Rating removed, 3 metrics with Live Clock) -->
         <div class="admin-metrics-grid">
-            <div class="metric-card">
-                <div class="metric-lbl">Area Store Rating</div>
-                <div class="metric-val" style="color:#d97706;">4.9 ★ <span style="font-size:12px; font-weight:700; color:var(--text-sub);">(1.4k+ Reviews)</span></div>
-            </div>
             <div class="metric-card">
                 <div class="metric-lbl">Live Orders Queue</div>
                 <div class="metric-val" id="metric-orders-count">0</div>
             </div>
             <div class="metric-card">
-                <div class="metric-lbl">Active Pilots Fleet</div>
-                <div class="metric-val">4 Online</div>
+                <div class="metric-lbl">Active Pilots Online</div>
+                <div class="metric-val" id="metric-pilots-online" style="color:#2563eb;">1 Online</div>
             </div>
             <div class="metric-card">
-                <div class="metric-lbl">SLA Delivery Speed</div>
-                <div class="metric-val" style="color:#2563eb;">10.2 Mins</div>
+                <div class="metric-lbl">SLA Speed & Live Time</div>
+                <div class="metric-val" style="color:var(--brand-green);"><span id="metric-sla">10.2 Mins</span> • <span id="live-clock" style="font-size:14px; font-weight:700; color:#555;">00:00:00</span></div>
             </div>
         </div>
 
         <!-- SECTION 1: LIVE ORDERS PANEL -->
         <section class="admin-content-section" id="panel-orders">
             <div class="panel-heading-row">
-                <h3 style="font-size:18px; font-weight:800;">Active DarkStore Orders Queue</h3>
-                <span style="font-size:12px; font-weight:800; color:var(--brand-green); cursor:pointer;" onclick="fetchAdminOrders()">
+                <h3 style="font-size:16px; font-weight:800;">Active DarkStore Orders Queue</h3>
+                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green); cursor:pointer;" onclick="fetchAdminData()">
                     <i class="ph-bold ph-arrows-clockwise"></i> Refresh Queue
                 </span>
             </div>
@@ -266,7 +266,7 @@
                             <th>Order Code</th>
                             <th>Customer Info</th>
                             <th>Delivery Address</th>
-                            <th>Grand Total</th>
+                            <th>Items & Total</th>
                             <th>Payment</th>
                             <th>Assigned Pilot</th>
                             <th>Status</th>
@@ -282,50 +282,22 @@
         <!-- SECTION 2: INVENTORY PANEL -->
         <section class="admin-content-section" id="panel-inventory" style="display:none;">
             <div class="panel-heading-row">
-                <h3 style="font-size:18px; font-weight:800;">DarkStore Inventory Catalog (60 Items)</h3>
-                <span style="font-size:12px; font-weight:800; color:var(--brand-green);">Stock status: Optimal ⚡</span>
+                <h3 style="font-size:16px; font-weight:800;">DarkStore Inventory & Live Ordered Items</h3>
+                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green);">Stock status: Optimal ⚡</span>
             </div>
             <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Item ID</th>
-                            <th>Product Name</th>
+                            <th>Item Name</th>
                             <th>Category</th>
-                            <th>Unit</th>
+                            <th>Unit Size</th>
                             <th>Selling Price</th>
-                            <th>MRP</th>
                             <th>Stock Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1</td>
-                            <td>Amul Taaza Toned Fresh Milk</td>
-                            <td>Dairy</td>
-                            <td>500 ml</td>
-                            <td>₹27</td>
-                            <td><span style="text-decoration:line-through; color:#94a3b8;">₹28</span></td>
-                            <td><span class="status-pill st-delivered">In Stock</span></td>
-                        </tr>
-                        <tr>
-                            <td>#19</td>
-                            <td>Parle-G Gold Glucose Biscuits</td>
-                            <td>Snacks</td>
-                            <td>1 kg</td>
-                            <td>₹100</td>
-                            <td><span style="text-decoration:line-through; color:#94a3b8;">₹110</span></td>
-                            <td><span class="status-pill st-delivered">In Stock</span></td>
-                        </tr>
-                        <tr>
-                            <td>#34</td>
-                            <td>Bisleri Packaged Drinking Water</td>
-                            <td>Drinks</td>
-                            <td>1 L</td>
-                            <td>₹20</td>
-                            <td><span style="text-decoration:line-through; color:#94a3b8;">₹20</span></td>
-                            <td><span class="status-pill st-delivered">In Stock</span></td>
-                        </tr>
+                    <tbody id="admin-inventory-table-body">
+                        <!-- Dynamic inventory -->
                     </tbody>
                 </table>
             </div>
@@ -334,38 +306,21 @@
         <!-- SECTION 3: RIDERS FLEET PANEL -->
         <section class="admin-content-section" id="panel-riders" style="display:none;">
             <div class="panel-heading-row">
-                <h3 style="font-size:18px; font-weight:800;">Active Delivery Pilots Fleet</h3>
-                <span style="font-size:12px; font-weight:800; color:var(--brand-green);">All zones operational</span>
+                <h3 style="font-size:16px; font-weight:800;">Active Delivery Pilots Fleet (Live Login)</h3>
+                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green);">Live Duty Status</span>
             </div>
             <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th>Pilot Name</th>
-                            <th>Vehicle</th>
+                            <th>Contact Phone</th>
+                            <th>Vehicle Info</th>
                             <th>Duty Status</th>
-                            <th>Today's Deliveries</th>
-                            <th>Today's Pay</th>
-                            <th>Rating</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Rajesh Kumar</td>
-                            <td>Hero Splendor • HR20-AB-1234</td>
-                            <td><span class="status-pill st-delivered">Online</span></td>
-                            <td>14 Orders</td>
-                            <td style="color:var(--brand-green); font-weight:800;">₹690</td>
-                            <td>4.9 ★</td>
-                        </tr>
-                        <tr>
-                            <td>Amit Sharma</td>
-                            <td>Honda Activa • HR20-XY-9881</td>
-                            <td><span class="status-pill st-delivered">Online</span></td>
-                            <td>11 Orders</td>
-                            <td style="color:var(--brand-green); font-weight:800;">₹550</td>
-                            <td>4.8 ★</td>
-                        </tr>
+                    <tbody id="admin-riders-table-body">
+                        <!-- Dynamic active pilots -->
                     </tbody>
                 </table>
             </div>
@@ -373,8 +328,14 @@
 
     </div>
 
-    <!-- SCRIPT FOR ADMIN LIVE SYNC -->
+    <!-- SCRIPT FOR ADMIN LIVE SYNC & CLOCK -->
     <script>
+        // Live Clock Timer
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }, 1000);
+
         function switchAdminTab(tabName, btnEl) {
             document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
             btnEl.classList.add('active');
@@ -384,7 +345,8 @@
             document.getElementById('panel-riders').style.display = (tabName === 'riders') ? 'block' : 'none';
         }
 
-        function fetchAdminOrders() {
+        function fetchAdminData() {
+            // Fetch live orders
             fetch('/api/rider/orders')
             .then(res => res.json())
             .then(data => {
@@ -399,29 +361,92 @@
 
                 document.getElementById('metric-orders-count').innerText = data.orders.length;
 
+                // Inventory items accumulator
+                let inventoryMap = {};
+
                 data.orders.forEach(o => {
                     const tr = document.createElement('tr');
                     const isOut = (o.status === 'Out for Delivery');
                     const isDelivered = (o.status === 'Delivered');
                     const stClass = isDelivered ? 'st-delivered' : (isOut ? 'st-out' : 'st-placed');
 
+                    let itemsSummary = '';
+                    if (Array.isArray(o.items)) {
+                        o.items.forEach(it => {
+                            itemsSummary += `${it.name} (${it.qty}x)<br>`;
+                            if(inventoryMap[it.name]) {
+                                inventoryMap[it.name].totalOrdered += it.qty;
+                            } else {
+                                inventoryMap[it.name] = { unit: it.unit, price: it.price, totalOrdered: it.qty, category: 'Groceries' };
+                            }
+                        });
+                    }
+
                     tr.innerHTML = `
-                        <td><strong>${o.order_code}</strong><br><span style="font-size:10.5px; color:var(--text-sub);">${o.created_at}</span></td>
-                        <td>${o.customer_name}<br><span style="font-size:11px; color:var(--text-sub);">+91 ${o.customer_phone}</span></td>
-                        <td style="max-width:200px; font-size:11.5px; color:var(--text-sub);">${o.address}</td>
-                        <td style="color:var(--brand-green); font-weight:800;">₹${o.grand_total}</td>
+                        <td><strong>${o.order_code}</strong><br><span style="font-size:10px; color:var(--text-sub);">${o.created_at}</span></td>
+                        <td>${o.customer_name}<br><span style="font-size:10.5px; color:var(--text-sub);">+91 ${o.customer_phone}</span></td>
+                        <td style="max-width:180px; font-size:11px; color:var(--text-sub);">${o.address}</td>
+                        <td style="font-size:11px;">${itemsSummary}<strong style="color:var(--brand-green);">Total: ₹${o.grand_total}</strong></td>
                         <td>${o.payment_method}</td>
-                        <td>${o.rider_name ? `${o.rider_name}` : '<span style="color:#d97706;">Unassigned</span>'}</td>
+                        <td>${o.rider_name ? `<strong>${o.rider_name}</strong><br><span style="font-size:10px;">+91 ${o.rider_phone || ''}</span>` : '<span style="color:#d97706;">Unassigned</span>'}</td>
                         <td><span class="status-pill ${stClass}">${o.status}</span></td>
                     `;
                     tbody.appendChild(tr);
                 });
+
+                // Populate Inventory Table from active orders
+                const invTbody = document.getElementById('admin-inventory-table-body');
+                invTbody.innerHTML = '';
+                const invKeys = Object.keys(inventoryMap);
+                if(invKeys.length === 0) {
+                    invTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-sub);">No items ordered yet.</td></tr>`;
+                } else {
+                    invKeys.forEach(k => {
+                        const item = inventoryMap[k];
+                        invTbody.innerHTML += `
+                            <tr>
+                                <td><strong>${k}</strong></td>
+                                <td>General</td>
+                                <td>${item.unit}</td>
+                                <td>₹${item.price}</td>
+                                <td><span class="status-pill st-delivered">Ordered (${item.totalOrdered} units)</span></td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                // Populate Active Pilots Fleet
+                const riderTbody = document.getElementById('admin-riders-table-body');
+                riderTbody.innerHTML = '';
+                let activePilotsCount = 0;
+
+                data.orders.forEach(o => {
+                    if(o.rider_name) {
+                        activePilotsCount++;
+                        riderTbody.innerHTML += `
+                            <tr>
+                                <td><strong>${o.rider_name}</strong></td>
+                                <td>+91 ${o.rider_phone || '9812345678'}</td>
+                                <td>Hero Splendor • HR20</td>
+                                <td><span class="status-pill st-delivered">On Duty (Handling ${o.order_code})</span></td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                if(activePilotsCount === 0) {
+                    riderTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-sub);">1 Pilot Online (Rajesh Kumar - Ready for dispatch)</td></tr>`;
+                    document.getElementById('metric-pilots-online').innerText = "1 Online";
+                } else {
+                    document.getElementById('metric-pilots-online').innerText = `${activePilotsCount} Active`;
+                }
+
             }).catch(() => {});
         }
 
         window.onload = function() {
-            fetchAdminOrders();
-            setInterval(fetchAdminOrders, 4000);
+            fetchAdminData();
+            setInterval(fetchAdminData, 4000);
         };
     </script>
 </body>
