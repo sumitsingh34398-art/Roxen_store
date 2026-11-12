@@ -360,7 +360,7 @@
             cursor: pointer;
         }
 
-        /* Celebration Balloons Box */
+        /* Celebration Balloons & Floating +₹50 Coin Popup */
         .celebration-balloons-box {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -390,12 +390,41 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
         }
+
+        /* Floating +₹50 Coin Animation Badge */
+        .coin-popup-badge {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.5);
+            border: 3px solid #fef3c7;
+            z-index: 10000;
+            opacity: 0;
+            display: none;
+            animation: coinPopUp 1.8s ease-out forwards;
+        }
+        @keyframes coinPopUp {
+            0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+            30% { transform: translate(-50%, -60%) scale(1.1); opacity: 1; }
+            70% { transform: translate(-50%, -75%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -100%) scale(0.9); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- CELEBRATION BALLOONS ON DELIVERY -->
+    <!-- CELEBRATION BALLOONS -->
     <div class="celebration-balloons-box" id="balloons-container"></div>
+    
+    <!-- FLOATING +₹50 COIN BADGE -->
+    <div class="coin-popup-badge" id="coin-badge">+₹50 Earning! 🪙</div>
 
     <!-- UNIVERSAL FAST PILOT LOGIN -->
     <div class="pilot-login-overlay" id="pilot-login-screen">
@@ -406,7 +435,7 @@
             <h2 style="font-size:22px; font-weight:800;">Roxen Pilot Partner</h2>
             <p style="font-size:12px; color:#9ca3af; margin:4px 0 16px;">Enter Partner ID or Mobile Number to start duty</p>
 
-            <input type="text" id="pilot-id-input" class="login-input" placeholder="Enter Partner Name (e.g. Rajesh Kumar)" value="Rajesh Kumar">
+            <input type="text" id="pilot-id-input" class="login-input" placeholder="Enter Pilot Name (e.g. Rajesh Kumar)" value="Rajesh Kumar">
             <input type="tel" id="pilot-phone-input" class="login-input" placeholder="Enter 10-Digit Mobile Number" value="9812345678" maxlength="10">
             <button class="btn-pilot-login" onclick="loginPilotPartner()">Start Pilot Duty →</button>
         </div>
@@ -494,6 +523,28 @@
 
         let currentPay = parseInt(localStorage.getItem('roxen_pilot_pay')) || 640;
         let deliveredCount = parseInt(localStorage.getItem('roxen_pilot_count')) || 14;
+
+        // Web Audio API Sound Chime (Paytm / Cash Sound Effect)
+        function playCashSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 note
+                
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch(e) {}
+        }
 
         function updateEarningsDisplay() {
             document.getElementById('disp-today-pay').innerText = `₹${currentPay}`;
@@ -628,7 +679,6 @@
 
         function handleOrderAction(orderId, currentStatus) {
             if(currentStatus === 'Placed') {
-                // Submit Rider Name & Phone when clicking Pickup Bag & Start
                 fetch('/api/rider/update-status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -656,7 +706,17 @@
             document.getElementById('otp-modal').style.display = 'none';
         }
 
+        // Launch Celebration Balloons & +₹50 Coin Animation with Sound
         function launchRiderDeliveryBalloons() {
+            // Play cash sound chime
+            playCashSound();
+
+            // Show floating +₹50 Coin Badge
+            const coinBadge = document.getElementById('coin-badge');
+            coinBadge.style.display = 'block';
+            setTimeout(() => { coinBadge.style.display = 'none'; }, 1800);
+
+            // Launch Balloons
             const box = document.getElementById('balloons-container');
             box.innerHTML = '';
             box.style.display = 'block';
@@ -718,7 +778,7 @@
                     launchRiderDeliveryBalloons();
                     fetchRiderOrders();
                 } else {
-                    alert(data.error || "Incorrect OTP! Please check with customer.");
+                    alert(data.error || "Incorrect OTP! Check with customer.");
                 }
             })
             .catch(() => {
