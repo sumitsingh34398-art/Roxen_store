@@ -581,19 +581,55 @@
         }
         .center-modal-box {
             width: 100%;
-            max-width: 490px;
+            max-width: 440px;
             background: var(--card-bg);
             border-radius: 24px;
-            padding: 22px;
+            padding: 24px;
             max-height: 88vh;
             overflow-y: auto;
             position: relative;
             animation: zoomPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
         }
 
         @keyframes zoomPop {
             from { transform: scale(0.92); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Luxury Confetti / Sparkle Success Icon Box */
+        .success-tick-container {
+            position: relative;
+            width: 84px;
+            height: 84px;
+            background: #0c831f;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 38px;
+            box-shadow: 0 8px 25px rgba(12, 131, 31, 0.3);
+        }
+        /* Sparkle/Confetti Rays Animation around Tick */
+        .sparkle-ray {
+            position: absolute;
+            width: 8px;
+            height: 22px;
+            border-radius: 4px;
+            animation: sparkPop 0.6s ease-out forwards;
+        }
+        .sparkle-ray:nth-child(1) { background: #f59e0b; top: -14px; left: 38px; transform: rotate(15deg); }
+        .sparkle-ray:nth-child(2) { background: #10b981; top: 10px; right: -14px; transform: rotate(75deg); }
+        .sparkle-ray:nth-child(3) { background: #e11d48; bottom: 2px; right: -10px; transform: rotate(120deg); }
+        .sparkle-ray:nth-child(4) { background: #3b82f6; bottom: -14px; left: 38px; transform: rotate(190deg); }
+        .sparkle-ray:nth-child(5) { background: #eab308; top: 12px; left: -14px; transform: rotate(-65deg); }
+
+        @keyframes sparkPop {
+            0% { transform: scale(0.4); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* Product Detail Bottom Sheet */
@@ -620,6 +656,7 @@
             overflow-y: auto;
             position: relative;
             animation: slideUp 0.25s ease-out;
+            text-align: left;
         }
         @media (min-width: 600px) { .prod-modal-card { border-radius: 24px; } }
 
@@ -715,6 +752,7 @@
             animation: slideLeft 0.25s ease-out;
             overflow-y: auto;
             transition: transform 0.2s ease-out;
+            text-align: left;
         }
         body.dark-theme .drawer-box { background: #0f172a; }
 
@@ -862,7 +900,7 @@
             transform: scale(1);
         }
 
-        /* 🟢 SLIDE-TO-CONFIRM GESTURE CONFIRMATION SLIDER */
+        /* 🟢 SLIDE-TO-CONFIRM GESTURE CONFIRMATION SLIDER (Fully Fixed & Smooth) */
         .slide-confirm-container {
             position: relative;
             width: 100%;
@@ -902,7 +940,7 @@
             font-size: 20px;
             cursor: pointer;
             z-index: 2;
-            transition: transform 0.1s ease;
+            transition: transform 0.05s linear;
             box-shadow: 0 4px 12px rgba(12, 131, 31, 0.3);
         }
 
@@ -916,6 +954,7 @@
             cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            text-align: left;
         }
         body.dark-theme .luxury-order-card { background: #1e293b; }
         .luxury-order-card:hover {
@@ -1047,6 +1086,7 @@
             padding: 16px;
             width: 100%;
             max-width: 320px;
+            text-align: left;
         }
         .sort-option-row {
             padding: 12px 14px;
@@ -1228,11 +1268,11 @@
 
         <!-- VIEW 3: SETTINGS VIEW -->
         <section id="settings-view">
-            <div class="settings-header-title">
+            <div class="settings-header-title" style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
                 <div style="width:38px; height:38px; background:#dcfce7; color:var(--brand-green); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px;">
                     <i class="ph-bold ph-sliders"></i>
                 </div>
-                <h3>Account & Settings</h3>
+                <h3 style="font-size:18px; font-weight:800;">Account & Settings</h3>
             </div>
 
             <div class="profile-verified-card">
@@ -1634,7 +1674,7 @@
                     </div>
                 </div>
 
-                <!-- 🟢 SLIDE-TO-CONFIRM GESTURE SLIDER -->
+                <!-- 🟢 FULLY FIXED SLIDE-TO-CONFIRM GESTURE SLIDER -->
                 <div style="margin-top:auto; padding:16px; background:var(--card-bg); border-top:1px solid var(--border-clr);">
                     <div class="slide-confirm-container" id="slide-container">
                         <div class="slide-confirm-text" id="slide-text">SLIDE TO PLACE ORDER →</div>
@@ -1700,10 +1740,10 @@
                     </div>
                 </div>
 
-                <p style="font-size:11.5px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">ORDERED GROCERIES</p>
-                <div id="track-items-list" style="margin-bottom:14px; max-height:160px; overflow-y:auto;"></div>
+                <p style="font-size:11.5px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px; text-align:left;">ORDERED GROCERIES</p>
+                <div id="track-items-list" style="margin-bottom:14px; max-height:160px; overflow-y:auto; text-align:left;"></div>
 
-                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:12px; font-size:12px;">
+                <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:12px; font-size:12px; text-align:left;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Delivered to:</span>
                         <strong style="max-width:240px; text-align:right;" id="track-delivery-address">Hisar Sector 14</strong>
@@ -1763,7 +1803,7 @@
                     </span>
                 </div>
 
-                <div style="border-top:1px solid var(--border-clr); padding-top:12px; font-size:12.5px;">
+                <div style="border-top:1px solid var(--border-clr); padding-top:12px; font-size:12.5px; text-align:left;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                         <span style="color:var(--text-sub);">Registered Email:</span>
                         <strong id="view-prof-email">{{ user.email if user and user.email else 'sumitsingh34398@gmail.com' }}</strong>
@@ -1788,7 +1828,7 @@
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeEditProfileModal()"></i>
                 </div>
 
-                <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px;">
+                <div style="background:#f4f7f5; border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px; text-align:left;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Current Name:</span>
                         <strong id="disp-prev-name">{{ user.name if user and user.name else 'Sumit Singh' }}</strong>
@@ -1803,12 +1843,14 @@
                     </div>
                 </div>
 
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
-                <input type="text" id="prof-name-input" value="{{ user.name if user and user.name else '' }}" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
-                <input type="text" id="prof-phone-input" value="{{ user.phone if user and user.phone else '' }}" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
-                <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
-                <input type="email" id="prof-email-input" value="{{ user.email if user and user.email else '' }}" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                <div style="text-align:left;">
+                    <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW FULL NAME</label>
+                    <input type="text" id="prof-name-input" value="{{ user.name if user and user.name else '' }}" placeholder="Enter updated name" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                    <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW MOBILE NUMBER</label>
+                    <input type="text" id="prof-phone-input" value="{{ user.phone if user and user.phone else '' }}" placeholder="Enter 10 digits" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 10px;">
+                    <label style="font-size:11px; font-weight:800; color:var(--text-sub);">NEW EMAIL ADDRESS</label>
+                    <input type="email" id="prof-email-input" value="{{ user.email if user and user.email else '' }}" placeholder="Enter new email" style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:13px; margin:4px 0 14px;">
+                </div>
                 
                 <button onclick="saveProfileDataBackend()" id="btn-save-profile" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
                     Save Profile Changes Permanently
@@ -1828,7 +1870,7 @@
                     <i class="ph-fill ph-navigation-arrow"></i> Fetch Exact Live GPS Location
                 </button>
 
-                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">Saved Address Slots</p>
+                <p style="font-size:11px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px; text-align:left;">Saved Address Slots</p>
                 
                 <div class="settings-row-item" id="slot-1" onclick="selectAddressSlot(1)" style="border:1.5px solid var(--brand-green); border-radius:12px; margin-bottom:8px;">
                     <div style="min-width:0; flex:1; margin-right:10px;">
@@ -1860,7 +1902,7 @@
                     <h3 style="font-size:17px; font-weight:800;">Instant 100% Refund Claim</h3>
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeRefundModal()"></i>
                 </div>
-                <p style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:12px;">
+                <p style="font-size:12px; color:var(--text-sub); line-height:1.4; margin-bottom:12px; text-align:left;">
                     Upload photo of broken seal or wrong item. Amount will be credited to UPI/Wallet in 5 mins.
                 </p>
 
@@ -1870,32 +1912,33 @@
                 </div>
                 <input type="file" id="proof-photo-file" accept="image/*" style="display:none;" onchange="handleProofUploaded(this)">
 
-                <input type="text" placeholder="Reason (e.g. Leaking milk packet)..." style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px;">
+                <input type="text" placeholder="Reason (e.g. Leaking milk packet)..." style="width:100%; height:40px; border:1.5px solid var(--border-clr); border-radius:10px; padding:0 12px; font-size:12.5px; margin-bottom:12px; outline:none;">
                 <button onclick="submitRefundClaim()" style="width:100%; height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">
                     Submit Claim for Review
                 </button>
             </div>
         </div>
 
-        <!-- ORDER SUCCESS POPUP -->
+        <!-- 🌟 LUXURY ORDER SUCCESS POPUP (Reference Photo 2 Style with Confetti Sparkle Rays) -->
         <div class="center-modal-overlay" id="order-success-modal" onclick="closeOnOverlay(event, 'order-success-modal')">
-            <div class="center-modal-box" style="text-align:center;">
-                <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
+            <div class="center-modal-box">
+                <div class="success-tick-container">
+                    <div class="sparkle-ray"></div>
+                    <div class="sparkle-ray"></div>
+                    <div class="sparkle-ray"></div>
+                    <div class="sparkle-ray"></div>
+                    <div class="sparkle-ray"></div>
                     <i class="ph-bold ph-check"></i>
                 </div>
-                <h3 style="font-size:21px; font-weight:800; color:#0d5c3a;">Order Placed & QR Generated!</h3>
-                <p style="font-size:12.5px; color:var(--text-sub); margin:4px 0 20px;">
-                    Your order has been sent to Admin Dark Store dashboard with unique QR code verification.
+
+                <h3 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:6px;">Order Confirmed!</h3>
+                <p style="font-size:13px; color:var(--text-sub); margin-bottom:22px; line-height:1.4;">
+                    Your order has been placed successfully and sent to Dark Store admin dashboard.
                 </p>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <button onclick="dismissOrderSuccess()" style="height:46px; background:#ffffff; border:1.5px solid var(--border-clr); color:var(--text-main); font-weight:800; border-radius:12px; cursor:pointer;">
-                        Continue Shopping
-                    </button>
-                    <button onclick="continueToMyOrdersFromSuccess()" style="height:46px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <i class="ph-fill ph-package"></i> Check Order Details
-                    </button>
-                </div>
+                <button onclick="continueToMyOrdersFromSuccess()" style="width:100%; height:50px; background:#e8f7ee; color:var(--brand-green); border:1.5px solid #bbf7d0; border-radius:14px; font-weight:800; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 14px rgba(12,131,31,0.1); transition:transform 0.15s;">
+                    <span>View Order Details</span> <i class="ph-bold ph-arrow-right"></i>
+                </button>
             </div>
         </div>
 
@@ -2205,7 +2248,7 @@
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
 
         // ========================================================
-        // 📱 EDGE-SWIPE & GESTURE TOUCH HANDLERS (Go Back / Close)
+        // 📱 EDGE-SWIPE & GESTURE TOUCH HANDLERS FOR DRAWER
         // ========================================================
         function initEdgeSwipeGestures() {
             const drawer = document.getElementById('cart-drawer');
@@ -2222,7 +2265,6 @@
             drawer.addEventListener('touchmove', (e) => {
                 touchCurrentX = e.touches[0].clientX;
                 let diff = touchCurrentX - touchStartX;
-                // Swipe right to close drawer
                 if(diff > 0) {
                     drawerBox.style.transform = `translateX(${diff}px)`;
                 }
@@ -2467,7 +2509,7 @@
         }
 
         // ========================================================
-        // 🟢 GESTURE SLIDE-TO-CONFIRM LOGIC FOR CHECKOUT
+        // 🟢 FULLY ROBUST & SMOOTH SLIDE-TO-CONFIRM GESTURE SLIDER
         // ========================================================
         function initSlideConfirm() {
             const container = document.getElementById('slide-container');
@@ -2478,24 +2520,26 @@
 
             let isDragging = false;
             let startX = 0;
-            let maxSlide = container.clientWidth - thumb.clientWidth - 8;
 
             function startDrag(e) {
                 isDragging = true;
                 startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+                e.preventDefault();
             }
 
             function onDrag(e) {
                 if (!isDragging) return;
                 let clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
                 let diff = clientX - startX;
+                let maxSlide = container.clientWidth - thumb.clientWidth - 8;
+
                 if (diff < 0) diff = 0;
                 if (diff > maxSlide) diff = maxSlide;
 
                 thumb.style.transform = `translateX(${diff}px)`;
                 text.style.opacity = 1 - (diff / maxSlide);
 
-                if (diff >= maxSlide - 10) {
+                if (diff >= maxSlide - 6) {
                     isDragging = false;
                     triggerOrderSuccess();
                     resetSlider();
@@ -2517,13 +2561,13 @@
             window.addEventListener('mousemove', onDrag);
             window.addEventListener('mouseup', stopDrag);
 
-            thumb.addEventListener('touchstart', startDrag);
-            window.addEventListener('touchmove', onDrag);
+            thumb.addEventListener('touchstart', startDrag, {passive: false});
+            window.addEventListener('touchmove', onDrag, {passive: false});
             window.addEventListener('touchend', stopDrag);
         }
 
         // ========================================================
-        // 🚀 CREATE REAL ORDER & SYNC WITH ADMIN PANEL (QR CODE)
+        // 🚀 CREATE REAL ORDER & TRIGGER LUXURY SUCCESS POPUP
         // ========================================================
         function triggerOrderSuccess() {
             let totalCount = 0;
@@ -2590,11 +2634,6 @@
             .catch(() => {
                 alert("Connection failed while creating order.");
             });
-        }
-
-        function dismissOrderSuccess() {
-            document.getElementById('order-success-modal').style.display = 'none';
-            showTab('home');
         }
 
         function continueToMyOrdersFromSuccess() {
