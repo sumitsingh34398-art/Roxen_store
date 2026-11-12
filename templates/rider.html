@@ -406,7 +406,8 @@
             <h2 style="font-size:22px; font-weight:800;">Roxen Pilot Partner</h2>
             <p style="font-size:12px; color:#9ca3af; margin:4px 0 16px;">Enter Partner ID or Mobile Number to start duty</p>
 
-            <input type="text" id="pilot-id-input" class="login-input" placeholder="e.g. BLINKIT-101 / RX-PILOT / Phone" value="RX-PILOT-981">
+            <input type="text" id="pilot-id-input" class="login-input" placeholder="Enter Partner Name (e.g. Rajesh Kumar)" value="Rajesh Kumar">
+            <input type="tel" id="pilot-phone-input" class="login-input" placeholder="Enter 10-Digit Mobile Number" value="9812345678" maxlength="10">
             <button class="btn-pilot-login" onclick="loginPilotPartner()">Start Pilot Duty →</button>
         </div>
     </div>
@@ -432,7 +433,7 @@
             </div>
         </header>
 
-        <!-- LIVE DYNAMIC EARNINGS DASHBOARD (+₹50 & +1 Order Increments) -->
+        <!-- LIVE DYNAMIC EARNINGS DASHBOARD -->
         <div class="earnings-dashboard-card">
             <div>
                 <div class="earn-val" id="disp-today-pay">₹640</div>
@@ -488,9 +489,9 @@
     <script>
         let isDutyOnline = true;
         let activeVerifyOrderId = null;
-        let currentPilotId = "RX-PILOT-981";
+        let currentPilotName = "Rajesh Kumar";
+        let currentPilotPhone = "9812345678";
 
-        // Persistent Earnings State (LocalStorage Sync)
         let currentPay = parseInt(localStorage.getItem('roxen_pilot_pay')) || 640;
         let deliveredCount = parseInt(localStorage.getItem('roxen_pilot_count')) || 14;
 
@@ -500,15 +501,18 @@
         }
 
         function loginPilotPartner() {
-            const input = document.getElementById('pilot-id-input').value.trim();
-            if(!input) {
-                alert("Please enter a Partner ID or Phone Number.");
+            const nameInput = document.getElementById('pilot-id-input').value.trim();
+            const phoneInput = document.getElementById('pilot-phone-input').value.trim();
+            if(!nameInput || !phoneInput) {
+                alert("Please enter pilot name and phone number.");
                 return;
             }
 
-            currentPilotId = input;
-            document.getElementById('disp-pilot-name').innerText = `Pilot (${input})`;
-            document.getElementById('disp-pilot-avatar').innerText = input.substring(0,2).toUpperCase();
+            currentPilotName = nameInput;
+            currentPilotPhone = phoneInput;
+
+            document.getElementById('disp-pilot-name').innerText = `${nameInput}`;
+            document.getElementById('disp-pilot-avatar').innerText = nameInput.substring(0,2).toUpperCase();
             document.getElementById('pilot-login-screen').style.display = 'none';
 
             updateEarningsDisplay();
@@ -537,7 +541,6 @@
             }
         }
 
-        // Fetch Live Orders: Real Customer Name, Real Phone, and Items Breakdown
         function fetchRiderOrders() {
             if(!isDutyOnline) return;
 
@@ -567,7 +570,6 @@
                     const actText = isOut ? 'Deliver (Enter OTP)' : 'Pickup Bag & Start';
                     const cleanPhone = (o.customer_phone || '').replace(/[^0-9]/g, '');
 
-                    // Render ordered items breakdown with images
                     let itemsHtml = '';
                     if (Array.isArray(o.items) && o.items.length > 0) {
                         itemsHtml += '<div class="rider-items-list">';
@@ -594,7 +596,6 @@
                             <span class="status-chip ${badgeClass}">${o.status}</span>
                         </div>
 
-                        <!-- Real Customer Details & Real Address -->
                         <div class="order-address-box">
                             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                                 <strong style="color:var(--text-main); font-size:13px;">${o.customer_name}</strong>
@@ -608,13 +609,11 @@
                         ${itemsHtml}
 
                         <div class="action-btn-row">
-                            <!-- Real Entered Customer Phone Dial Link -->
                             <a href="tel:${cleanPhone}" class="btn-call-cust">
                                 <i class="ph-bold ph-phone" style="color:var(--brand-green);"></i> Call (${cleanPhone || 'Customer'})
                             </a>
 
-                            <!-- Order Action Button -->
-                            <button class="btn-status-act" onclick="handleOrderAction(${o.id}, '${o.status}', '${o.order_code}')">
+                            <button class="btn-status-act" onclick="handleOrderAction(${o.id}, '${o.status}')">
                                 <i class="ph-bold ${isOut ? 'ph-key' : 'ph-navigation-arrow'}"></i> ${actText}
                             </button>
                         </div>
@@ -627,13 +626,18 @@
             });
         }
 
-        // Handle Rider Stage Transitions
-        function handleOrderAction(orderId, currentStatus, orderCode) {
+        function handleOrderAction(orderId, currentStatus) {
             if(currentStatus === 'Placed') {
+                // Submit Rider Name & Phone when clicking Pickup Bag & Start
                 fetch('/api/rider/update-status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ order_id: orderId, status: 'Out for Delivery' })
+                    body: JSON.stringify({ 
+                        order_id: orderId, 
+                        status: 'Out for Delivery',
+                        rider_name: currentPilotName,
+                        rider_phone: currentPilotPhone
+                    })
                 })
                 .then(res => res.json())
                 .then(data => {
@@ -652,7 +656,6 @@
             document.getElementById('otp-modal').style.display = 'none';
         }
 
-        // Launch Celebration Balloons on Order Drop
         function launchRiderDeliveryBalloons() {
             const box = document.getElementById('balloons-container');
             box.innerHTML = '';
@@ -677,7 +680,6 @@
             setTimeout(() => { box.style.display = 'none'; }, 4500);
         }
 
-        // Submit 4-digit Customer Delivery OTP & Increment Earnings (+₹50 and +1 Order)
         function submitVerifyOtp() {
             const entered = document.getElementById('input-customer-otp').value.trim();
             const btn = document.getElementById('btn-verify-otp');
@@ -707,7 +709,6 @@
                 if(data.success) {
                     closeOtpModal();
 
-                    // Increment Payout by ₹50 & Delivered Count by +1
                     currentPay += 50;
                     deliveredCount += 1;
                     localStorage.setItem('roxen_pilot_pay', currentPay);
@@ -727,7 +728,6 @@
             });
         }
 
-        // Auto Poll every 4 seconds
         setInterval(() => {
             if(isDutyOnline && document.getElementById('pilot-login-screen').style.display === 'none') {
                 fetchRiderOrders();
