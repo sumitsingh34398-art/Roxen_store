@@ -24,8 +24,60 @@
             justify-content: center;
             align-items: center;
             padding: 12px;
+            overflow: hidden;
         }
 
+        /* Blinkit-Style Professional Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #ffffff;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .splash-logo-box {
+            width: 80px;
+            height: 80px;
+            background: #e8f7ee;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #0c831f;
+            box-shadow: 0 10px 25px rgba(12, 131, 31, 0.15);
+            animation: bounceLogo 1.2s infinite alternate;
+        }
+        @keyframes bounceLogo {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+        .splash-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 14px;
+            letter-spacing: -0.5px;
+        }
+        .splash-title .red { color: #e11d48; }
+        .splash-title .green { color: #0c831f; }
+        .splash-sub {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #8b9891;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Main Auth Card */
         .auth-card {
             width: 100%;
             max-width: 410px;
@@ -38,6 +90,12 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease forwards 2.5s;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 440px) {
@@ -101,11 +159,12 @@
             color: #0c831f;
         }
         .brand-info h2 {
-            font-size: 19px;
+            font-size: 20px;
             font-weight: 800;
-            color: #0c831f;
             line-height: 1;
         }
+        .brand-info h2 .red { color: #e11d48; }
+        .brand-info h2 .green { color: #0c831f; }
         .brand-info p {
             font-size: 9px;
             font-weight: 800;
@@ -291,6 +350,17 @@
 </head>
 <body>
 
+    <!-- BLINKIT STYLE SPLASH LOADING SCREEN -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo-box">
+            <i class="ph-fill ph-leaf"></i>
+        </div>
+        <div class="splash-title">
+            <span class="red">Rox</span><span class="green">en</span>
+        </div>
+        <p class="splash-sub">Groceries in 10 Minutes</p>
+    </div>
+
     <div class="auth-card">
         <div id="toast" class="toast-notify">
             <i id="toast-icon" class="ph-fill ph-check-circle" style="font-size:16px;"></i>
@@ -301,7 +371,7 @@
             <div class="brand-header">
                 <div class="brand-logo"><i class="ph-fill ph-leaf"></i></div>
                 <div class="brand-info">
-                    <h2>Roxen</h2>
+                    <h2><span class="red">Rox</span><span class="green">en</span></h2>
                     <p>GROCERIES IN 10 MINUTES</p>
                 </div>
             </div>
@@ -413,6 +483,16 @@
     </div>
 
     <script>
+        // Automatic Splash Screen Dismissal after 2.5 seconds
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                if(splash) {
+                    splash.classList.add('fade-out');
+                }
+            }, 2500);
+        });
+
         function showToast(text, type='success') {
             const toast = document.getElementById('toast');
             const toastText = document.getElementById('toast-text');
@@ -533,59 +613,52 @@
         function verifyOtpAndRegister() {
             let enteredOtp = '';
             document.querySelectorAll('.otp-input').forEach(i => enteredOtp += i.value);
-
             const password = document.getElementById('reg-pass').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
-            const mobile = document.getElementById('reg-mobile').value.trim();
             const fullname = document.getElementById('reg-fullname').value.trim();
+            const mobile = document.getElementById('reg-mobile').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
             const btn = document.getElementById('btn-verify-otp');
 
             btn.setAttribute('disabled', 'true');
-            btn.innerHTML = `Creating Account... <i class="ph-bold ph-spinner ph-spin"></i>`;
+            btn.innerHTML = `Verifying... <i class="ph-bold ph-spinner ph-spin"></i>`;
 
             fetch('/api/verify-register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    otp: enteredOtp,
+                    password: password,
                     fullname: fullname,
                     mobile: mobile,
-                    email: email,
-                    otp: enteredOtp,
-                    password: password
+                    email: email
                 })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showToast("Account created! Please sign in now.", "success");
-                    setTimeout(() => {
-                        switchTab('signin');
-                        document.getElementById('login-identifier').value = email || mobile;
-                        document.getElementById('login-pass').focus();
-                        btn.removeAttribute('disabled');
-                        btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
-                    }, 1200);
+                    showToast("Account created successfully! Redirecting...", "success");
+                    setTimeout(() => { window.location.href = '/home'; }, 1200);
                 } else {
-                    showToast(data.error || "Invalid OTP code. Try again.", "error");
+                    showToast(data.error || "Invalid OTP code", "error");
                     btn.removeAttribute('disabled');
                     btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
                 }
             })
             .catch(() => {
-                showToast("Server error during verification.", "error");
+                showToast("Server connection error.", "error");
                 btn.removeAttribute('disabled');
                 btn.innerHTML = `<span>Verify & Create Account</span> <i class="ph-bold ph-check-circle"></i>`;
             });
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
+        function handleLogin(event) {
+            event.preventDefault();
             const identifier = document.getElementById('login-identifier').value.trim();
             const password = document.getElementById('login-pass').value.trim();
             const btn = document.getElementById('btn-login');
 
             btn.setAttribute('disabled', 'true');
-            btn.innerHTML = `Signing In... <i class="ph-bold ph-spinner ph-spin"></i>`;
+            btn.innerHTML = `Signing in... <i class="ph-bold ph-spinner ph-spin"></i>`;
 
             fetch('/api/login', {
                 method: 'POST',
@@ -595,16 +668,16 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showToast("Login successful! Redirecting...", "success");
-                    setTimeout(() => { window.location.href = data.redirect; }, 800);
+                    showToast("Login successful!", "success");
+                    setTimeout(() => { window.location.href = data.redirect || '/home'; }, 800);
                 } else {
-                    showToast(data.error || "Invalid mobile/email or password.", "error");
+                    showToast(data.error || "Invalid credentials", "error");
                     btn.removeAttribute('disabled');
                     btn.innerHTML = `<span>Sign In Securely</span> <i class="ph-bold ph-arrow-right"></i>`;
                 }
             })
             .catch(() => {
-                showToast("Connection error. Try again.", "error");
+                showToast("Connection error.", "error");
                 btn.removeAttribute('disabled');
                 btn.innerHTML = `<span>Sign In Securely</span> <i class="ph-bold ph-arrow-right"></i>`;
             });
