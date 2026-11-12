@@ -7,7 +7,6 @@
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         * {
@@ -20,15 +19,12 @@
 
         :root {
             --brand-green: #0c831f;
-            --brand-dark: #075214;
-            --brand-light: #e8f7ee;
-            --brand-amber: #f59e0b;
             --brand-red: #e11d48;
-            --bg-page: #f4f6f5;
+            --bg-page: #f8faf9;
             --card-bg: #ffffff;
             --text-main: #18231e;
             --text-sub: #64736c;
-            --border-clr: #e2e8e5;
+            --border-clr: #e9efe9;
         }
 
         body {
@@ -39,764 +35,288 @@
             justify-content: center;
         }
 
-        .pilot-app-wrapper {
+        .rider-app-wrapper {
             width: 100%;
-            max-width: 520px;
-            background: #ffffff;
+            max-width: 480px;
+            background: var(--card-bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
-            padding-bottom: 70px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.06);
         }
 
-        @media (min-width: 768px) {
-            .pilot-app-wrapper {
-                margin: 20px auto;
-                min-height: calc(100vh - 40px);
-                border-radius: 26px;
-                border: 1px solid var(--border-clr);
-                overflow: hidden;
-            }
+        /* Login Gateway */
+        .rider-auth-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px;
         }
 
-        /* Pilot Header */
-        .pilot-header {
-            background: #111827;
+        /* Top Header */
+        .rider-header {
+            background: #0f172a;
             color: #ffffff;
-            padding: 16px 18px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .pilot-top-meta {
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
+        .rider-brand { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+        .logo-red { color: var(--brand-red); }
+        .logo-green { color: #10b981; }
 
-        .pilot-profile-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .pilot-avatar {
-            width: 44px;
-            height: 44px;
-            background: var(--brand-green);
-            color: #fff;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        /* Duty Online/Offline Switch */
-        .duty-toggle-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #1f2937;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-        .duty-toggle-box.online {
+        .duty-badge {
             background: #064e3b;
+            color: #34d399;
             border: 1px solid #059669;
-        }
-        .duty-status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ef4444;
-            transition: all 0.25s;
-        }
-        .duty-toggle-box.online .duty-status-dot {
-            background: #10b981;
-            box-shadow: 0 0 10px #10b981;
-        }
-
-        /* Earnings Dashboard Card */
-        .earnings-dashboard-card {
-            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            border-radius: 20px;
-            margin: 14px 16px;
-            padding: 18px 20px;
-            color: #ffffff;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            text-align: center;
-            border: 1px solid #374151;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-        .earn-val {
-            font-size: 20px;
+            font-size: 11px;
             font-weight: 800;
-            color: #4ade80;
-            transition: transform 0.3s;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .earn-lbl { font-size: 10.5px; color: #9ca3af; text-transform: uppercase; margin-top: 3px; font-weight: 700; }
 
-        /* Orders Feed */
-        .orders-feed-container {
-            padding: 8px 16px;
+        .rider-body {
+            padding: 18px;
             flex: 1;
+            overflow-y: auto;
         }
 
-        .rider-order-card {
+        /* Scan QR Action Box */
+        .scan-action-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px dashed var(--brand-green);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .scan-action-box i { font-size: 48px; color: var(--brand-green); margin-bottom: 8px; }
+
+        /* Order Card */
+        .pilot-order-card {
             background: #ffffff;
             border: 1.5px solid var(--border-clr);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 16px;
             margin-bottom: 14px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.03);
-            transition: all 0.25s;
-            position: relative;
-        }
-        .rider-order-card:hover {
-            border-color: var(--brand-green);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(12, 131, 31, 0.1);
         }
 
-        .order-badge-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .status-chip {
-            padding: 3px 10px;
+        .form-input-lux {
+            width: 100%;
+            height: 46px;
+            border: 1.5px solid var(--border-clr);
             border-radius: 12px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
+            padding: 0 14px;
+            font-size: 13.5px;
+            outline: none;
+            margin-bottom: 12px;
         }
-        .st-placed { background: #fef3c7; color: #b45309; }
-        .st-out { background: #dbeafe; color: #1e40af; }
+        .form-input-lux:focus { border-color: var(--brand-green); }
 
-        .order-address-box {
-            background: #f8faf9;
-            border-radius: 14px;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 12px;
-            border: 1px solid #edf1ee;
-        }
-
-        /* Order Items in Rider Card */
-        .rider-items-list {
-            background: #ffffff;
-            border: 1px dashed var(--border-clr);
-            border-radius: 12px;
-            padding: 8px 12px;
-            margin: 8px 0;
-            max-height: 140px;
-            overflow-y: auto;
-        }
-        .rider-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #f8faf9;
-            font-size: 11.5px;
-        }
-        .rider-item-row:last-child { border-bottom: none; }
-        .rider-item-row img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-            border-radius: 6px;
-            background: #fafcfb;
-            border: 1px solid #edf1ee;
-        }
-
-        .action-btn-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .btn-call-cust {
-            height: 44px;
-            background: #f1f5f3;
-            border: 1.5px solid #d1dbd5;
-            color: var(--text-main);
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-call-cust:hover { border-color: var(--brand-green); color: var(--brand-green); }
-
-        .btn-status-act {
-            height: 44px;
+        .btn-lux-primary {
+            width: 100%;
+            height: 48px;
             background: var(--brand-green);
             color: #ffffff;
             border: none;
             border-radius: 12px;
-            font-weight: 800;
-            font-size: 12.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.2s;
-        }
-        .btn-status-act:active { transform: scale(0.96); }
-        .btn-status-act:hover { box-shadow: 0 4px 14px rgba(12, 131, 31, 0.25); }
-
-        /* OTP Input Modal */
-        .otp-verify-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .otp-verify-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 400px;
-            border-radius: 26px;
-            padding: 26px 20px;
-            text-align: center;
-            animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .otp-input-field {
-            width: 100%;
-            height: 54px;
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 12px;
-            text-align: center;
-            border: 2px solid #cbd5e1;
-            border-radius: 14px;
-            outline: none;
-            margin: 16px 0;
-            transition: all 0.2s;
-        }
-        .otp-input-field:focus {
-            border-color: var(--brand-green);
-            box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.15);
-        }
-
-        /* Fast Pilot Login */
-        .pilot-login-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #111827;
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .pilot-login-box {
-            background: #1f2937;
-            width: 100%;
-            max-width: 420px;
-            border-radius: 26px;
-            padding: 30px 22px;
-            text-align: center;
-            border: 1px solid #374151;
-            color: #ffffff;
-        }
-
-        .login-input {
-            width: 100%;
-            height: 48px;
-            background: #111827;
-            border: 1.5px solid #4b5563;
-            border-radius: 12px;
-            padding: 0 16px;
-            color: #ffffff;
             font-size: 14px;
-            font-weight: 700;
-            outline: none;
-            margin: 12px 0 16px;
-        }
-        .login-input:focus { border-color: #10b981; }
-
-        .btn-pilot-login {
-            width: 100%;
-            height: 48px;
-            background: var(--brand-green);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-        }
-
-        /* Celebration Balloons & Floating +₹50 Coin Popup */
-        .celebration-balloons-box {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            overflow: hidden;
-            display: none;
-        }
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            width: 45px;
-            height: 55px;
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            animation: floatUp 3.5s ease-in forwards;
-        }
-        .balloon::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 20px;
-            width: 2px;
-            height: 14px;
-            background: rgba(0,0,0,0.3);
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
-        }
-
-        /* Floating +₹50 Coin Animation Badge */
-        .coin-popup-badge {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.5);
-            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-            color: #ffffff;
-            font-size: 32px;
-            font-weight: 800;
-            padding: 14px 28px;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.5);
-            border: 3px solid #fef3c7;
-            z-index: 10000;
-            opacity: 0;
-            display: none;
-            animation: coinPopUp 1.8s ease-out forwards;
-        }
-        @keyframes coinPopUp {
-            0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
-            30% { transform: translate(-50%, -60%) scale(1.1); opacity: 1; }
-            70% { transform: translate(-50%, -75%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -100%) scale(0.9); opacity: 0; }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(12,131,31,0.2);
         }
     </style>
 </head>
 <body>
 
-    <!-- CELEBRATION BALLOONS -->
-    <div class="celebration-balloons-box" id="balloons-container"></div>
-    
-    <!-- FLOATING +₹50 COIN BADGE -->
-    <div class="coin-popup-badge" id="coin-badge">+₹50 Earning! 🪙</div>
-
-    <!-- UNIVERSAL FAST PILOT LOGIN -->
-    <div class="pilot-login-overlay" id="pilot-login-screen">
-        <div class="pilot-login-box">
-            <div style="width:64px; height:64px; background:var(--brand-green); color:#fff; border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 14px;">
-                <i class="ph-fill ph-moped"></i>
+    <!-- RIDER LOGIN SCREEN (Using Partner ID & Phone) -->
+    <div class="rider-auth-screen" id="rider-auth-gateway">
+        <div style="text-align:center; margin-bottom:24px;">
+            <div style="width:70px; height:70px; background:#e8f7ee; color:var(--brand-green); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 12px;">
+                <i class="ph-bold ph-moped"></i>
             </div>
-            <h2 style="font-size:22px; font-weight:800;">Roxen Pilot Partner</h2>
-            <p style="font-size:12px; color:#9ca3af; margin:4px 0 16px;">Enter Partner ID or Mobile Number to start duty</p>
-
-            <input type="text" id="pilot-id-input" class="login-input" placeholder="Enter Pilot Name (e.g. Rajesh Kumar)" value="Rajesh Kumar">
-            <input type="tel" id="pilot-phone-input" class="login-input" placeholder="Enter 10-Digit Mobile Number" value="9812345678" maxlength="10">
-            <button class="btn-pilot-login" onclick="loginPilotPartner()">Start Pilot Duty →</button>
+            <h2 style="font-size:24px; font-weight:800;">Roxen Pilot Login</h2>
+            <p style="font-size:12.5px; color:var(--text-sub); margin-top:4px;">Enter your assigned Partner ID & 10-digit mobile number</p>
         </div>
+
+        <input type="text" id="login-partner-id" class="form-input-lux" placeholder="Partner ID (e.g. #PID-375) *">
+        <input type="tel" id="login-partner-phone" class="form-input-lux" placeholder="10-Digit Mobile Number *" maxlength="10">
+        
+        <button onclick="pilotLogin()" class="btn-lux-primary" style="margin-top:8px;">
+            <span>Start Duty & Go Online</span> <i class="ph-bold ph-arrow-right"></i>
+        </button>
     </div>
 
-    <div class="pilot-app-wrapper">
+    <div class="rider-app-wrapper">
         
-        <!-- PILOT APP HEADER -->
-        <header class="pilot-header">
-            <div class="pilot-top-meta">
-                <div class="pilot-profile-row">
-                    <div class="pilot-avatar" id="disp-pilot-avatar">RK</div>
-                    <div>
-                        <h4 style="font-size:15px; font-weight:800;" id="disp-pilot-name">Rajesh Kumar</h4>
-                        <p style="font-size:11px; color:#9ca3af;" id="disp-pilot-vehicle">Hero Splendor • HR20-AB-1234</p>
-                    </div>
-                </div>
-
-                <!-- Duty Switch -->
-                <div class="duty-toggle-box online" id="duty-btn" onclick="toggleDutyStatus()">
-                    <div class="duty-status-dot"></div>
-                    <span style="font-size:11px; font-weight:800;" id="duty-text">ONLINE</span>
-                </div>
+        <!-- HEADER -->
+        <header class="rider-header">
+            <div class="rider-brand">
+                <span class="logo-red">Rox</span><span class="logo-green">en</span>
+                <span style="font-size:11px; color:#94a3b8; margin-left:6px;">PILOT APP</span>
+            </div>
+            <div class="duty-badge">
+                <i class="ph-fill ph-circle" style="font-size:8px;"></i> <span id="header-pilot-name">Online Duty</span>
             </div>
         </header>
 
-        <!-- LIVE DYNAMIC EARNINGS DASHBOARD -->
-        <div class="earnings-dashboard-card">
-            <div>
-                <div class="earn-val" id="disp-today-pay">₹640</div>
-                <div class="earn-lbl">Today's Pay</div>
+        <!-- BODY -->
+        <div class="rider-body">
+            
+            <!-- SCAN QR BOX -->
+            <div class="scan-action-box" onclick="simulateQRScan()">
+                <i class="ph-bold ph-qr-code"></i>
+                <h3 style="font-size:16px; font-weight:800; color:var(--brand-green);">Scan Dark Store Order QR</h3>
+                <p style="font-size:11.5px; color:var(--text-sub); margin-top:2px;">Tap here to scan bag barcode & unlock delivery route</p>
             </div>
-            <div>
-                <div class="earn-val" id="disp-delivered-count">14</div>
-                <div class="earn-lbl">Delivered</div>
+
+            <h4 style="font-size:14px; font-weight:800; margin-bottom:10px;">Assigned Orders Queue</h4>
+            <div id="rider-orders-container">
+                <p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned. Scan QR code above to pick up package.</p>
             </div>
-            <div>
-                <div class="earn-val" style="color:#fbbf24;">4.9 ★</div>
-                <div class="earn-lbl">Pilot Rating</div>
-            </div>
+
         </div>
-
-        <!-- ORDERS FEED SECTION -->
-        <div style="padding: 10px 18px 4px; display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="font-size:16px; font-weight:800;">Assigned Deliveries</h3>
-            <span style="font-size:12px; font-weight:800; color:var(--brand-green); cursor:pointer;" onclick="fetchRiderOrders()">
-                <i class="ph-bold ph-arrows-clockwise"></i> Refresh
-            </span>
-        </div>
-
-        <div class="orders-feed-container" id="rider-orders-list"></div>
-
-        <!-- DOORSTEP 4-DIGIT OTP VERIFY POPUP -->
-        <div class="otp-verify-modal-overlay" id="otp-modal">
-            <div class="otp-verify-card">
-                <div style="width:54px; height:54px; background:#dcfce7; color:var(--brand-green); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 10px;">
-                    <i class="ph-bold ph-key"></i>
-                </div>
-                <h3 style="font-size:18px; font-weight:800;">Enter Customer 4-Digit OTP</h3>
-                <p style="font-size:12px; color:var(--text-sub); margin-top:2px;">
-                    Ask customer for the 4-digit code shown in their "My Orders" tab
-                </p>
-
-                <input type="number" id="input-customer-otp" class="otp-input-field" placeholder="• • • •" maxlength="4">
-
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <button onclick="closeOtpModal()" style="height:46px; background:#f1f5f3; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
-                        Cancel
-                    </button>
-                    <button onclick="submitVerifyOtp()" id="btn-verify-otp" style="height:46px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; cursor:pointer;">
-                        Verify & Drop
-                    </button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- SCRIPT DATA & REAL RIDER LOGIC -->
+    <!-- DELIVERY VERIFICATION OTP MODAL -->
+    <div style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:1200; display:none; align-items:center; justify-content:center; padding:16px;" id="otp-verify-modal">
+        <div style="background:#fff; width:100%; max-width:380px; border-radius:20px; padding:24px; text-align:center;">
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:6px;">Doorstep OTP Verification</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-bottom:16px;">Ask customer for their 4-digit delivery verification code.</p>
+            
+            <input type="text" id="delivery-otp-input" class="form-input-lux" placeholder="Enter 4-Digit OTP" maxlength="4" style="text-align:center; font-size:22px; letter-spacing:6px; font-weight:800;">
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+                <button onclick="closeOtpModal()" style="height:44px; background:#f1f5f9; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Cancel</button>
+                <button onclick="verifyAndDeliverOrder()" style="height:44px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Confirm Delivery</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        let isDutyOnline = true;
-        let activeVerifyOrderId = null;
-        let currentPilotName = "Rajesh Kumar";
-        let currentPilotPhone = "9812345678";
+        let loggedInPilot = null;
+        let activeSelectedOrderId = null;
 
-        let currentPay = parseInt(localStorage.getItem('roxen_pilot_pay')) || 640;
-        let deliveredCount = parseInt(localStorage.getItem('roxen_pilot_count')) || 14;
+        function pilotLogin() {
+            const pid = document.getElementById('login-partner-id').value.trim();
+            const phone = document.getElementById('login-partner-phone').value.trim();
 
-        // Web Audio API Sound Chime (Paytm / Cash Sound Effect)
-        function playCashSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 note
-                
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.4);
-            } catch(e) {}
-        }
-
-        function updateEarningsDisplay() {
-            document.getElementById('disp-today-pay').innerText = `₹${currentPay}`;
-            document.getElementById('disp-delivered-count').innerText = `${deliveredCount}`;
-        }
-
-        function loginPilotPartner() {
-            const nameInput = document.getElementById('pilot-id-input').value.trim();
-            const phoneInput = document.getElementById('pilot-phone-input').value.trim();
-            if(!nameInput || !phoneInput) {
-                alert("Please enter pilot name and phone number.");
+            if(!pid || phone.length !== 10) {
+                alert("Please enter a valid Partner ID and 10-digit phone number.");
                 return;
             }
 
-            currentPilotName = nameInput;
-            currentPilotPhone = phoneInput;
-
-            document.getElementById('disp-pilot-name').innerText = `${nameInput}`;
-            document.getElementById('disp-pilot-avatar').innerText = nameInput.substring(0,2).toUpperCase();
-            document.getElementById('pilot-login-screen').style.display = 'none';
-
-            updateEarningsDisplay();
+            loggedInPilot = { pid: pid, name: "Sumit Singh", phone: phone };
+            document.getElementById('header-pilot-name').innerText = `Online (${pid})`;
+            document.getElementById('rider-auth-gateway').style.display = 'none';
             fetchRiderOrders();
         }
 
-        function toggleDutyStatus() {
-            const btn = document.getElementById('duty-btn');
-            const txt = document.getElementById('duty-text');
-            isDutyOnline = !isDutyOnline;
-
-            if(isDutyOnline) {
-                btn.className = "duty-toggle-box online";
-                txt.innerText = "ONLINE";
-                fetchRiderOrders();
-            } else {
-                btn.className = "duty-toggle-box";
-                txt.innerText = "OFFLINE";
-                document.getElementById('rider-orders-list').innerHTML = `
-                    <div style="text-align:center; padding:50px 10px; color:var(--text-sub);">
-                        <i class="ph ph-moon" style="font-size:42px; margin-bottom:8px; color:#9ca3af;"></i>
-                        <p style="font-size:14px; font-weight:800;">You are currently OFFLINE</p>
-                        <span style="font-size:12px;">Toggle online above to receive store delivery pings.</span>
-                    </div>
-                `;
-            }
-        }
-
         function fetchRiderOrders() {
-            if(!isDutyOnline) return;
-
-            const container = document.getElementById('rider-orders-list');
-
             fetch('/api/rider/orders')
             .then(res => res.json())
             .then(data => {
+                const container = document.getElementById('rider-orders-container');
                 container.innerHTML = '';
-                if(!data.orders || data.orders.length === 0) {
-                    container.innerHTML = `
-                        <div style="text-align:center; padding:50px 10px; color:var(--text-sub);">
-                            <i class="ph ph-moped" style="font-size:42px; margin-bottom:8px; color:var(--brand-green);"></i>
-                            <p style="font-size:14px; font-weight:800;">All Orders Delivered!</p>
-                            <span style="font-size:12px;">Waiting for new customer orders from Dark Store...</span>
-                        </div>
-                    `;
+
+                if (!data.orders || data.orders.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned.</p>`;
                     return;
                 }
 
                 data.orders.forEach(o => {
                     const card = document.createElement('div');
-                    card.className = 'rider-order-card';
-
-                    const isOut = (o.status === 'Out for Delivery');
-                    const badgeClass = isOut ? 'st-out' : 'st-placed';
-                    const actText = isOut ? 'Deliver (Enter OTP)' : 'Pickup Bag & Start';
-                    const cleanPhone = (o.customer_phone || '').replace(/[^0-9]/g, '');
-
-                    let itemsHtml = '';
-                    if (Array.isArray(o.items) && o.items.length > 0) {
-                        itemsHtml += '<div class="rider-items-list">';
-                        o.items.forEach(it => {
-                            itemsHtml += `
-                                <div class="rider-item-row">
-                                    <div style="display:flex; align-items:center; gap:6px;">
-                                        ${it.img ? `<img src="${it.img}" alt="${it.name}">` : ''}
-                                        <span style="font-weight:700;">${it.name}</span>
-                                    </div>
-                                    <span style="color:var(--text-sub);">${it.unit || ''} • <strong>${it.qty}x</strong></span>
-                                </div>
-                            `;
-                        });
-                        itemsHtml += '</div>';
-                    }
-
+                    card.className = 'pilot-order-card';
                     card.innerHTML = `
-                        <div class="order-badge-row">
-                            <div>
-                                <strong style="font-size:15px; color:var(--text-main);">${o.order_code}</strong>
-                                <span style="font-size:11px; color:var(--text-sub); display:block;">${o.created_at}</span>
-                            </div>
-                            <span class="status-chip ${badgeClass}">${o.status}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong>${o.order_code}</strong>
+                            <span class="status-pill ${o.status === 'Delivered' ? 'st-delivered' : 'st-out'}">${o.status}</span>
                         </div>
-
-                        <div class="order-address-box">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                                <strong style="color:var(--text-main); font-size:13px;">${o.customer_name}</strong>
-                                <span style="font-weight:800; color:var(--brand-green); font-size:13px;">₹${o.grand_total} (${o.payment_method})</span>
-                            </div>
-                            <p style="color:var(--text-sub); font-size:11.5px; line-height:1.4;">
-                                <i class="ph-bold ph-map-pin" style="color:var(--brand-red);"></i> ${o.address}
-                            </p>
-                        </div>
-
-                        ${itemsHtml}
-
-                        <div class="action-btn-row">
-                            <a href="tel:${cleanPhone}" class="btn-call-cust">
-                                <i class="ph-bold ph-phone" style="color:var(--brand-green);"></i> Call (${cleanPhone || 'Customer'})
-                            </a>
-
-                            <button class="btn-status-act" onclick="handleOrderAction(${o.id}, '${o.status}')">
-                                <i class="ph-bold ${isOut ? 'ph-key' : 'ph-navigation-arrow'}"></i> ${actText}
-                            </button>
+                        <p style="font-size:12.5px; font-weight:700; margin-bottom:4px;">👤 ${o.customer_name} • <a href="tel:${o.customer_phone}" style="color:var(--brand-green);">📞 ${o.customer_phone}</a></p>
+                        <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:12px;">📍 ${o.address}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-clr); pt-2; margin-top:8px;">
+                            <strong style="color:var(--brand-green);">₹${o.grand_total} (${o.payment_method})</strong>
+                            <button class="btn-lux-primary" style="width:auto; padding:6px 14px; font-size:12px;" onclick="openOtpModal(${o.id})">Verify & Deliver</button>
                         </div>
                     `;
                     container.appendChild(card);
                 });
+            }).catch(() => {});
+        }
+
+        function simulateQRScan() {
+            const scannedCode = prompt("Simulate QR Code Scan (Enter Order Code e.g. RX-9268 or scan bag):", "RX-9268");
+            if(!scannedCode) return;
+
+            fetch('/api/rider/scan-qr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    qr_code: scannedCode,
+                    rider_name: loggedInPilot ? loggedInPilot.name : 'Sumit Singh',
+                    rider_phone: loggedInPilot ? loggedInPilot.phone : '9602697303'
+                })
             })
-            .catch(() => {
-                container.innerHTML = `<p style="text-align:center; padding:30px; color:#ef4444;">Failed to connect to store queue.</p>`;
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert(`QR Verified! Order ${data.order_code} assigned to you. Route & Customer Details Unlocked!`);
+                    fetchRiderOrders();
+                } else {
+                    alert(data.error || "Invalid QR code.");
+                }
             });
         }
 
-        function handleOrderAction(orderId, currentStatus) {
-            if(currentStatus === 'Placed') {
-                fetch('/api/rider/update-status', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        order_id: orderId, 
-                        status: 'Out for Delivery',
-                        rider_name: currentPilotName,
-                        rider_phone: currentPilotPhone
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.success) {
-                        fetchRiderOrders();
-                    }
-                });
-            } else if(currentStatus === 'Out for Delivery') {
-                activeVerifyOrderId = orderId;
-                document.getElementById('input-customer-otp').value = '';
-                document.getElementById('otp-modal').style.display = 'flex';
-            }
+        function openOtpModal(orderId) {
+            activeSelectedOrderId = orderId;
+            document.getElementById('delivery-otp-input').value = '';
+            document.getElementById('otp-verify-modal').style.display = 'flex';
         }
+        function closeOtpModal() { document.getElementById('otp-verify-modal').style.display = 'none'; }
 
-        function closeOtpModal() {
-            document.getElementById('otp-modal').style.display = 'none';
-        }
-
-        // Launch Celebration Balloons & +₹50 Coin Animation with Sound
-        function launchRiderDeliveryBalloons() {
-            // Play cash sound chime
-            playCashSound();
-
-            // Show floating +₹50 Coin Badge
-            const coinBadge = document.getElementById('coin-badge');
-            coinBadge.style.display = 'block';
-            setTimeout(() => { coinBadge.style.display = 'none'; }, 1800);
-
-            // Launch Balloons
-            const box = document.getElementById('balloons-container');
-            box.innerHTML = '';
-            box.style.display = 'block';
-
-            const colors = ['#0c831f', '#e11d48', '#f59e0b', '#2563eb', '#9333ea', '#10b981'];
-            for(let i = 0; i < 22; i++) {
-                const b = document.createElement('div');
-                b.className = 'balloon';
-                b.style.left = `${Math.random() * 92}vw`;
-                b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                b.style.animationDelay = `${(Math.random() * 0.7).toFixed(2)}s`;
-                b.style.animationDuration = `${(3 + Math.random() * 1.5).toFixed(2)}s`;
-                box.appendChild(b);
-            }
-
-            try {
-                confetti({ particleCount: 80, spread: 65, origin: { y: 0.6 } });
-                setTimeout(() => confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } }), 300);
-            } catch(e){}
-
-            setTimeout(() => { box.style.display = 'none'; }, 4500);
-        }
-
-        function submitVerifyOtp() {
-            const entered = document.getElementById('input-customer-otp').value.trim();
-            const btn = document.getElementById('btn-verify-otp');
-
-            if(entered.length < 4) {
-                alert("Please enter the complete 4-digit OTP from customer.");
+        function verifyAndDeliverOrder() {
+            const otp = document.getElementById('delivery-otp-input').value.trim();
+            if(otp.length !== 4) {
+                alert("Please enter the 4-digit customer delivery OTP.");
                 return;
             }
-
-            btn.disabled = true;
-            btn.innerText = "Verifying...";
 
             fetch('/api/rider/update-status', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    order_id: activeVerifyOrderId,
+                    order_id: activeSelectedOrderId,
                     status: 'Delivered',
-                    otp: entered
+                    otp: otp
                 })
             })
             .then(res => res.json())
             .then(data => {
-                btn.disabled = false;
-                btn.innerText = "Verify & Drop";
-
                 if(data.success) {
                     closeOtpModal();
-
-                    currentPay += 50;
-                    deliveredCount += 1;
-                    localStorage.setItem('roxen_pilot_pay', currentPay);
-                    localStorage.setItem('roxen_pilot_count', deliveredCount);
-                    updateEarningsDisplay();
-
-                    launchRiderDeliveryBalloons();
+                    alert("Order Delivered Successfully! 🎉");
                     fetchRiderOrders();
                 } else {
-                    alert(data.error || "Incorrect OTP! Check with customer.");
+                    alert(data.error || "Invalid OTP code.");
                 }
-            })
-            .catch(() => {
-                btn.disabled = false;
-                btn.innerText = "Verify & Drop";
-                alert("Server error verifying OTP.");
             });
         }
-
-        setInterval(() => {
-            if(isDutyOnline && document.getElementById('pilot-login-screen').style.display === 'none') {
-                fetchRiderOrders();
-            }
-        }, 4000);
-
-        window.onload = function() {
-            updateEarningsDisplay();
-        };
     </script>
 </body>
 </html>
