@@ -1713,13 +1713,13 @@
                     <!-- Delivery Partner Details (Appears under Amount ONLY when Out for Delivery) -->
                     <div id="track-rider-box" style="display:none; background:#e8f7ee; border:1px solid #bbf7d0; border-radius:10px; padding:8px 10px; align-items:center; justify-content:space-between; margin-top:6px;">
                         <div style="display:flex; align-items:center; gap:8px;">
-                            <div style="width:32px; height:32px; background:var(--brand-green); color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">RK</div>
+                            <div style="width:32px; height:32px; background:var(--brand-green); color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;" id="track-rider-initials">RK</div>
                             <div>
                                 <strong style="font-size:12px; display:block; color:#064e3b;" id="track-rider-name">Rajesh Kumar (Pilot)</strong>
-                                <span style="font-size:10.5px; color:#047857;" id="track-rider-phone">Hero Splendor • 9602697303</span>
+                                <span style="font-size:10.5px; color:#047857;" id="track-rider-phone">Hero Splendor • 9812345678</span>
                             </div>
                         </div>
-                        <a href="tel:9602697303" id="track-rider-call-btn" style="background:var(--brand-green); color:#fff; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:15px;">
+                        <a href="tel:9812345678" id="track-rider-call-btn" style="background:var(--brand-green); color:#fff; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:15px;">
                             <i class="ph-bold ph-phone"></i>
                         </a>
                     </div>
@@ -2604,7 +2604,7 @@
             document.getElementById('track-payment-mode').innerText = o.payment_method || 'PhonePe UPI';
             document.getElementById('track-grand-total').innerText = `₹${o.grand_total}`;
 
-            updateStepperUI(o.status);
+            updateStepperUI(o);
 
             const itemsBox = document.getElementById('track-items-list');
             itemsBox.innerHTML = '';
@@ -2630,42 +2630,58 @@
         }
 
         // Strict Stepper & OTP Visibility Controller
-        function updateStepperUI(rawStatus) {
-            const status = (rawStatus || 'Placed').toLowerCase();
+        function updateStepperUI(order) {
+            const rawStatus = order.status || 'Placed';
+            const status = rawStatus.trim().toLowerCase();
+            
             const nodes = ['st-placed', 'st-packed', 'st-out', 'st-delivered'];
-            nodes.forEach(n => document.getElementById(n).classList.remove('active'));
+            nodes.forEach(n => {
+                const el = document.getElementById(n);
+                if(el) el.classList.remove('active');
+            });
 
-            const isDelivered = status.includes('deliver');
-            const isOut = status.includes('out') || status.includes('way') || isDelivered;
-            const isPacked = status.includes('pack') || isOut;
+            const isDelivered = (status === 'delivered');
+            const isOut = (status === 'out for delivery' || isDelivered);
+            const isPacked = isOut;
 
-            // STRICT RULE: Placed is ALWAYS green when order exists
-            document.getElementById('st-placed').classList.add('active');
-            
-            // Packing & On Way turn green ONLY when rider updates status
-            if (isPacked) document.getElementById('st-packed').classList.add('active');
-            if (isOut) document.getElementById('st-out').classList.add('active');
-            
-            // Delivered turns green ONLY when OTP is verified
-            if (isDelivered) document.getElementById('st-delivered').classList.add('active');
+            const stPlaced = document.getElementById('st-placed');
+            if(stPlaced) stPlaced.classList.add('active');
 
-            // HIDE OTP BOX WHEN DELIVERED, SHOW SUCCESS BANNER
+            if (isPacked) {
+                const stPacked = document.getElementById('st-packed');
+                if(stPacked) stPacked.classList.add('active');
+            }
+            if (isOut) {
+                const stOut = document.getElementById('st-out');
+                if(stOut) stOut.classList.add('active');
+            }
+            if (isDelivered) {
+                const stDelivered = document.getElementById('st-delivered');
+                if(stDelivered) stDelivered.classList.add('active');
+            }
+
             const otpBox = document.getElementById('track-otp-box');
             const deliveredBanner = document.getElementById('track-delivered-banner');
             const riderBox = document.getElementById('track-rider-box');
 
             if (isDelivered) {
-                otpBox.style.display = 'none';
-                deliveredBanner.style.display = 'block';
+                if(otpBox) otpBox.style.display = 'none';
+                if(deliveredBanner) deliveredBanner.style.display = 'block';
                 if(riderBox) riderBox.style.display = 'none';
             } else {
-                otpBox.style.display = 'block';
-                deliveredBanner.style.display = 'none';
-                // Show Rider details under Amount ONLY when Out for Delivery
-                if (isOut && riderBox) {
-                    riderBox.style.display = 'flex';
-                } else if(riderBox) {
-                    riderBox.style.display = 'none';
+                if(otpBox) otpBox.style.display = 'block';
+                if(deliveredBanner) deliveredBanner.style.display = 'none';
+
+                if (isOut && order.rider_name) {
+                    if(riderBox) {
+                        riderBox.style.display = 'flex';
+                        document.getElementById('track-rider-name').innerText = `${order.rider_name} (Pilot)`;
+                        document.getElementById('track-rider-phone').innerText = `Hero Splendor • ${order.rider_phone || '9812345678'}`;
+                        document.getElementById('track-rider-call-btn').href = `tel:${order.rider_phone || '9812345678'}`;
+                        document.getElementById('track-rider-initials').innerText = order.rider_name.substring(0,2).toUpperCase();
+                    }
+                } else {
+                    if(riderBox) riderBox.style.display = 'none';
                 }
             }
         }
@@ -2684,7 +2700,7 @@
                     if (d.orders) {
                         const current = d.orders.find(x => x.order_code === liveTrackingOrderCode);
                         if (current) {
-                            updateStepperUI(current.status);
+                            updateStepperUI(current);
                         }
                     }
                 }).catch(() => {});
