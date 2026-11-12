@@ -69,33 +69,13 @@
             }
         }
 
-        /* Festival Headline Ticker */
-        .festival-ticker-wrap {
-            background: linear-gradient(90deg, #e11d48 0%, #0c831f 100%);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 5px 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .festival-ticker {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 22s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-
         /* Top Bar */
         .top-navbar {
             position: sticky;
             top: 0;
             background: var(--card-bg);
             z-index: 100;
-            padding: 12px 18px;
+            padding: 14px 18px 10px;
             border-bottom: 1px solid var(--border-clr);
         }
 
@@ -873,17 +853,55 @@
             box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.25);
         }
 
-        .luxury-radio-indicator i {
+        .luxury-pay-card.selected .luxury-radio-indicator i {
             color: #ffffff;
             font-size: 13px;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.2s;
-        }
-
-        .luxury-pay-card.selected .luxury-radio-indicator i {
             opacity: 1;
             transform: scale(1);
+        }
+
+        /* 🟢 SLIDE-TO-CONFIRM GESTURE CONFIRMATION SLIDER */
+        .slide-confirm-container {
+            position: relative;
+            width: 100%;
+            height: 52px;
+            background: #e1eed4;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            user-select: none;
+            touch-action: none;
+            border: 1.5px solid #bbf7d0;
+        }
+        .slide-confirm-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--brand-green);
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .slide-confirm-thumb {
+            position: absolute;
+            left: 4px;
+            width: 44px;
+            height: 44px;
+            background: var(--brand-green);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(12, 131, 31, 0.3);
         }
 
         /* Order Cards in My Orders */
@@ -971,7 +989,7 @@
             margin-top: 3px;
         }
 
-        /* Strict 4-Step Dynamic Order Tracker */
+        /* Clean Dynamic Order Tracker (No Out arrows) */
         .order-track-stepper {
             display: flex;
             justify-content: space-between;
@@ -1113,14 +1131,7 @@
 
     <div class="app-wrapper">
         
-        <!-- RUNNING FESTIVAL OFFER HEADLINE TICKER -->
-        <div class="festival-ticker-wrap">
-            <div class="festival-ticker">
-                ⚡ FESTIVAL MEGA SAVINGS LIVE • Special 50% OFF On Sweets, Dry Fruits & Dairy Essentials • Instant 10-Minute Delivery Guaranteed To Your Doorstep! •
-            </div>
-        </div>
-
-        <!-- TOP STICKY NAVBAR -->
+        <!-- TOP STICKY NAVBAR (Clean, no red ticker banner) -->
         <header class="top-navbar" id="main-top-navbar">
             <div class="nav-head">
                 <div class="brand-meta">
@@ -1244,7 +1255,7 @@
                     <div class="settings-left-meta">
                         <div class="settings-icon-box icon-blue"><i class="ph-bold ph-package"></i></div>
                         <div class="settings-text">
-                            <h5>My Orders</h5>
+                            <h5>Check Order Details</h5>
                             <p>View, track and get delivery OTP</p>
                         </div>
                     </div>
@@ -1524,7 +1535,7 @@
                 <div class="checkout-head">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="ph-bold ph-arrow-left" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
-                        <h3 style="font-weight:800; font-size:17px;">Checkout</h3>
+                        <h3 style="font-weight:800; font-size:17px;">Check Order Details</h3>
                     </div>
                     <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
                 </div>
@@ -1628,11 +1639,14 @@
                     </div>
                 </div>
 
+                <!-- 🟢 SLIDE-TO-CONFIRM GESTURE SLIDER -->
                 <div style="margin-top:auto; padding:16px; background:var(--card-bg); border-top:1px solid var(--border-clr);">
-                    <button style="width:100%; height:48px; background:var(--brand-green); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:pointer;" onclick="triggerOrderSuccess()">
-                        <span id="btn-total-label">₹0 TOTAL</span>
-                        <span>Place Order <i class="ph-bold ph-caret-right"></i></span>
-                    </button>
+                    <div class="slide-confirm-container" id="slide-container">
+                        <div class="slide-confirm-text" id="slide-text">SLIDE TO PLACE ORDER →</div>
+                        <div class="slide-confirm-thumb" id="slide-thumb">
+                            <i class="ph-bold ph-arrow-right"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1648,7 +1662,7 @@
             </div>
         </div>
 
-        <!-- ORDER DETAILS & LIVE DYNAMIC TRACKER MODAL -->
+        <!-- ORDER DETAILS & LIVE DYNAMIC TRACKER MODAL (Clean, no out arrows) -->
         <div class="center-modal-overlay" id="order-detail-tracking-modal" onclick="closeOnOverlay(event, 'order-detail-tracking-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1656,7 +1670,7 @@
                     <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeOrderTrackingModal()"></i>
                 </div>
 
-                <!-- Doorstep 4-Digit Verification OTP (Auto-hides on delivery) -->
+                <!-- Doorstep 4-Digit Verification OTP -->
                 <div class="doorstep-otp-container" id="track-otp-box">
                     <p style="font-size:12px; font-weight:800; color:var(--brand-green); text-transform:uppercase; letter-spacing:0.5px;">
                         <i class="ph-bold ph-shield-check"></i> Doorstep Delivery Verification OTP
@@ -1671,7 +1685,7 @@
                     <p>Delivered by Roxen Pilot. Thank you for shopping fresh!</p>
                 </div>
 
-                <!-- Strict 4-Stage Live Dynamic Progress Stepper -->
+                <!-- Clean Stepper (No out arrows) -->
                 <div class="order-track-stepper">
                     <div class="track-step-node" id="st-placed">
                         <div class="node-icon-circle"><i class="ph-bold ph-check"></i></div>
@@ -1691,11 +1705,11 @@
                     </div>
                 </div>
 
-                <!-- Items in this Order with Photos -->
+                <!-- Items in this Order -->
                 <p style="font-size:11.5px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">ORDERED GROCERIES</p>
                 <div id="track-items-list" style="margin-bottom:14px; max-height:160px; overflow-y:auto;"></div>
 
-                <!-- Bill Breakdown & Rider Contact Info Under Amount -->
+                <!-- Bill Breakdown & Rider Contact Info -->
                 <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:12px; font-size:12px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Delivered to:</span>
@@ -1710,7 +1724,7 @@
                         <span style="color:var(--brand-green);" id="track-grand-total">₹0</span>
                     </div>
 
-                    <!-- Delivery Partner Details (Appears under Amount ONLY when Out for Delivery) -->
+                    <!-- Delivery Partner Details Under Amount -->
                     <div id="track-rider-box" style="display:none; background:#e8f7ee; border:1px solid #bbf7d0; border-radius:10px; padding:8px 10px; align-items:center; justify-content:space-between; margin-top:6px;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <div style="width:32px; height:32px; background:var(--brand-green); color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;" id="track-rider-initials">RK</div>
@@ -1887,7 +1901,7 @@
                         Continue Shopping
                     </button>
                     <button onclick="continueToMyOrdersFromSuccess()" style="height:46px; background:var(--brand-green); color:#fff; border:none; font-weight:800; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <i class="ph-fill ph-package"></i> View My Orders
+                        <i class="ph-fill ph-package"></i> Check Order Details
                     </button>
                 </div>
             </div>
@@ -2169,7 +2183,6 @@
                 document.getElementById('bill-savings-tag').innerText = `Saved ₹${totalSavings}`;
                 document.getElementById('bill-delivery-charge').innerText = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
                 document.getElementById('bill-grand-total').innerText = `₹${grandTotal}`;
-                document.getElementById('btn-total-label').innerText = `₹${grandTotal} TOTAL`;
 
                 const freeBanner = document.getElementById('free-delivery-text');
                 if (itemsTotal < 120 && itemsTotal > 0) {
@@ -2427,6 +2440,62 @@
         }
 
         // ========================================================
+        // 🟢 GESTURE SLIDE-TO-CONFIRM LOGIC FOR CHECKOUT
+        // ========================================================
+        function initSlideConfirm() {
+            const container = document.getElementById('slide-container');
+            const thumb = document.getElementById('slide-thumb');
+            const text = document.getElementById('slide-text');
+
+            if (!container || !thumb) return;
+
+            let isDragging = false;
+            let startX = 0;
+            let maxSlide = container.clientWidth - thumb.clientWidth - 8;
+
+            function startDrag(e) {
+                isDragging = true;
+                startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+            }
+
+            function onDrag(e) {
+                if (!isDragging) return;
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+                let diff = clientX - startX;
+                if (diff < 0) diff = 0;
+                if (diff > maxSlide) diff = maxSlide;
+
+                thumb.style.transform = `translateX(${diff}px)`;
+                text.style.opacity = 1 - (diff / maxSlide);
+
+                if (diff >= maxSlide - 10) {
+                    isDragging = false;
+                    triggerOrderSuccess();
+                    resetSlider();
+                }
+            }
+
+            function stopDrag() {
+                if (!isDragging) return;
+                isDragging = false;
+                resetSlider();
+            }
+
+            function resetSlider() {
+                thumb.style.transform = `translateX(0px)`;
+                text.style.opacity = 1;
+            }
+
+            thumb.addEventListener('mousedown', startDrag);
+            window.addEventListener('mousemove', onDrag);
+            window.addEventListener('mouseup', stopDrag);
+
+            thumb.addEventListener('touchstart', startDrag);
+            window.addEventListener('touchmove', onDrag);
+            window.addEventListener('touchend', stopDrag);
+        }
+
+        // ========================================================
         // 🚀 CREATE REAL ORDER WITH MANDATORY NAME & PHONE VALIDATION
         // ========================================================
         function triggerOrderSuccess() {
@@ -2576,7 +2645,7 @@
                                 <strong style="font-size:13.5px; color:var(--text-main);"> ₹${o.grand_total}</strong>
                             </div>
                             <span style="color:var(--brand-green); font-size:12px; font-weight:800; display:flex; align-items:center; gap:3px;">
-                                ${isDelivered ? 'View Receipt' : 'View OTP & Track'} <i class="ph-bold ph-caret-right"></i>
+                                ${isDelivered ? 'View Receipt' : 'Check Order Details'} <i class="ph-bold ph-caret-right"></i>
                             </span>
                         </div>
                     `;
@@ -2799,6 +2868,7 @@
         window.onload = function() {
             renderProducts(catalogDB);
             syncCheckoutData();
+            initSlideConfirm();
             if(localStorage.getItem('roxen_cookies') === 'true') {
                 document.getElementById('cookie-floating-prompt').style.display = 'none';
             }
