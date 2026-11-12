@@ -41,7 +41,7 @@ def init_db():
         )
     ''')
     
-    # 2. Orders Table (With Rider Name & Phone Columns for Live Sync)
+    # 2. Orders Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +64,6 @@ def init_db():
         )
     ''')
     
-    # Auto-migration safeguard for columns if database already exists
     for col, col_type in [("delivery_otp", "TEXT DEFAULT '1234'"), ("rider_name", "TEXT DEFAULT ''"), ("rider_phone", "TEXT DEFAULT ''")]:
         try:
             cursor.execute(f"ALTER TABLE orders ADD COLUMN {col} {col_type}")
@@ -397,6 +396,13 @@ def get_my_orders():
 @app.route('/rider')
 def rider_app():
     return render_template('rider.html')
+
+# ========================================================
+# 🏪 ADMIN PANEL ROUTE & API
+# ========================================================
+@app.route('/admin')
+def admin_panel():
+    return render_template('admin.html')
 
 @app.route('/api/rider/orders', methods=['GET'])
 def rider_get_orders():
