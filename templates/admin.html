@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Roxen Admin - Dark Store Control Center</title>
-    <!-- Fonts & Phosphor Icons -->
+    <!-- Fonts, Phosphor Icons & QRCode.js Library -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
         * {
@@ -382,7 +383,7 @@
 </head>
 <body>
 
-    <!-- SECURE ADMIN PIN LOGIN GATEWAY -->
+    <!-- SECURE ADMIN PIN LOCK SCREEN GATEWAY -->
     <div class="admin-pin-overlay" id="admin-pin-gate">
         <div class="admin-pin-box">
             <div style="width:60px; height:60px; background:#064e3b; color:#34d399; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 14px;">
@@ -432,7 +433,7 @@
             <a class="sidebar-nav-item" onclick="switchAdminTab('settings', this)">
                 <i class="ph-bold ph-gear"></i> <span class="brand-text">Store Settings</span>
             </a>
-            <a class="sidebar-nav-item" href="/logout" style="color:#f87171; margin-top:auto;">
+            <a class="sidebar-nav-item" onclick="lockAdminSession()" style="color:#f87171; margin-top:auto; cursor:pointer;">
                 <i class="ph-bold ph-sign-out"></i> <span class="brand-text">Logout Admin</span>
             </a>
         </aside>
@@ -771,15 +772,18 @@
         </div>
     </div>
 
-    <!-- QR CODE GENERATOR MODAL -->
+    <!-- 🌟 REAL SCANNABLE QR CODE GENERATOR MODAL -->
     <div class="modal-overlay-lux" id="qr-modal" onclick="if(event.target.id==='qr-modal') closeQrModal()">
         <div class="modal-box-lux" style="text-align:center;">
             <h3 style="font-size:18px; font-weight:800; margin-bottom:6px;" id="qr-modal-title">Order QR Code</h3>
-            <p style="font-size:12px; color:var(--text-sub); margin-bottom:16px;">Have delivery partner scan this QR code for verification & map sync.</p>
-            <div style="background:#f8fafc; border:2px dashed var(--brand-green); padding:20px; border-radius:16px; display:inline-block; margin-bottom:16px;">
-                <div style="font-size:64px;">📷</div>
-                <strong id="qr-code-string" style="font-size:14px; color:var(--brand-green); display:block; margin-top:6px;">ROXEN-QR-RX-9482</strong>
+            <p style="font-size:12px; color:var(--text-sub); margin-bottom:16px;">Scan this scannable QR code with pilot rider app for instant sync.</p>
+            
+            <div style="background:#ffffff; border:2px solid var(--border-clr); padding:16px; border-radius:16px; display:inline-block; margin-bottom:16px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                <div id="qrcode-canvas-box" style="display:flex; justify-content:center;"></div>
             </div>
+            
+            <strong id="qr-code-string" style="font-size:13px; color:var(--brand-green); display:block; margin-bottom:16px;">ROXEN-QR-RX-9482</strong>
+            
             <button onclick="closeQrModal()" style="width:100%; height:40px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Close QR Window</button>
         </div>
     </div>
@@ -806,6 +810,11 @@
             } else {
                 alert("Incorrect Security PIN! Try default PIN: 3439");
             }
+        }
+
+        function lockAdminSession() {
+            document.getElementById('entered-admin-pin').value = '';
+            document.getElementById('admin-pin-gate').style.display = 'flex';
         }
 
         function saveAdminPinSettings() {
@@ -878,7 +887,7 @@
                         <td style="max-width:180px; font-size:11.5px; color:var(--text-sub);">${o.address}</td>
                         <td style="color:var(--brand-green); font-weight:800;">₹${o.grand_total}</td>
                         <td>${o.payment_method}</td>
-                        <td>${o.rider_name ? o.rider_name : '<span style="color:#d97706;">Unassigned</span>'}</td>
+                        <td>${o.rider_name ? `<span style="color:var(--brand-green); font-weight:800; cursor:pointer;" onclick="openRiderDetailModal('${o.rider_name}', '9602697303', 'Hero Splendor', 'Online')">${o.rider_name}</span>` : '<span style="color:#d97706;">Unassigned</span>'}</td>
                         <td><button class="btn-lux-primary" style="padding:4px 10px; font-size:11px;" onclick="generateOrderQR('${o.order_code}')">Generate QR</button></td>
                         <td><span class="status-pill ${stClass}">${o.status}</span></td>
                     `;
@@ -889,9 +898,24 @@
             }).catch(() => {});
         }
 
+        // 🌟 REAL SCANNABLE QR CODE GENERATOR FUNCTION USING qrcode.min.js
         function generateOrderQR(code) {
-            document.getElementById('qr-code-string').innerText = `ROXEN-QR-${code}`;
+            const qrText = `ROXEN-QR-${code}`;
+            document.getElementById('qr-code-string').innerText = qrText;
             document.getElementById('qr-modal-title').innerText = `QR Code for ${code}`;
+            
+            const box = document.getElementById('qrcode-canvas-box');
+            box.innerHTML = ''; // Clear previous QR
+            
+            new QRCode(box, {
+                text: qrText,
+                width: 160,
+                height: 160,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
             document.getElementById('qr-modal').style.display = 'flex';
         }
         function closeQrModal() { document.getElementById('qr-modal').style.display = 'none'; }
