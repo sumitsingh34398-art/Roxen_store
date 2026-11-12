@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Roxen Admin - Dark Store Control Center</title>
-    <!-- Fonts & Icons -->
+    <!-- Fonts & Phosphor Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         * {
@@ -19,15 +20,14 @@
 
         :root {
             --brand-green: #0c831f;
-            --brand-dark: #075214;
-            --brand-light: #e8f7ee;
-            --brand-amber: #f59e0b;
             --brand-red: #e11d48;
-            --bg-page: #f4f6f5;
+            --brand-dark: #0f172a;
+            --bg-page: #f4f6f8;
             --card-bg: #ffffff;
-            --text-main: #18231e;
-            --text-sub: #64736c;
-            --border-clr: #dfe6e1;
+            --sidebar-bg: #0f172a;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border-clr: #e2e8f0;
         }
 
         body {
@@ -35,150 +35,222 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
         }
 
-        .admin-app-wrapper {
+        /* App Layout Container */
+        .admin-dashboard-layout {
+            display: flex;
             width: 100%;
-            max-width: 1400px;
-            background: #ffffff;
             min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .admin-sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: #ffffff;
             display: flex;
             flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
-            overflow-x: hidden;
+            padding: 24px 18px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        @media (max-width: 900px) {
+            .admin-sidebar { display: none; }
         }
 
-        @media (min-width: 900px) {
-            .admin-app-wrapper {
-                margin: 16px auto;
-                min-height: calc(100vh - 32px);
-                border-radius: 24px;
-                border: 1px solid var(--border-clr);
-            }
-        }
-
-        /* Festival Running Headline Ticker */
-        .festival-ticker-wrap {
-            background: linear-gradient(90deg, #e11d48 0%, #0c831f 100%);
-            color: #ffffff;
-            font-size: 11.5px;
-            font-weight: 800;
-            padding: 6px 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .festival-ticker {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 24s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-
-        /* Admin Header */
-        .admin-header {
-            background: #111827;
-            color: #ffffff;
-            padding: 14px 18px;
+        .sidebar-brand {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 32px;
+            padding-left: 6px;
+        }
+        .logo-red { color: var(--brand-red); }
+        .logo-green { color: #10b981; }
+
+        .sidebar-menu-category {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 16px 0 8px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            color: #94a3b8;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            text-decoration: none;
+        }
+        .sidebar-nav-item:hover, .sidebar-nav-item.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+        .sidebar-nav-item.active {
+            background: #0c831f;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(12, 131, 31, 0.35);
+        }
+        .sidebar-nav-item i { font-size: 18px; }
+
+        /* Main Content Area */
+        .admin-main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background: var(--bg-page);
+        }
+
+        /* Top Header Bar */
+        .admin-top-header {
+            background: var(--card-bg);
+            padding: 16px 28px;
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            border-bottom: 1px solid var(--border-clr);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .admin-brand {
+        .header-greeting h2 { font-size: 20px; font-weight: 800; color: var(--text-main); }
+        .header-greeting p { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+        .header-right-tools {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 20px;
-            font-weight: 800;
+            gap: 16px;
         }
-        .admin-brand span { color: #10b981; }
 
-        .admin-nav-tabs {
+        .search-box-top {
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            align-items: center;
         }
-
-        .admin-tab-btn {
-            background: #1f2937;
-            color: #9ca3af;
-            border: none;
-            padding: 7px 14px;
+        .search-box-top i { position: absolute; left: 12px; font-size: 16px; color: var(--text-sub); }
+        .search-box-top input {
+            height: 38px;
+            background: #f8fafc;
+            border: 1px solid var(--border-clr);
             border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 0 14px 0 36px;
+            font-size: 13px;
+            outline: none;
+            width: 220px;
+            transition: width 0.2s;
         }
-        .admin-tab-btn.active, .admin-tab-btn:hover {
-            background: #064e3b;
-            color: #34d399;
+        .search-box-top input:focus { width: 280px; border-color: var(--brand-green); background: #fff; }
+
+        .admin-profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 10px;
+            background: #f8fafc;
+            border: 1px solid var(--border-clr);
+            border-radius: 12px;
+        }
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
         }
 
-        /* Metrics Dashboard Grid (Rating Removed, 3 Cards perfectly aligned) */
-        .admin-metrics-grid {
+        /* Dashboard Body Content */
+        .dashboard-body-scroll {
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        /* Metrics Summary Cards Grid */
+        .metrics-grid-3 {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
-            gap: 12px;
-            padding: 16px 18px 8px;
+            gap: 16px;
         }
-        @media (min-width: 600px) {
-            .admin-metrics-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (min-width: 768px) {
+            .metrics-grid-3 { grid-template-columns: repeat(3, 1fr); }
         }
 
-        .metric-card {
-            background: linear-gradient(135deg, #f8faf9 0%, #edf7f2 100%);
+        .stat-card-lux {
+            background: var(--card-bg);
             border: 1px solid var(--border-clr);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
         }
-        .metric-val { font-size: 20px; font-weight: 800; color: var(--brand-green); margin-top: 4px; }
-        .metric-lbl { font-size: 10.5px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; }
-
-        /* Main Content Panels */
-        .admin-content-section {
-            padding: 10px 18px 24px;
-            flex: 1;
+        .stat-card-lux:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+        .stat-card-lux.dark-mode-card {
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
         }
+        .stat-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .stat-label { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; }
+        .dark-mode-card .stat-label { color: #94a3b8; }
+        .stat-value { font-size: 26px; font-weight: 800; margin: 8px 0 4px; color: var(--text-main); }
+        .dark-mode-card .stat-value { color: #ffffff; }
+        .stat-sub-trend { font-size: 11.5px; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 4px; }
 
-        .panel-heading-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 14px 0 10px;
-        }
+        /* Content Sections */
+        .admin-panel-section { display: none; }
+        .admin-panel-section.active { display: block; }
 
-        /* Tables */
-        .admin-table-container {
-            width: 100%;
-            overflow-x: auto;
+        .panel-box-container {
+            background: var(--card-bg);
             border: 1px solid var(--border-clr);
-            border-radius: 16px;
-            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.02);
         }
 
-        .admin-table {
+        .panel-box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .panel-box-header h3 { font-size: 17px; font-weight: 800; color: var(--text-main); }
+
+        /* Tables */
+        .admin-table-wrap { width: 100%; overflow-x: auto; }
+        .lux-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 12.5px;
-            min-width: 650px;
+            font-size: 13px;
         }
-
-        .admin-table th {
-            background: #f8faf9;
+        .lux-table th {
+            background: #f8fafc;
             color: var(--text-sub);
             padding: 12px 14px;
             font-weight: 800;
@@ -186,19 +258,16 @@
             font-size: 10.5px;
             border-bottom: 1px solid var(--border-clr);
         }
-
-        .admin-table td {
+        .lux-table td {
             padding: 12px 14px;
             border-bottom: 1px solid var(--border-clr);
             color: var(--text-main);
             font-weight: 600;
         }
-
-        .admin-table tr:last-child td { border-bottom: none; }
-        .admin-table tr:hover { background: #fafcfb; }
+        .lux-table tr:hover { background: #fafafa; }
 
         .status-pill {
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-size: 10.5px;
             font-weight: 800;
@@ -208,245 +277,511 @@
         .st-placed { background: #fef3c7; color: #b45309; }
         .st-out { background: #dbeafe; color: #1e40af; }
         .st-delivered { background: #dcfce7; color: #15803d; }
+        .st-blacklisted { background: #fee2e2; color: #991b1b; }
+
+        /* Buttons & Inputs */
+        .btn-lux-primary {
+            background: var(--brand-green);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.15s;
+        }
+        .btn-lux-primary:active { transform: scale(0.96); }
+
+        .btn-danger-sm {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .modal-overlay-lux {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal-box-lux {
+            width: 100%;
+            max-width: 440px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .form-input-lux {
+            width: 100%;
+            height: 42px;
+            border: 1.5px solid var(--border-clr);
+            border-radius: 10px;
+            padding: 0 12px;
+            font-size: 13px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .form-input-lux:focus { border-color: var(--brand-green); }
     </style>
 </head>
 <body>
 
-    <div class="admin-app-wrapper">
+    <div class="admin-dashboard-layout">
         
-        <!-- RUNNING TICKER HEADLINE -->
-        <div class="festival-ticker-wrap">
-            <div class="festival-ticker">
-                ⚡ ROXEN DARK STORE CONTROL CENTER • Live 10-Minute Dispatch SLA Active • Real-Time Orders & Pilots Sync • All Store Systems Fully Operational •
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-red">Rox</span><span class="logo-green">en</span>
+                <span style="font-size:11px; color:#94a3b8; font-weight:700; margin-left:auto;">ADMIN</span>
+            </div>
+
+            <div class="sidebar-menu-category">Overview</div>
+            <a class="sidebar-nav-item active" onclick="switchAdminTab('overview', this)">
+                <i class="ph-bold ph-squares-four"></i> Dashboard Overview
+            </a>
+            <a class="sidebar-nav-item" onclick="switchAdminTab('orders', this)">
+                <i class="ph-bold ph-package"></i> Today Orders (Messages)
+            </a>
+
+            <div class="sidebar-menu-category">Store Management</div>
+            <a class="sidebar-nav-item" onclick="switchAdminTab('products', this)">
+                <i class="ph-bold ph-storefront"></i> Products Catalog
+            </a>
+            <a class="sidebar-nav-item" onclick="switchAdminTab('customers', this)">
+                <i class="ph-bold ph-users"></i> Customers Database
+            </a>
+            <a class="sidebar-nav-item" onclick="switchAdminTab('riders', this)">
+                <i class="ph-bold ph-moped"></i> Delivery Partners (Pilots)
+            </a>
+
+            <div class="sidebar-menu-category">System</div>
+            <a class="sidebar-nav-item" onclick="switchAdminTab('settings', this)">
+                <i class="ph-bold ph-gear"></i> Store Settings
+            </a>
+            <a class="sidebar-nav-item" href="/logout" style="color:#f87171; margin-top:auto;">
+                <i class="ph-bold ph-sign-out"></i> Logout Admin
+            </a>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="admin-main-content">
+            
+            <!-- TOP HEADER BAR -->
+            <header class="admin-top-header">
+                <div class="header-greeting">
+                    <h2>Welcome back, Sumit Singh</h2>
+                    <p>Here are today's live stats from your Roxen dark store!</p>
+                </div>
+
+                <div class="header-right-tools">
+                    <div class="search-box-top">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" placeholder="Search orders, riders..." id="top-search-input">
+                    </div>
+                    <div class="admin-profile-badge">
+                        <div class="admin-avatar">SS</div>
+                        <span style="font-size:13px; font-weight:800;">Sumit Singh</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- BODY SCROLLABLE AREA -->
+            <div class="dashboard-body-scroll">
+                
+                <!-- TAB 1: OVERVIEW DASHBOARD -->
+                <section class="admin-panel-section active" id="tab-overview">
+                    <div class="metrics-grid-3">
+                        <div class="stat-card-lux dark-mode-card">
+                            <div class="stat-top-row">
+                                <span class="stat-label">Total Sales (Today)</span>
+                                <i class="ph-bold ph-shopping-bag" style="font-size:22px; color:#10b981;"></i>
+                            </div>
+                            <div class="stat-value" id="stat-total-sales">₹0.00</div>
+                            <div class="stat-sub-trend"><i class="ph-bold ph-trend-up"></i> +15.6% vs yesterday</div>
+                        </div>
+
+                        <div class="stat-card-lux">
+                            <div class="stat-top-row">
+                                <span class="stat-label">Today Orders Queue</span>
+                                <i class="ph-bold ph-package" style="font-size:22px; color:var(--brand-green);"></i>
+                            </div>
+                            <div class="stat-value" id="stat-orders-count">0</div>
+                            <div class="stat-sub-trend" style="color:var(--brand-green);"><i class="ph-bold ph-lightning"></i> 10-Min SLA Active</div>
+                        </div>
+
+                        <div class="stat-card-lux">
+                            <div class="stat-top-row">
+                                <span class="stat-label">Active Delivery Pilots</span>
+                                <i class="ph-bold ph-moped" style="font-size:22px; color:#2563eb;"></i>
+                            </div>
+                            <div class="stat-value" id="stat-active-riders">1 Online</div>
+                            <div class="stat-sub-trend" style="color:#2563eb;"><i class="ph-bold ph-shield-check"></i> Fleet Fully Operational</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart & Quick Analytics -->
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:16px; margin-top:16px;">
+                        <div class="panel-box-container">
+                            <div class="panel-box-header">
+                                <h3>Sales Performance (Hourly)</h3>
+                                <span style="font-size:11px; font-weight:800; color:var(--brand-green);">Live Sync Active ⚡</span>
+                            </div>
+                            <div style="height: 240px; position: relative;">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="panel-box-container">
+                            <div class="panel-box-header">
+                                <h3>Top Categories</h3>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+                                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                                    <span>🥛 Milk & Dairy</span> <span style="color:var(--brand-green);">42%</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                                    <span>🍿 Snacks & Munchies</span> <span style="color:#2563eb;">28%</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                                    <span>🥤 Water & Drinks</span> <span style="color:#d97706;">18%</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                                    <span>🛒 Grocery Staples</span> <span style="color:#9333ea;">12%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: TODAY ORDERS (MESSAGES QUEUE) -->
+                <section class="admin-panel-section" id="tab-orders">
+                    <div class="panel-box-container">
+                        <div class="panel-box-header">
+                            <h3>Live Customer Orders & QR Verification</h3>
+                            <button class="btn-lux-primary" onclick="fetchAdminOrders()"><i class="ph-bold ph-arrows-clockwise"></i> Refresh Queue</button>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="lux-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order Code</th>
+                                        <th>Customer Info</th>
+                                        <th>Delivery Address</th>
+                                        <th>Grand Total</th>
+                                        <th>Payment</th>
+                                        <th>Assigned Pilot</th>
+                                        <th>Generate QR Code</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-orders-tbody">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: PRODUCTS CATALOG -->
+                <section class="admin-panel-section" id="tab-products">
+                    <div class="panel-box-container">
+                        <div class="panel-box-header">
+                            <h3>DarkStore Inventory Catalog (60 Items)</h3>
+                            <span style="font-size:12px; font-weight:800; color:var(--brand-green);">Optimal Stock Status</span>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="lux-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Unit</th>
+                                        <th>Price</th>
+                                        <th>Stock Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1</td>
+                                        <td>Amul Taaza Toned Fresh Milk</td>
+                                        <td>Dairy</td>
+                                        <td>500 ml</td>
+                                        <td style="color:var(--brand-green); font-weight:800;">₹27</td>
+                                        <td><span class="status-pill st-delivered">In Stock</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#19</td>
+                                        <td>Parle-G Gold Glucose Biscuits</td>
+                                        <td>Snacks</td>
+                                        <td>1 kg</td>
+                                        <td style="color:var(--brand-green); font-weight:800;">₹100</td>
+                                        <td><span class="status-pill st-delivered">In Stock</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#34</td>
+                                        <td>Bisleri Packaged Drinking Water</td>
+                                        <td>Drinks</td>
+                                        <td>1 L</td>
+                                        <td style="color:var(--brand-green); font-weight:800;">₹20</td>
+                                        <td><span class="status-pill st-delivered">In Stock</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: CUSTOMERS DATABASE -->
+                <section class="admin-panel-section" id="tab-customers">
+                    <div class="panel-box-container">
+                        <div class="panel-box-header">
+                            <h3>Registered Customers Database</h3>
+                            <span style="font-size:12px; font-weight:800; color:var(--brand-green);">Active User Accounts</span>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="lux-table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer ID</th>
+                                        <th>Full Name</th>
+                                        <th>Mobile Phone</th>
+                                        <th>Email Address</th>
+                                        <th>Registered Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-customers-tbody">
+                                    <tr>
+                                        <td>#USR-101</td>
+                                        <td>Sumit Singh</td>
+                                        <td>+91 9602697303</td>
+                                        <td>sumitsingh34398@gmail.com</td>
+                                        <td>Hisar Sector 14, Haryana</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: DELIVERY PARTNERS (PILOTS) MANAGEMENT -->
+                <section class="admin-panel-section" id="tab-riders">
+                    <div class="panel-box-container">
+                        <div class="panel-box-header">
+                            <h3>Delivery Partners & Riders Fleet</h3>
+                            <button class="btn-lux-primary" onclick="openAddRiderModal()"><i class="ph-bold ph-plus"></i> Add New Delivery Partner</button>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="lux-table">
+                                <thead>
+                                    <tr>
+                                        <th>Partner Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Email ID</th>
+                                        <th>Vehicle Info</th>
+                                        <th>Duty Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-riders-tbody">
+                                    <tr>
+                                        <td><strong>Rajesh Kumar</strong></td>
+                                        <td>+91 9812345678</td>
+                                        <td>rajesh.pilot@roxen.com</td>
+                                        <td>Hero Splendor • HR20</td>
+                                        <td><span class="status-pill st-delivered">Online</span></td>
+                                        <td>
+                                            <button class="btn-danger-sm" onclick="blacklistRider(this)">Blacklist</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: SETTINGS -->
+                <section class="admin-panel-section" id="tab-settings">
+                    <div class="panel-box-container">
+                        <div class="panel-box-header">
+                            <h3>DarkStore Store Settings</h3>
+                        </div>
+                        <p style="font-size:13px; color:var(--text-sub); margin-bottom:12px;">Store location: Hisar Sector 14 Dark Hub • 10-Minute SLA Enabled.</p>
+                        <button class="btn-lux-primary" onclick="alert('Store configuration updated successfully!')">Save Changes</button>
+                    </div>
+                </section>
+
             </div>
         </div>
-
-        <!-- ADMIN HEADER -->
-        <header class="admin-header">
-            <div class="admin-brand">
-                <i class="ph-fill ph-storefront" style="color:var(--brand-green);"></i>
-                Roxen <span>DarkStore Admin</span>
-            </div>
-            <div class="admin-nav-tabs">
-                <button class="admin-tab-btn active" onclick="switchAdminTab('orders', this)">Live Orders</button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('inventory', this)">Inventory</button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('riders', this)">Pilots Fleet</button>
-            </div>
-        </header>
-
-        <!-- METRICS DASHBOARD (Rating removed, 3 metrics with Live Clock) -->
-        <div class="admin-metrics-grid">
-            <div class="metric-card">
-                <div class="metric-lbl">Live Orders Queue</div>
-                <div class="metric-val" id="metric-orders-count">0</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-lbl">Active Pilots Online</div>
-                <div class="metric-val" id="metric-pilots-online" style="color:#2563eb;">1 Online</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-lbl">SLA Speed & Live Time</div>
-                <div class="metric-val" style="color:var(--brand-green);"><span id="metric-sla">10.2 Mins</span> • <span id="live-clock" style="font-size:14px; font-weight:700; color:#555;">00:00:00</span></div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: LIVE ORDERS PANEL -->
-        <section class="admin-content-section" id="panel-orders">
-            <div class="panel-heading-row">
-                <h3 style="font-size:16px; font-weight:800;">Active DarkStore Orders Queue</h3>
-                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green); cursor:pointer;" onclick="fetchAdminData()">
-                    <i class="ph-bold ph-arrows-clockwise"></i> Refresh Queue
-                </span>
-            </div>
-
-            <div class="admin-table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Order Code</th>
-                            <th>Customer Info</th>
-                            <th>Delivery Address</th>
-                            <th>Items & Total</th>
-                            <th>Payment</th>
-                            <th>Assigned Pilot</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-orders-table-body">
-                        <!-- Populated dynamically via JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- SECTION 2: INVENTORY PANEL -->
-        <section class="admin-content-section" id="panel-inventory" style="display:none;">
-            <div class="panel-heading-row">
-                <h3 style="font-size:16px; font-weight:800;">DarkStore Inventory & Live Ordered Items</h3>
-                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green);">Stock status: Optimal ⚡</span>
-            </div>
-            <div class="admin-table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Category</th>
-                            <th>Unit Size</th>
-                            <th>Selling Price</th>
-                            <th>Stock Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-inventory-table-body">
-                        <!-- Dynamic inventory -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- SECTION 3: RIDERS FLEET PANEL -->
-        <section class="admin-content-section" id="panel-riders" style="display:none;">
-            <div class="panel-heading-row">
-                <h3 style="font-size:16px; font-weight:800;">Active Delivery Pilots Fleet (Live Login)</h3>
-                <span style="font-size:11.5px; font-weight:800; color:var(--brand-green);">Live Duty Status</span>
-            </div>
-            <div class="admin-table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Pilot Name</th>
-                            <th>Contact Phone</th>
-                            <th>Vehicle Info</th>
-                            <th>Duty Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-riders-table-body">
-                        <!-- Dynamic active pilots -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
     </div>
 
-    <!-- SCRIPT FOR ADMIN LIVE SYNC & CLOCK -->
+    <!-- ADD RIDER MODAL -->
+    <div class="modal-overlay-lux" id="add-rider-modal" onclick="if(event.target.id==='add-rider-modal') closeAddRiderModal()">
+        <div class="modal-box-lux">
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Register New Delivery Partner</h3>
+            <input type="text" id="new-rider-name" class="form-input-lux" placeholder="Partner Full Name *">
+            <input type="tel" id="new-rider-phone" class="form-input-lux" placeholder="10-Digit Mobile Number *">
+            <input type="email" id="new-rider-email" class="form-input-lux" placeholder="Email Address (Login ID) *">
+            <input type="text" id="new-rider-vehicle" class="form-input-lux" placeholder="Vehicle Details (e.g. Hero Splendor)">
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+                <button type="button" onclick="closeAddRiderModal()" style="height:40px; background:#f1f5f9; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Cancel</button>
+                <button type="button" onclick="saveNewRider()" style="height:40px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Create Partner ID</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR CODE GENERATOR MODAL -->
+    <div class="modal-overlay-lux" id="qr-modal" onclick="if(event.target.id==='qr-modal') closeQrModal()">
+        <div class="modal-box-lux" style="text-align:center;">
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:6px;" id="qr-modal-title">Order QR Code</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-bottom:16px;">Have delivery partner scan this QR code for verification & map sync.</p>
+            <div style="background:#f8fafc; border:2px dashed var(--brand-green); padding:20px; border-radius:16px; display:inline-block; margin-bottom:16px;">
+                <div style="font-size:64px;">📷</div>
+                <strong id="qr-code-string" style="font-size:14px; color:var(--brand-green); display:block; margin-top:6px;">ROXEN-QR-RX-9482</strong>
+            </div>
+            <button onclick="closeQrModal()" style="width:100%; height:40px; background:var(--brand-green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer;">Close QR Window</button>
+        </div>
+    </div>
+
     <script>
-        // Live Clock Timer
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
-        }, 1000);
+        // Tab Switcher
+        function switchAdminTab(tabName, el) {
+            document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+            if(el) el.classList.add('active');
 
-        function switchAdminTab(tabName, btnEl) {
-            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
-
-            document.getElementById('panel-orders').style.display = (tabName === 'orders') ? 'block' : 'none';
-            document.getElementById('panel-inventory').style.display = (tabName === 'inventory') ? 'block' : 'none';
-            document.getElementById('panel-riders').style.display = (tabName === 'riders') ? 'block' : 'none';
+            document.querySelectorAll('.admin-panel-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
-        function fetchAdminData() {
-            // Fetch live orders
+        // Initialize Sales Chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['08 AM', '10 AM', '12 PM', '02 PM', '04 PM', '06 PM', '08 PM'],
+                datasets: [{
+                    label: 'Sales (₹)',
+                    data: [1200, 3400, 5600, 8900, 14200, 18400, 24500],
+                    borderColor: '#0c831f',
+                    backgroundColor: 'rgba(12, 131, 31, 0.08)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.35
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+            }
+        });
+
+        // Fetch Live Orders from Backend
+        function fetchAdminOrders() {
             fetch('/api/rider/orders')
             .then(res => res.json())
             .then(data => {
-                const tbody = document.getElementById('admin-orders-table-body');
+                const tbody = document.getElementById('admin-orders-tbody');
                 tbody.innerHTML = '';
-                
-                if(!data.orders || data.orders.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-sub);">No active orders in dark store queue.</td></tr>`;
-                    document.getElementById('metric-orders-count').innerText = "0";
+
+                if (!data.orders || data.orders.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:30px; color:var(--text-sub);">No active orders in queue.</td></tr>`;
+                    document.getElementById('stat-orders-count').innerText = "0";
+                    document.getElementById('stat-total-sales').innerText = "₹0.00";
                     return;
                 }
 
-                document.getElementById('metric-orders-count').innerText = data.orders.length;
-
-                // Inventory items accumulator
-                let inventoryMap = {};
+                document.getElementById('stat-orders-count').innerText = data.orders.length;
+                let sumTotal = 0;
 
                 data.orders.forEach(o => {
+                    sumTotal += o.grand_total;
                     const tr = document.createElement('tr');
-                    const isOut = (o.status === 'Out for Delivery');
                     const isDelivered = (o.status === 'Delivered');
-                    const stClass = isDelivered ? 'st-delivered' : (isOut ? 'st-out' : 'st-placed');
-
-                    let itemsSummary = '';
-                    if (Array.isArray(o.items)) {
-                        o.items.forEach(it => {
-                            itemsSummary += `${it.name} (${it.qty}x)<br>`;
-                            if(inventoryMap[it.name]) {
-                                inventoryMap[it.name].totalOrdered += it.qty;
-                            } else {
-                                inventoryMap[it.name] = { unit: it.unit, price: it.price, totalOrdered: it.qty, category: 'Groceries' };
-                            }
-                        });
-                    }
+                    const stClass = isDelivered ? 'st-delivered' : 'st-out';
 
                     tr.innerHTML = `
-                        <td><strong>${o.order_code}</strong><br><span style="font-size:10px; color:var(--text-sub);">${o.created_at}</span></td>
-                        <td>${o.customer_name}<br><span style="font-size:10.5px; color:var(--text-sub);">+91 ${o.customer_phone}</span></td>
-                        <td style="max-width:180px; font-size:11px; color:var(--text-sub);">${o.address}</td>
-                        <td style="font-size:11px;">${itemsSummary}<strong style="color:var(--brand-green);">Total: ₹${o.grand_total}</strong></td>
+                        <td><strong>${o.order_code}</strong></td>
+                        <td>${o.customer_name}<br><span style="font-size:11px; color:var(--text-sub);">+91 ${o.customer_phone}</span></td>
+                        <td style="max-width:180px; font-size:11.5px; color:var(--text-sub);">${o.address}</td>
+                        <td style="color:var(--brand-green); font-weight:800;">₹${o.grand_total}</td>
                         <td>${o.payment_method}</td>
-                        <td>${o.rider_name ? `<strong>${o.rider_name}</strong><br><span style="font-size:10px;">+91 ${o.rider_phone || ''}</span>` : '<span style="color:#d97706;">Unassigned</span>'}</td>
+                        <td>${o.rider_name ? o.rider_name : '<span style="color:#d97706;">Unassigned</span>'}</td>
+                        <td><button class="btn-lux-primary" style="padding:4px 10px; font-size:11px;" onclick="generateOrderQR('${o.order_code}')">Generate QR</button></td>
                         <td><span class="status-pill ${stClass}">${o.status}</span></td>
                     `;
                     tbody.appendChild(tr);
                 });
 
-                // Populate Inventory Table from active orders
-                const invTbody = document.getElementById('admin-inventory-table-body');
-                invTbody.innerHTML = '';
-                const invKeys = Object.keys(inventoryMap);
-                if(invKeys.length === 0) {
-                    invTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-sub);">No items ordered yet.</td></tr>`;
-                } else {
-                    invKeys.forEach(k => {
-                        const item = inventoryMap[k];
-                        invTbody.innerHTML += `
-                            <tr>
-                                <td><strong>${k}</strong></td>
-                                <td>General</td>
-                                <td>${item.unit}</td>
-                                <td>₹${item.price}</td>
-                                <td><span class="status-pill st-delivered">Ordered (${item.totalOrdered} units)</span></td>
-                            </tr>
-                        `;
-                    });
-                }
-
-                // Populate Active Pilots Fleet
-                const riderTbody = document.getElementById('admin-riders-table-body');
-                riderTbody.innerHTML = '';
-                let activePilotsCount = 0;
-
-                data.orders.forEach(o => {
-                    if(o.rider_name) {
-                        activePilotsCount++;
-                        riderTbody.innerHTML += `
-                            <tr>
-                                <td><strong>${o.rider_name}</strong></td>
-                                <td>+91 ${o.rider_phone || '9812345678'}</td>
-                                <td>Hero Splendor • HR20</td>
-                                <td><span class="status-pill st-delivered">On Duty (Handling ${o.order_code})</span></td>
-                            </tr>
-                        `;
-                    }
-                });
-
-                if(activePilotsCount === 0) {
-                    riderTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-sub);">1 Pilot Online (Rajesh Kumar - Ready for dispatch)</td></tr>`;
-                    document.getElementById('metric-pilots-online').innerText = "1 Online";
-                } else {
-                    document.getElementById('metric-pilots-online').innerText = `${activePilotsCount} Active`;
-                }
-
+                document.getElementById('stat-total-sales').innerText = `₹${sumTotal.toLocaleString('en-IN')}`;
             }).catch(() => {});
         }
 
+        // QR Modal Controls
+        function generateOrderQR(code) {
+            document.getElementById('qr-code-string').innerText = `ROXEN-QR-${code}`;
+            document.getElementById('qr-modal-title').innerText = `QR Code for ${code}`;
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+        function closeQrModal() { document.getElementById('qr-modal').style.display = 'none'; }
+
+        // Rider Modal Controls
+        function openAddRiderModal() { document.getElementById('add-rider-modal').style.display = 'flex'; }
+        function closeAddRiderModal() { document.getElementById('add-rider-modal').style.display = 'none'; }
+
+        function saveNewRider() {
+            const name = document.getElementById('new-rider-name').value.trim();
+            const phone = document.getElementById('new-rider-phone').value.trim();
+            const email = document.getElementById('new-rider-email').value.trim();
+            const vehicle = document.getElementById('new-rider-vehicle').value.trim() || 'Hero Splendor';
+
+            if(!name || !phone || !email) {
+                alert("Please fill name, phone and email.");
+                return;
+            }
+
+            const tbody = document.getElementById('admin-riders-tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${name}</strong></td>
+                <td>+91 ${phone}</td>
+                <td>${email}</td>
+                <td>${vehicle}</td>
+                <td><span class="status-pill st-delivered">Online</span></td>
+                <td><button class="btn-danger-sm" onclick="blacklistRider(this)">Blacklist</button></td>
+            `;
+            tbody.prepend(tr);
+            closeAddRiderModal();
+            alert(`Delivery Partner ID created for ${name}! They can now log into Rider App.`);
+        }
+
+        function blacklistRider(btn) {
+            const row = btn.closest('tr');
+            const statusCell = row.cells[4];
+            statusCell.innerHTML = `<span class="status-pill st-blacklisted">Blacklisted</span>`;
+            btn.remove();
+        }
+
         window.onload = function() {
-            fetchAdminData();
-            setInterval(fetchAdminData, 4000);
+            fetchAdminOrders();
+            setInterval(fetchAdminOrders, 4000);
         };
     </script>
 </body>
