@@ -397,6 +397,33 @@ def get_my_orders():
 def rider_app():
     return render_template('rider.html')
 
+@app.route('/api/rider/scan-qr', methods=['POST'])
+def rider_scan_qr():
+    data = request.get_json() or {}
+    qr_code = data.get('qr_code', '').strip()
+    rider_name = data.get('rider_name', 'Sumit Singh')
+    rider_phone = data.get('rider_phone', '9602697303')
+
+    # Expected format: ROXEN-QR-RX-3639 or just RX-3639
+    order_code = qr_code.replace('ROXEN-QR-', '').strip()
+
+    conn = get_db()
+    cursor = conn.cursor()
+    order = cursor.execute('SELECT * FROM orders WHERE order_code = ?', (order_code,)).fetchone()
+
+    if not order:
+        conn.close()
+        return jsonify({'success': False, 'error': 'Invalid QR Code! Order not found.'})
+
+    cursor.execute('''
+        UPDATE orders SET status = 'Out for Delivery', rider_name = ?, rider_phone = ? 
+        WHERE order_code = ?
+    ''', (rider_name, rider_phone, order_code))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True, 'order_code': order_code, 'rider_name': rider_name})
+
 # ========================================================
 # 🏪 ADMIN PANEL ROUTE & API
 # ========================================================
@@ -465,8 +492,8 @@ def rider_update_status():
             return jsonify({'success': False, 'error': 'Invalid 4-Digit OTP! Check with customer.'})
         cursor.execute('UPDATE orders SET status = ? WHERE id = ?', (new_status, order_id))
     elif new_status == 'Out for Delivery':
-        rider_name = data.get('rider_name', 'Rajesh Kumar')
-        rider_phone = data.get('rider_phone', '9812345678')
+        rider_name = data.get('rider_name', 'Sumit Singh')
+        rider_phone = data.get('rider_phone', '9602697303')
         cursor.execute('UPDATE orders SET status = ?, rider_name = ?, rider_phone = ? WHERE id = ?', (new_status, rider_name, rider_phone, order_id))
 
     conn.commit()
