@@ -694,7 +694,7 @@
             cursor: pointer;
         }
 
-        /* Drawer Overlay */
+        /* Drawer Overlay with Edge-Swipe Gesture Support */
         .drawer-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -703,6 +703,7 @@
             z-index: 1000;
             display: none;
             justify-content: flex-end;
+            transition: background 0.3s;
         }
         .drawer-box {
             width: 100%;
@@ -713,6 +714,7 @@
             flex-direction: column;
             animation: slideLeft 0.25s ease-out;
             overflow-y: auto;
+            transition: transform 0.2s ease-out;
         }
         body.dark-theme .drawer-box { background: #0f172a; }
 
@@ -989,7 +991,7 @@
             margin-top: 3px;
         }
 
-        /* Clean Dynamic Order Tracker (No Out arrows) */
+        /* Clean Dynamic Order Tracker */
         .order-track-stepper {
             display: flex;
             justify-content: space-between;
@@ -1131,7 +1133,7 @@
 
     <div class="app-wrapper">
         
-        <!-- TOP STICKY NAVBAR (Clean, no red ticker banner) -->
+        <!-- TOP STICKY NAVBAR -->
         <header class="top-navbar" id="main-top-navbar">
             <div class="nav-head">
                 <div class="brand-meta">
@@ -1173,7 +1175,6 @@
                 <button class="btn-shop-now" onclick="scrollToCatalog()">Shop Now <i class="ph-bold ph-arrow-down"></i></button>
             </div>
 
-            <!-- Fresh Picks for You... & Recommended Filter Pill -->
             <div class="rec-pill-bar" id="catalog-anchor">
                 <strong><i class="ph-fill ph-sparkle" style="color:#eab308;"></i> Fresh Picks for You...</strong>
                 <button class="btn-recommended-trigger" onclick="openSortDialog()">
@@ -1195,32 +1196,32 @@
                 <div class="cat-card-exact selected" onclick="filterFromCategoryTab('all')">
                     <div class="icon-circle">🛍️</div>
                     <h4>All Products</h4>
-                    <p>60 Items</p>
+                    <p>60+ Items</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Drinks')">
                     <div class="icon-circle">🥤</div>
                     <h4>Water & Drinks</h4>
-                    <p>12 Items</p>
+                    <p>Chilled & Energy</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Snacks')">
                     <div class="icon-circle">🍿</div>
                     <h4>Snacks</h4>
-                    <p>15 Items</p>
+                    <p>Chips & Biscuits</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Dairy')">
                     <div class="icon-circle">🥛</div>
                     <h4>Milk & Dairy</h4>
-                    <p>18 Items</p>
+                    <p>Fresh Milk & Paneer</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Staples')">
                     <div class="icon-circle">🛒</div>
                     <h4>Grocery & Staples</h4>
-                    <p>10 Items</p>
+                    <p>Atta, Rice & Oil</p>
                 </div>
                 <div class="cat-card-exact" onclick="filterFromCategoryTab('Care')">
                     <div class="icon-circle">🧴</div>
                     <h4>Personal Care</h4>
-                    <p>5 Items</p>
+                    <p>Soaps & Hygiene</p>
                 </div>
             </div>
         </section>
@@ -1234,7 +1235,6 @@
                 <h3>Account & Settings</h3>
             </div>
 
-            <!-- Profile Verified Card (Real Session Data) -->
             <div class="profile-verified-card">
                 <div class="prof-avatar-circle" id="settings-prof-avatar">
                     {{ (user.name[:2] if user and user.name else 'SS').upper() }}
@@ -1248,7 +1248,6 @@
                 </div>
             </div>
 
-            <!-- MY ORDERS & SHOPPING -->
             <p class="settings-section-title">MY ORDERS & SHOPPING</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openOrdersModal()">
@@ -1299,7 +1298,6 @@
                 </div>
             </div>
 
-            <!-- ACCOUNT SETTINGS -->
             <p class="settings-section-title">ACCOUNT SETTINGS</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="openEditProfileModal()">
@@ -1353,7 +1351,6 @@
                 </div>
             </div>
 
-            <!-- PREFERENCES -->
             <p class="settings-section-title">PREFERENCES</p>
             <div class="settings-card-group">
                 <div class="settings-row-item" onclick="toggleLanguage()">
@@ -1379,7 +1376,6 @@
                 </div>
             </div>
 
-            <!-- DANGER ZONE -->
             <p class="settings-section-title" style="color:#dc2626;">DANGER ZONE</p>
             <div class="settings-card-group" style="border-color:#fecaca;">
                 <div class="settings-row-item" onclick="location.href='/logout'" style="background:#fff8f8;">
@@ -1466,7 +1462,7 @@
         <div class="prod-modal-overlay" id="product-detail-modal" onclick="closeOnOverlay(event, 'product-detail-modal')">
             <div class="prod-modal-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <i class="ph-bold ph-arrow-left" style="font-size:22px; cursor:pointer;" onclick="closeProductModal()"></i>
+                    <i class="ph-bold ph-arrow-left" style="font-size:22px; cursor:pointer; opacity:0;" onclick="closeProductModal()"></i>
                     <i class="ph-bold ph-heart" id="modal-wish-icon" style="font-size:22px; cursor:pointer; color:#94a3b8;" onclick="toggleProductWishlist()"></i>
                 </div>
                 
@@ -1529,15 +1525,14 @@
             </div>
         </div>
 
-        <!-- CHECKOUT DRAWER -->
+        <!-- CHECKOUT DRAWER WITH EDGE-SWIPE SUPPORT -->
         <div class="drawer-overlay" id="cart-drawer" onclick="closeOnOverlay(event, 'cart-drawer')">
-            <div class="drawer-box">
+            <div class="drawer-box" id="cart-drawer-box">
                 <div class="checkout-head">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <i class="ph-bold ph-arrow-left" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
                         <h3 style="font-weight:800; font-size:17px;">Check Order Details</h3>
                     </div>
-                    <i class="ph-bold ph-share-network" style="font-size:19px; color:#555e5a;"></i>
+                    <i class="ph-bold ph-x" style="font-size:20px; cursor:pointer;" onclick="closeCartDrawer()"></i>
                 </div>
 
                 <div id="cart-items-wrapper"></div>
@@ -1662,7 +1657,7 @@
             </div>
         </div>
 
-        <!-- ORDER DETAILS & LIVE DYNAMIC TRACKER MODAL (Clean, no out arrows) -->
+        <!-- ORDER DETAILS & LIVE DYNAMIC TRACKER MODAL -->
         <div class="center-modal-overlay" id="order-detail-tracking-modal" onclick="closeOnOverlay(event, 'order-detail-tracking-modal')">
             <div class="center-modal-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -1685,7 +1680,7 @@
                     <p>Delivered by Roxen Pilot. Thank you for shopping fresh!</p>
                 </div>
 
-                <!-- Clean Stepper (No out arrows) -->
+                <!-- Stepper -->
                 <div class="order-track-stepper">
                     <div class="track-step-node" id="st-placed">
                         <div class="node-icon-circle"><i class="ph-bold ph-check"></i></div>
@@ -1705,11 +1700,9 @@
                     </div>
                 </div>
 
-                <!-- Items in this Order -->
                 <p style="font-size:11.5px; font-weight:800; color:var(--text-sub); text-transform:uppercase; margin-bottom:8px;">ORDERED GROCERIES</p>
                 <div id="track-items-list" style="margin-bottom:14px; max-height:160px; overflow-y:auto;"></div>
 
-                <!-- Bill Breakdown & Rider Contact Info -->
                 <div style="background:#f8faf9; border:1px solid var(--border-clr); border-radius:14px; padding:12px; margin-bottom:12px; font-size:12px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span style="color:var(--text-sub);">Delivered to:</span>
@@ -1724,7 +1717,6 @@
                         <span style="color:var(--brand-green);" id="track-grand-total">₹0</span>
                     </div>
 
-                    <!-- Delivery Partner Details Under Amount -->
                     <div id="track-rider-box" style="display:none; background:#e8f7ee; border:1px solid #bbf7d0; border-radius:10px; padding:8px 10px; align-items:center; justify-content:space-between; margin-top:6px;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <div style="width:32px; height:32px; background:var(--brand-green); color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;" id="track-rider-initials">RK</div>
@@ -1891,9 +1883,9 @@
                 <div style="width:70px; height:70px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; border:3px solid #86efac;">
                     <i class="ph-bold ph-check"></i>
                 </div>
-                <h3 style="font-size:21px; font-weight:800; color:#0d5c3a;">Order Placed in 10 Mins!</h3>
+                <h3 style="font-size:21px; font-weight:800; color:#0d5c3a;">Order Placed & QR Generated!</h3>
                 <p style="font-size:12.5px; color:var(--text-sub); margin:4px 0 20px;">
-                    Your fresh groceries are being packed at the nearest Dark Store 📦
+                    Your order has been sent to Admin Dark Store dashboard with unique QR code verification.
                 </p>
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
@@ -1912,7 +1904,7 @@
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
         const catalogDB = [
-            // Dairy (18 Unique Items)
+            // Dairy (18 Unique Trending Items)
             { id: 1, name: "Amul Taaza Toned Fresh Milk", brand: "Amul", category: "Dairy", price: 27, mrp: 28, unit: "500 ml", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300", desc: "Fresh homogenized toned milk packed with calcium & vitamin A." },
             { id: 2, name: "Amul Gold Full Cream Milk", brand: "Amul", category: "Dairy", price: 34, mrp: 35, unit: "500 ml", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300", desc: "Rich full cream pasteurized milk ideal for tea and sweets." },
             { id: 3, name: "Mother Dairy Cow Fresh Milk", brand: "Mother Dairy", category: "Dairy", price: 29, mrp: 30, unit: "500 ml", img: "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?w=300", desc: "Easily digestible wholesome fresh cow milk." },
@@ -1932,7 +1924,7 @@
             { id: 17, name: "Amul Kool Kesar Badam Milk", brand: "Amul", category: "Dairy", price: 25, mrp: 25, unit: "180 ml", img: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300", desc: "Flavoured thick toned milk with roasted almond bits." },
             { id: 18, name: "Mother Dairy Paneer Block", brand: "Mother Dairy", category: "Dairy", price: 90, mrp: 95, unit: "200 g", img: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=300", desc: "Hygienically packaged soft cottage cheese." },
 
-            // Snacks & Munchies (15 Unique Items)
+            // Snacks & Munchies (15 Unique Trending Items)
             { id: 19, name: "Parle-G Gold Glucose Biscuits", brand: "Parle", category: "Snacks", price: 100, mrp: 110, unit: "1 kg", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300", desc: "India's favourite golden glucose crunchy biscuit." },
             { id: 20, name: "Lay's Magic Masala Chips", brand: "Lays", category: "Snacks", price: 20, mrp: 20, unit: "50 g", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300", desc: "Crispy potato chips coated with North Indian spices." },
             { id: 21, name: "Kurkure Masala Munch Crunchy", brand: "Kurkure", category: "Snacks", price: 20, mrp: 20, unit: "80 g", img: "https://images.unsplash.com/photo-1621447504864-d8686e12698c?w=300", desc: "Tedhe-medhe crispy corn and rice puffs." },
@@ -1949,7 +1941,7 @@
             { id: 32, name: "KitKat 4 Finger Chocolate", brand: "Nestle", category: "Snacks", price: 40, mrp: 40, unit: "38 g", img: "https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=300", desc: "Crispy wafer chocolate break." },
             { id: 33, name: "Haldiram's Aloo Bhujia", brand: "Haldiram", category: "Snacks", price: 55, mrp: 60, unit: "200 g", img: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=300", desc: "Potato & mint seasoned sev." },
 
-            // Water & Drinks (12 Unique Items)
+            // Water & Drinks (12 Unique Chilled & Energy Items)
             { id: 34, name: "Bisleri Packaged Drinking Water", brand: "Bisleri", category: "Drinks", price: 20, mrp: 20, unit: "1 L", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300", desc: "Pure drinking water with essential minerals and double ozonisation protection." },
             { id: 35, name: "Coca-Cola Soft Drink Can", brand: "Coca-Cola", category: "Drinks", price: 40, mrp: 40, unit: "300 ml", img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300", desc: "Ice-cold refreshing original cola taste." },
             { id: 36, name: "Real Fruit Mixed Fruit Juice", brand: "Real", category: "Drinks", price: 115, mrp: 125, unit: "1 L", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300", desc: "Natural blend of 9 fruits rich in Vitamin C." },
@@ -2211,6 +2203,41 @@
 
         function openCartDrawer() { document.getElementById('cart-drawer').style.display = 'flex'; }
         function closeCartDrawer() { document.getElementById('cart-drawer').style.display = 'none'; }
+
+        // ========================================================
+        // 📱 EDGE-SWIPE & GESTURE TOUCH HANDLERS (Go Back / Close)
+        // ========================================================
+        function initEdgeSwipeGestures() {
+            const drawer = document.getElementById('cart-drawer');
+            const drawerBox = document.getElementById('cart-drawer-box');
+            if(!drawer || !drawerBox) return;
+
+            let touchStartX = 0;
+            let touchCurrentX = 0;
+
+            drawer.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            }, {passive: true});
+
+            drawer.addEventListener('touchmove', (e) => {
+                touchCurrentX = e.touches[0].clientX;
+                let diff = touchCurrentX - touchStartX;
+                // Swipe right to close drawer
+                if(diff > 0) {
+                    drawerBox.style.transform = `translateX(${diff}px)`;
+                }
+            }, {passive: true});
+
+            drawer.addEventListener('touchend', (e) => {
+                let diff = touchCurrentX - touchStartX;
+                if(diff > 100) {
+                    closeCartDrawer();
+                }
+                drawerBox.style.transform = `translateX(0px)`;
+                touchStartX = 0;
+                touchCurrentX = 0;
+            });
+        }
 
         function openProductDetailModal(id) {
             const p = catalogDB.find(item => item.id === id);
@@ -2496,7 +2523,7 @@
         }
 
         // ========================================================
-        // 🚀 CREATE REAL ORDER WITH MANDATORY NAME & PHONE VALIDATION
+        // 🚀 CREATE REAL ORDER & SYNC WITH ADMIN PANEL (QR CODE)
         // ========================================================
         function triggerOrderSuccess() {
             let totalCount = 0;
@@ -2586,7 +2613,7 @@
         function submitRefundClaim() { closeRefundModal(); }
 
         // ========================================================
-        // 📦 MY ORDERS LIST (WITH PHOTO THUMBNAILS & DETAILS)
+        // 📦 MY ORDERS LIST
         // ========================================================
         function openOrdersModal() {
             const list = document.getElementById('orders-list-content');
@@ -2659,7 +2686,7 @@
         function closeOrdersModal() { document.getElementById('orders-modal').style.display = 'none'; }
 
         // ========================================================
-        // 🔄 STRICT LIVE ORDER TRACKER & 4-DIGIT OTP
+        // 🔄 LIVE ORDER TRACKER & 4-DIGIT OTP
         // ========================================================
         function openOrderDetailsModal(orderIndex) {
             const o = cachedOrders[orderIndex];
@@ -2698,7 +2725,6 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'flex';
         }
 
-        // Strict Stepper & OTP Visibility Controller
         function updateStepperUI(order) {
             const rawStatus = order.status || 'Placed';
             const status = rawStatus.trim().toLowerCase();
@@ -2760,7 +2786,6 @@
             document.getElementById('order-detail-tracking-modal').style.display = 'none';
         }
 
-        // Auto Poll Order Status Every 3 Seconds
         setInterval(() => {
             if (liveTrackingOrderCode && document.getElementById('order-detail-tracking-modal').style.display === 'flex') {
                 fetch('/api/my-orders')
@@ -2869,6 +2894,7 @@
             renderProducts(catalogDB);
             syncCheckoutData();
             initSlideConfirm();
+            initEdgeSwipeGestures();
             if(localStorage.getItem('roxen_cookies') === 'true') {
                 document.getElementById('cookie-floating-prompt').style.display = 'none';
             }
