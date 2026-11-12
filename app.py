@@ -404,7 +404,6 @@ def rider_scan_qr():
     rider_name = data.get('rider_name', 'Sumit Singh')
     rider_phone = data.get('rider_phone', '9602697303')
 
-    # Expected format: ROXEN-QR-RX-3639 or just RX-3639
     order_code = qr_code.replace('ROXEN-QR-', '').strip()
 
     conn = get_db()
