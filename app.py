@@ -322,7 +322,7 @@ def create_order():
             conn.close()
             return jsonify({'success': False, 'error': 'Cart is empty.'})
 
-        order_code = f"#RX-2026-{random.randint(1000, 9999)}"
+        order_code = f"RX-{random.randint(1000, 9999)}"
         delivery_otp = str(random.randint(1000, 9999))
 
         cursor.execute('''
