@@ -41,7 +41,7 @@ def init_db():
         )
     ''')
     
-    # 2. Orders Table (Shared between Customer, Rider & Store)
+    # 2. Orders Table (With Rider Name & Phone Columns)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,15 +57,19 @@ def init_db():
             grand_total REAL NOT NULL,
             payment_method TEXT NOT NULL,
             status TEXT DEFAULT 'Placed',
+            rider_name TEXT DEFAULT '',
+            rider_phone TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
     
-    try:
-        cursor.execute("ALTER TABLE orders ADD COLUMN delivery_otp TEXT DEFAULT '1234'")
-    except Exception:
-        pass
+    # Auto-migration safeguard for columns
+    for col, col_type in [("delivery_otp", "TEXT DEFAULT '1234'"), ("rider_name", "TEXT DEFAULT ''"), ("rider_phone", "TEXT DEFAULT ''")]:
+        try:
+            cursor.execute(f"ALTER TABLE orders ADD COLUMN {col} {col_type}")
+        except Exception:
+            pass
 
     conn.commit()
     conn.close()
@@ -355,7 +359,7 @@ def get_my_orders():
 
     try:
         rows = cursor.execute('''
-            SELECT order_code, delivery_otp, items_json, grand_total, status, delivery_address, payment_method, created_at 
+            SELECT order_code, delivery_otp, items_json, grand_total, status, delivery_address, payment_method, rider_name, rider_phone, created_at 
             FROM orders WHERE user_id = ? ORDER BY id DESC LIMIT 20
         ''', (user_id,)).fetchall()
         conn.close()
@@ -376,6 +380,8 @@ def get_my_orders():
                 'status': r['status'],
                 'payment_method': r['payment_method'],
                 'address': r['delivery_address'],
+                'rider_name': r['rider_name'] if 'rider_name' in r.keys() else '',
+                'rider_phone': r['rider_phone'] if 'rider_phone' in r.keys() else '',
                 'created_at': r['created_at']
             })
 
@@ -449,8 +455,12 @@ def rider_update_status():
         if entered_otp != real_otp and entered_otp != '1234':
             conn.close()
             return jsonify({'success': False, 'error': 'Invalid 4-Digit OTP! Check with customer.'})
+        cursor.execute('UPDATE orders SET status = ? WHERE id = ?', (new_status, order_id))
+    elif new_status == 'Out for Delivery':
+        rider_name = data.get('rider_name', 'Rajesh Kumar')
+        rider_phone = data.get('rider_phone', '9812345678')
+        cursor.execute('UPDATE orders SET status = ?, rider_name = ?, rider_phone = ? WHERE id = ?', (new_status, rider_name, rider_phone, order_id))
 
-    cursor.execute('UPDATE orders SET status = ? WHERE id = ?', (new_status, order_id))
     conn.commit()
     conn.close()
 
