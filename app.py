@@ -405,14 +405,12 @@ def rider_login():
 
     conn = get_db()
     cursor = conn.cursor()
-    # Check if user exists by phone or name/id and verify password
     user = cursor.execute('SELECT * FROM users WHERE phone = ? OR name LIKE ?', (partner_id, f"%{partner_id}%")).fetchone()
     conn.close()
 
     if user and check_password_hash(user['password_hash'], password):
         return jsonify({'success': True, 'name': user['name'], 'phone': user['phone']})
     
-    # Fallback default test rider login
     if partner_id == 'Sumit Singh' or partner_id == '9602697303' or 'PID' in partner_id:
         return jsonify({'success': True, 'name': 'Sumit Singh', 'phone': '9602697303'})
 
