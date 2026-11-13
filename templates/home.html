@@ -901,50 +901,6 @@
             transform: scale(1);
         }
 
-        /* 🟢 SLIDE-TO-CONFIRM GESTURE SLIDER */
-        .slide-confirm-container {
-            position: relative;
-            width: 100%;
-            height: 52px;
-            background: #e1eed4;
-            border-radius: 14px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            padding: 4px;
-            user-select: none;
-            touch-action: none;
-            border: 1.5px solid #bbf7d0;
-        }
-        .slide-confirm-text {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--brand-green);
-            letter-spacing: 0.5px;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .slide-confirm-thumb {
-            position: absolute;
-            left: 4px;
-            width: 44px;
-            height: 44px;
-            background: var(--brand-green);
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 2;
-            transition: transform 0.05s linear;
-            box-shadow: 0 4px 12px rgba(12, 131, 31, 0.3);
-        }
-
         /* Order Cards in My Orders */
         .luxury-order-card {
             background: #ffffff;
@@ -1675,14 +1631,11 @@
                     </div>
                 </div>
 
-                <!-- 🟢 SLIDE-TO-CONFIRM GESTURE SLIDER -->
+                <!-- 🟢 CLICK BUTTON TO PLACE ORDER -->
                 <div style="margin-top:auto; padding:16px; background:var(--card-bg); border-top:1px solid var(--border-clr);">
-                    <div class="slide-confirm-container" id="slide-container">
-                        <div class="slide-confirm-text" id="slide-text">SLIDE TO PLACE ORDER →</div>
-                        <div class="slide-confirm-thumb" id="slide-thumb">
-                            <i class="ph-bold ph-arrow-right"></i>
-                        </div>
-                    </div>
+                    <button onclick="triggerOrderSuccess()" style="width:100%; height:52px; background:var(--brand-green); color:#ffffff; border:none; border-radius:14px; font-size:15px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(12,131,31,0.35);">
+                        <span>Place Order Now</span> <i class="ph-bold ph-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -2508,64 +2461,6 @@
         }
 
         // ========================================================
-        // 🟢 FULLY ROBUST & SMOOTH SLIDE-TO-CONFIRM GESTURE SLIDER
-        // ========================================================
-        function initSlideConfirm() {
-            const container = document.getElementById('slide-container');
-            const thumb = document.getElementById('slide-thumb');
-            const text = document.getElementById('slide-text');
-
-            if (!container || !thumb) return;
-
-            let isDragging = false;
-            let startX = 0;
-
-            function startDrag(e) {
-                isDragging = true;
-                startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-                e.preventDefault();
-            }
-
-            function onDrag(e) {
-                if (!isDragging) return;
-                let clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-                let diff = clientX - startX;
-                let maxSlide = container.clientWidth - thumb.clientWidth - 8;
-
-                if (diff < 0) diff = 0;
-                if (diff > maxSlide) diff = maxSlide;
-
-                thumb.style.transform = `translateX(${diff}px)`;
-                text.style.opacity = 1 - (diff / maxSlide);
-
-                if (diff >= maxSlide - 6) {
-                    isDragging = false;
-                    triggerOrderSuccess();
-                    resetSlider();
-                }
-            }
-
-            function stopDrag() {
-                if (!isDragging) return;
-                isDragging = false;
-                resetSlider();
-            }
-
-            function resetSlider() {
-                thumb.style.transform = `translateX(0px)`;
-                text.style.opacity = 1;
-            }
-
-            thumb.addEventListener('mousedown', startDrag);
-            window.addEventListener('mousemove', onDrag);
-            window.addEventListener('mouseup', stopDrag);
-
-            thumb.addEventListener('touchstart', startDrag, {passive: false});
-            window.addEventListener('touchmove', onDrag, {passive: false});
-            window.addEventListener('touchend', stopDrag);
-        }
-
-        // ========================================================
         // 🚀 CREATE REAL ORDER & TRIGGER LUXURY SUCCESS POPUP
         // ========================================================
         function triggerOrderSuccess() {
@@ -2931,7 +2826,6 @@
         window.onload = function() {
             renderProducts(catalogDB);
             syncCheckoutData();
-            initSlideConfirm();
             initEdgeSwipeGestures();
             if(localStorage.getItem('roxen_cookies') === 'true') {
                 document.getElementById('cookie-floating-prompt').style.display = 'none';
