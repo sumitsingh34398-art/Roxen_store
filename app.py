@@ -111,10 +111,6 @@ def send_email_async(email, otp):
         except Exception:
             pass
 
-# ========================================================
-# 🌐 AUTHENTICATION & PORTAL ROUTES
-# ========================================================
-
 @app.route('/')
 def root():
     if 'user_id' not in session:
@@ -231,10 +227,6 @@ def verify_register():
         return jsonify({'success': False, 'error': 'Mobile or email already registered.'})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
-
-# ========================================================
-# 🛒 CUSTOMER STORE & PROFILE APIS
-# ========================================================
 
 @app.route('/home')
 def home():
@@ -441,13 +433,6 @@ def rider_scan_qr():
     conn.close()
 
     return jsonify({'success': True, 'order_code': order_code, 'rider_name': rider_name})
-
-# ========================================================
-# 🏪 ADMIN PANEL ROUTE & API
-# ========================================================
-@app.route('/admin')
-def admin_panel():
-    return render_template('admin.html')
 
 @app.route('/api/rider/orders', methods=['GET'])
 def rider_get_orders():
