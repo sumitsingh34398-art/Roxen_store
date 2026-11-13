@@ -27,7 +27,7 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
     
-    # 1. Users Table
+    # 1. Users Table (Supports Customers & Permanent Riders)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
