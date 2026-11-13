@@ -91,6 +91,23 @@
             overflow-y: auto;
         }
 
+        /* Earnings & Rating Stats Bar */
+        .pilot-stats-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .stat-box-pilot {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+        }
+        .stat-box-pilot h3 { font-size: 20px; font-weight: 800; color: var(--brand-green); margin-top: 2px; }
+        .stat-box-pilot p { font-size: 11px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; }
+
         /* Scan QR Action Box */
         .scan-action-box {
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
@@ -166,7 +183,7 @@
 </head>
 <body>
 
-    <!-- RIDER LOGIN SCREEN (Strictly Verified against Database) -->
+    <!-- RIDER LOGIN SCREEN -->
     <div class="rider-auth-screen" id="rider-auth-gateway">
         <div style="text-align:center; margin-bottom:24px;">
             <div style="width:70px; height:70px; background:#e8f7ee; color:var(--brand-green); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 12px;">
@@ -200,6 +217,18 @@
         <!-- BODY -->
         <div class="rider-body">
             
+            <!-- EARNINGS & RATING STATS BAR -->
+            <div class="pilot-stats-bar">
+                <div class="stat-box-pilot">
+                    <p>Today Earnings</p>
+                    <h3>₹72.47</h3>
+                </div>
+                <div class="stat-box-pilot" style="background:linear-gradient(135deg, #fef3c7 100%, #fde68a 0%); border-color:#fcd34d;">
+                    <p>Pilot Rating</p>
+                    <h3 style="color:#d97706;">⭐ 4.9 / 5.0</h3>
+                </div>
+            </div>
+
             <!-- SCAN QR BOX -->
             <div class="scan-action-box" onclick="simulateQRScan()">
                 <i class="ph-bold ph-qr-code"></i>
@@ -207,7 +236,7 @@
                 <p style="font-size:11.5px; color:var(--text-sub); margin-top:2px;">Tap here to scan bag barcode & unlock map route</p>
             </div>
 
-            <!-- LIVE MAP ROUTE BOX (Appears after pickup/scan) -->
+            <!-- LIVE MAP ROUTE BOX -->
             <div id="live-map-route-box" style="display:none; background:#ffffff; border:1.5px solid var(--border-clr); border-radius:18px; padding:14px; margin-bottom:16px; box-shadow:0 4px 16px rgba(0,0,0,0.03);">
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                     <div style="width:36px; height:36px; background:#e0f2fe; color:#0284c7; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">
@@ -225,7 +254,7 @@
 
             <h4 style="font-size:14px; font-weight:800; margin-bottom:10px;">Assigned Orders Queue</h4>
             <div id="rider-orders-container">
-                <p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned. Scan QR code above to pick up package.</p>
+                <p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned. Scan QR code above.</p>
             </div>
 
         </div>
@@ -359,7 +388,7 @@
                             <span class="status-pill ${o.status === 'Delivered' ? 'st-delivered' : 'st-out'}">${o.status}</span>
                         </div>
                         <p style="font-size:12.5px; font-weight:700; margin-bottom:4px;">👤 ${o.customer_name} • <a href="tel:${o.customer_phone}" style="color:var(--brand-green);">📞 ${o.customer_phone}</a></p>
-                        <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:8px;">📍 ${o.address}</p>
+                        <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:8px; cursor:pointer;" onclick="alert('Route Map: 15 Mins • 4.74 km to ${o.address}')">📍 <u>${o.address} (Tap for Distance & Map)</u></p>
                         <div style="margin-bottom:10px;"><strong style="font-size:11.5px;">Ordered Items:</strong>${itemsHtml}</div>
                         <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-clr); padding-top:8px; margin-top:8px;">
                             <strong style="color:var(--brand-green);">₹${o.grand_total} (${o.payment_method})</strong>
