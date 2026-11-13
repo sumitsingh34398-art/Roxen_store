@@ -38,6 +38,30 @@
             display: flex;
         }
 
+        /* Luxury Toast Notification */
+        .lux-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            z-index: 99999;
+            border: 1px solid #334155;
+            animation: slideInToast 0.25s ease-out;
+        }
+        @keyframes slideInToast {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         /* Admin Security PIN Lock Screen Overlay */
         .admin-pin-overlay {
             position: fixed;
@@ -383,6 +407,12 @@
 </head>
 <body>
 
+    <!-- LUXURY TOAST NOTIFICATION -->
+    <div class="lux-toast" id="lux-toast-box">
+        <i class="ph-fill ph-check-circle" style="font-size:18px; color:#10b981;" id="lux-toast-icon"></i>
+        <span id="lux-toast-msg">Action completed successfully!</span>
+    </div>
+
     <!-- SECURE ADMIN PIN LOCK SCREEN GATEWAY -->
     <div class="admin-pin-overlay" id="admin-pin-gate">
         <div class="admin-pin-box">
@@ -703,8 +733,8 @@
                                         <td>#RX-9268</td>
                                         <td>Sumit Singh</td>
                                         <td>Damaged milk packet seal</td>
-                                        <td><span style="color:var(--brand-green); font-weight:700; cursor:pointer;" onclick="alert('Viewing uploaded image proof...')">📷 View Photo</span></td>
-                                        <td><button class="btn-lux-primary" style="padding:4px 10px; font-size:11px;" onclick="alert('Refund of ₹27 credited to customer UPI/Wallet!')">Approve Refund</button></td>
+                                        <td><span style="color:var(--brand-green); font-weight:700; cursor:pointer;" onclick="showLuxToast('Viewing uploaded image proof...')">📷 View Photo</span></td>
+                                        <td><button class="btn-lux-primary" style="padding:4px 10px; font-size:11px;" onclick="showLuxToast('Refund of ₹27 credited to customer UPI/Wallet!')">Approve Refund</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -756,13 +786,14 @@
         </div>
     </div>
 
-    <!-- ADD RIDER MODAL -->
+    <!-- 🌟 ADD RIDER MODAL WITH PERMANENT PASSWORD & 10-DIGIT VALIDATION -->
     <div class="modal-overlay-lux" id="add-rider-modal" onclick="if(event.target.id==='add-rider-modal') closeAddRiderModal()">
         <div class="modal-box-lux">
             <h3 style="font-size:18px; font-weight:800; margin-bottom:14px;">Register New Delivery Partner</h3>
             <input type="text" id="new-rider-name" class="form-input-lux" placeholder="Partner Full Name *">
             <input type="tel" id="new-rider-phone" class="form-input-lux" placeholder="10-Digit Mobile Number *" maxlength="10">
             <input type="email" id="new-rider-email" class="form-input-lux" placeholder="Email Address (Login ID) *">
+            <input type="password" id="new-rider-pass" class="form-input-lux" placeholder="Create Permanent Password *">
             <input type="text" id="new-rider-vehicle" class="form-input-lux" placeholder="Vehicle Details (e.g. Hero Splendor HR20)">
             
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
@@ -772,7 +803,7 @@
         </div>
     </div>
 
-    <!-- 🌟 REAL SCANNABLE QR CODE GENERATOR MODAL -->
+    <!-- REAL SCANNABLE QR CODE GENERATOR MODAL -->
     <div class="modal-overlay-lux" id="qr-modal" onclick="if(event.target.id==='qr-modal') closeQrModal()">
         <div class="modal-box-lux" style="text-align:center;">
             <h3 style="font-size:18px; font-weight:800; margin-bottom:6px;" id="qr-modal-title">Order QR Code</h3>
@@ -791,6 +822,13 @@
     <script>
         let correctAdminPin = localStorage.getItem('roxen_admin_pin') || '3439';
 
+        function showLuxToast(msg) {
+            const toast = document.getElementById('lux-toast-box');
+            document.getElementById('lux-toast-msg').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3200);
+        }
+
         function togglePinVisibility() {
             const input = document.getElementById('entered-admin-pin');
             const icon = document.getElementById('pin-eye-icon');
@@ -807,14 +845,16 @@
             const val = document.getElementById('entered-admin-pin').value.trim();
             if(val === correctAdminPin) {
                 document.getElementById('admin-pin-gate').style.display = 'none';
+                showLuxToast("Admin Dashboard Unlocked Successfully!");
             } else {
-                alert("Incorrect Security PIN! Try default PIN: 3439");
+                showLuxToast("Incorrect Security PIN! Try default PIN: 3439");
             }
         }
 
         function lockAdminSession() {
             document.getElementById('entered-admin-pin').value = '';
             document.getElementById('admin-pin-gate').style.display = 'flex';
+            showLuxToast("Admin Session Locked Securely.");
         }
 
         function saveAdminPinSettings() {
@@ -822,9 +862,9 @@
             if(newPin.length === 4) {
                 correctAdminPin = newPin;
                 localStorage.setItem('roxen_admin_pin', newPin);
-                alert("Admin Secure PIN updated successfully!");
+                showLuxToast("Admin Secure PIN updated successfully!");
             } else {
-                alert("PIN must be exactly 4 digits.");
+                showLuxToast("PIN must be exactly 4 digits.");
             }
         }
 
@@ -898,14 +938,13 @@
             }).catch(() => {});
         }
 
-        // 🌟 REAL SCANNABLE QR CODE GENERATOR FUNCTION USING qrcode.min.js
         function generateOrderQR(code) {
             const qrText = `ROXEN-QR-${code}`;
             document.getElementById('qr-code-string').innerText = qrText;
             document.getElementById('qr-modal-title').innerText = `QR Code for ${code}`;
             
             const box = document.getElementById('qrcode-canvas-box');
-            box.innerHTML = ''; // Clear previous QR
+            box.innerHTML = '';
             
             new QRCode(box, {
                 text: qrText,
@@ -930,7 +969,7 @@
             const price = document.getElementById('new-prod-price').value.trim() || '50';
             const img = document.getElementById('new-prod-img').value.trim() || 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300';
 
-            if(!name) { alert("Please provide product name."); return; }
+            if(!name) { showLuxToast("Please provide product name."); return; }
 
             const tbody = document.getElementById('admin-products-tbody');
             const tr = document.createElement('tr');
@@ -945,12 +984,13 @@
             `;
             tbody.prepend(tr);
             closeAddProductModal();
-            alert("New product added successfully to catalog!");
+            showLuxToast("New product added successfully to catalog!");
         }
 
         function deleteCustomerRow(btn) {
             if(confirm("Are you sure you want to permanently delete this customer account?")) {
                 btn.closest('tr').remove();
+                showLuxToast("Customer account deleted successfully.");
             }
         }
 
@@ -961,10 +1001,11 @@
             const name = document.getElementById('new-rider-name').value.trim();
             const phone = document.getElementById('new-rider-phone').value.trim();
             const email = document.getElementById('new-rider-email').value.trim();
+            const pass = document.getElementById('new-rider-pass').value.trim();
             const vehicle = document.getElementById('new-rider-vehicle').value.trim() || 'Hero Splendor';
 
-            if(!name || phone.length !== 10 || !email) {
-                alert("Please fill name, valid 10-digit phone number, and email.");
+            if(!name || phone.length !== 10 || !email || !pass) {
+                showLuxToast("Please fill name, 10-digit phone, email & permanent password.");
                 return;
             }
 
@@ -987,18 +1028,20 @@
             `;
             tbody.prepend(tr);
             closeAddRiderModal();
-            alert(`Delivery Partner ID (${pid}) created for ${name}!`);
+            showLuxToast(`Partner ID (${pid}) created successfully with permanent password!`);
         }
 
         function blacklistRider(btn) {
             const row = btn.closest('tr');
             row.cells[5].innerHTML = `<span class="status-pill st-blacklisted">Blacklisted</span>`;
             btn.remove();
+            showLuxToast("Delivery partner blacklisted.");
         }
 
         function deleteRider(btn) {
-            if(confirm("Permanently delete this delivery partner?")) {
+            if(confirm("Permanently delete this delivery partner account?")) {
                 btn.closest('tr').remove();
+                showLuxToast("Delivery partner account deleted.");
             }
         }
 
