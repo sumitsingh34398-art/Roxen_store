@@ -36,6 +36,7 @@ def init_db():
             email TEXT UNIQUE,
             password_hash TEXT NOT NULL,
             role TEXT DEFAULT 'customer',
+            vehicle TEXT DEFAULT 'Hero Splendor',
             address TEXT DEFAULT 'Hisar Sector 14, Haryana',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -110,6 +111,10 @@ def send_email_async(email, otp):
                 server.sendmail(SMTP_EMAIL, email, msg.as_string())
         except Exception:
             pass
+
+# ========================================================
+# 🌐 AUTHENTICATION & PORTAL ROUTES
+# ========================================================
 
 @app.route('/')
 def root():
@@ -227,6 +232,10 @@ def verify_register():
         return jsonify({'success': False, 'error': 'Mobile or email already registered.'})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
+
+# ========================================================
+# 🛒 CUSTOMER STORE & PROFILE APIS
+# ========================================================
 
 @app.route('/home')
 def home():
@@ -382,12 +391,16 @@ def get_my_orders():
         return jsonify({'success': False, 'error': str(e), 'orders': []}), 500
 
 # ========================================================
-# 🛵 DELIVERY PARTNER (RIDER) ROUTES & APIS
+# 🛵 DELIVERY PARTNER (RIDER) & ADMIN APIS
 # ========================================================
 
 @app.route('/rider')
 def rider_app():
     return render_template('rider.html')
+
+@app.route('/admin')
+def admin_panel():
+    return render_template('admin.html')
 
 @app.route('/api/rider/login', methods=['POST'])
 def rider_login():
@@ -397,16 +410,47 @@ def rider_login():
 
     conn = get_db()
     cursor = conn.cursor()
-    user = cursor.execute('SELECT * FROM users WHERE phone = ? OR name LIKE ?', (partner_id, f"%{partner_id}%")).fetchone()
-    conn.close()
-
+    user = cursor.execute('SELECT * FROM users WHERE (phone = ? OR name LIKE ?) AND role = "rider"', (partner_id, f"%{partner_id}%")).fetchone()
+    
     if user and check_password_hash(user['password_hash'], password):
+        conn.close()
         return jsonify({'success': True, 'name': user['name'], 'phone': user['phone']})
     
-    if partner_id == 'Sumit Singh' or partner_id == '9602697303' or 'PID' in partner_id:
+    # Fallback default test rider login
+    if partner_id in ['Sumit Singh', '9602697303'] or 'PID' in partner_id:
+        conn.close()
         return jsonify({'success': True, 'name': 'Sumit Singh', 'phone': '9602697303'})
 
+    conn.close()
     return jsonify({'success': False, 'error': 'Invalid Partner ID or Password!'})
+
+@app.route('/api/admin/add-rider', methods=['POST'])
+def admin_add_rider():
+    data = request.get_json() or {}
+    name = data.get('name', '').strip()
+    phone = data.get('phone', '').strip()
+    email = data.get('email', '').strip()
+    password = data.get('password', '').strip()
+    vehicle = data.get('vehicle', 'Hero Splendor').strip()
+
+    if not name or len(phone) != 10 or not password:
+        return jsonify({'success': False, 'error': 'Invalid details provided.'})
+
+    hashed_pwd = generate_password_hash(password)
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO users (name, phone, email, password_hash, role, vehicle, address)
+            VALUES (?, ?, ?, ?, 'rider', ?, 'Hisar Sector 14, Haryana')
+        ''', (name, phone, email, hashed_pwd, vehicle))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    except sqlite3.IntegrityError:
+        return jsonify({'success': False, 'error': 'Phone number or email already registered.'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/rider/scan-qr', methods=['POST'])
 def rider_scan_qr():
@@ -500,7 +544,7 @@ def rider_update_status():
         cursor.execute('UPDATE orders SET status = ?, rider_name = ?, rider_phone = ? WHERE id = ?', (new_status, rider_name, rider_phone, order_id))
 
     conn.commit()
-    conn.close()
+0    conn.close()
 
     return jsonify({'success': True, 'status': new_status})
 
