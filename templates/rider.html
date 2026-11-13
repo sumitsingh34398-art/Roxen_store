@@ -166,17 +166,17 @@
 </head>
 <body>
 
-    <!-- RIDER LOGIN SCREEN (Using Admin Partner ID & Password) -->
+    <!-- RIDER LOGIN SCREEN (Strictly Verified against Database) -->
     <div class="rider-auth-screen" id="rider-auth-gateway">
         <div style="text-align:center; margin-bottom:24px;">
             <div style="width:70px; height:70px; background:#e8f7ee; color:var(--brand-green); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 12px;">
                 <i class="ph-bold ph-moped"></i>
             </div>
             <h2 style="font-size:24px; font-weight:800;">Roxen Pilot Login</h2>
-            <p style="font-size:12.5px; color:var(--text-sub); margin-top:4px;">Enter your Partner ID & permanent password created by admin</p>
+            <p style="font-size:12.5px; color:var(--text-sub); margin-top:4px;">Enter your Partner ID or Phone & permanent password</p>
         </div>
 
-        <input type="text" id="login-partner-pid" class="form-input-lux" placeholder="Partner ID (e.g. #PID-375) *">
+        <input type="text" id="login-partner-id" class="form-input-lux" placeholder="Partner ID or Mobile Number *">
         <input type="password" id="login-partner-pass" class="form-input-lux" placeholder="Permanent Password *">
         
         <button onclick="pilotLogin()" class="btn-lux-green" style="width:100%; height:48px; margin-top:8px; font-size:14px;">
@@ -207,7 +207,7 @@
                 <p style="font-size:11.5px; color:var(--text-sub); margin-top:2px;">Tap here to scan bag barcode & unlock map route</p>
             </div>
 
-            <!-- LIVE MAP TRACKING BOX (Appears after pickup/scan) -->
+            <!-- LIVE MAP ROUTE BOX (Appears after pickup/scan) -->
             <div id="live-map-route-box" style="display:none; background:#ffffff; border:1.5px solid var(--border-clr); border-radius:18px; padding:14px; margin-bottom:16px; box-shadow:0 4px 16px rgba(0,0,0,0.03);">
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                     <div style="width:36px; height:36px; background:#e0f2fe; color:#0284c7; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">
@@ -246,14 +246,14 @@
         </div>
     </div>
 
-    <!-- 2. EARNINGS CELEBRATION MODAL (Reference Photo 3 Style) -->
+    <!-- 2. EARNINGS CELEBRATION MODAL -->
     <div class="rider-modal-overlay" id="earnings-celebration-modal">
         <div class="rider-modal-box">
             <div style="font-size:42px; margin-bottom:6px;">🛵🎉</div>
             <h3 style="font-size:18px; font-weight:800; margin-bottom:4px;">Long Distance Return Pay! 😍</h3>
             <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:16px;">Order Completed Successfully</p>
             
-            <div style="background:#f8fafb; border:1.5px solid var(--border-clr); border-radius:14px; padding:14px; margin-bottom:18px; display:grid; grid-title-columns: 1fr 1fr; gap:10px;">
+            <div style="background:#f8fafb; border:1.5px solid var(--border-clr); border-radius:14px; padding:14px; margin-bottom:18px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                 <div>
                     <span style="font-size:10px; color:var(--text-sub); text-transform:uppercase; font-weight:700;">Trip Earning</span>
                     <strong style="font-size:16px; color:var(--brand-green); display:block;">₹67.5</strong>
@@ -270,7 +270,7 @@
         </div>
     </div>
 
-    <!-- 3. FINAL SUMMARY REPORT MODAL (Reference Photo 4 Style) -->
+    <!-- 3. FINAL SUMMARY REPORT MODAL -->
     <div class="rider-modal-overlay" id="final-summary-modal">
         <div class="rider-modal-box">
             <div style="width:54px; height:54px; background:#dcfce7; color:var(--brand-green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 12px;">
@@ -301,18 +301,33 @@
         let activeSelectedOrderId = null;
 
         function pilotLogin() {
-            const pid = document.getElementById('login-partner-pid').value.trim();
-            const pass = document.getElementById('login-partner-pass').value.trim();
+            const partnerId = document.getElementById('login-partner-id').value.trim();
+            const password = document.getElementById('login-partner-pass').value.trim();
 
-            if(!pid || !pass) {
-                alert("Please enter both Partner ID and permanent password.");
+            if(!partnerId || !password) {
+                alert("Please enter Partner ID/Phone and Password.");
                 return;
             }
 
-            loggedInPilot = { pid: pid, name: "Sumit Singh", phone: "9602697303" };
-            document.getElementById('header-pilot-name').innerText = `Online (${pid})`;
-            document.getElementById('rider-auth-gateway').style.display = 'none';
-            fetchRiderOrders();
+            fetch('/api/rider/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ partner_id: partnerId, password: password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    loggedInPilot = { name: data.name, phone: data.phone };
+                    document.getElementById('header-pilot-name').innerText = `Online (${data.name})`;
+                    document.getElementById('rider-auth-gateway').style.display = 'none';
+                    fetchRiderOrders();
+                } else {
+                    alert(data.error || "Authentication failed! Check ID or password.");
+                }
+            })
+            .catch(() => {
+                alert("Server connection failed during login.");
+            });
         }
 
         function fetchRiderOrders() {
@@ -323,7 +338,7 @@
                 container.innerHTML = '';
 
                 if (!data.orders || data.orders.length === 0) {
-                    container.innerHTML = `<p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned.</p>`;
+                    container.innerHTML = `<p style="text-align:center; padding:30px; color:var(--text-sub); font-size:12.5px;">No active orders assigned. Scan QR code above.</p>`;
                     return;
                 }
 
