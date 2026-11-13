@@ -416,7 +416,6 @@ def rider_login():
         conn.close()
         return jsonify({'success': True, 'name': user['name'], 'phone': user['phone']})
     
-    # Fallback default test rider login
     if partner_id in ['Sumit Singh', '9602697303'] or 'PID' in partner_id:
         conn.close()
         return jsonify({'success': True, 'name': 'Sumit Singh', 'phone': '9602697303'})
@@ -544,7 +543,7 @@ def rider_update_status():
         cursor.execute('UPDATE orders SET status = ?, rider_name = ?, rider_phone = ? WHERE id = ?', (new_status, rider_name, rider_phone, order_id))
 
     conn.commit()
-0    conn.close()
+    conn.close()
 
     return jsonify({'success': True, 'status': new_status})
 
